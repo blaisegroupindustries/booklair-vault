@@ -14,16 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      downloads: {
+        Row: {
+          downloaded_at: string
+          ebook_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          downloaded_at?: string
+          ebook_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          downloaded_at?: string
+          ebook_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "downloads_ebook_id_fkey"
+            columns: ["ebook_id"]
+            isOneToOne: false
+            referencedRelation: "ebooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ebooks: {
+        Row: {
+          author: string | null
+          category: Database["public"]["Enums"]["ebook_category"]
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          language: string | null
+          pages: number | null
+          pdf_path: string | null
+          preview_pdf_path: string | null
+          price_mzn: number | null
+          price_usd: number | null
+          published: boolean
+          slug: string
+          title: string
+          type: Database["public"]["Enums"]["ebook_type"]
+          updated_at: string
+        }
+        Insert: {
+          author?: string | null
+          category: Database["public"]["Enums"]["ebook_category"]
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          language?: string | null
+          pages?: number | null
+          pdf_path?: string | null
+          preview_pdf_path?: string | null
+          price_mzn?: number | null
+          price_usd?: number | null
+          published?: boolean
+          slug: string
+          title: string
+          type?: Database["public"]["Enums"]["ebook_type"]
+          updated_at?: string
+        }
+        Update: {
+          author?: string | null
+          category?: Database["public"]["Enums"]["ebook_category"]
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          language?: string | null
+          pages?: number | null
+          pdf_path?: string | null
+          preview_pdf_path?: string | null
+          price_mzn?: number | null
+          price_usd?: number | null
+          published?: boolean
+          slug?: string
+          title?: string
+          type?: Database["public"]["Enums"]["ebook_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          preferred_language: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          preferred_language?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          preferred_language?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      purchases: {
+        Row: {
+          amount_paid: number
+          created_at: string
+          currency: string
+          ebook_id: string
+          id: string
+          status: string
+          stripe_session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_paid: number
+          created_at?: string
+          currency?: string
+          ebook_id: string
+          id?: string
+          status?: string
+          stripe_session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          created_at?: string
+          currency?: string
+          ebook_id?: string
+          id?: string
+          status?: string
+          stripe_session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchases_ebook_id_fkey"
+            columns: ["ebook_id"]
+            isOneToOne: false
+            referencedRelation: "ebooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      ebook_category:
+        | "marketing_negocios"
+        | "educacao_estudo"
+        | "desenvolvimento_pessoal"
+      ebook_type: "free" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +341,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      ebook_category: [
+        "marketing_negocios",
+        "educacao_estudo",
+        "desenvolvimento_pessoal",
+      ],
+      ebook_type: ["free", "premium"],
+    },
   },
 } as const
