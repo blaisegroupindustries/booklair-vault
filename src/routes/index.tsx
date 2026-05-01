@@ -32,11 +32,11 @@ function HomePage() {
   useEffect(() => {
     supabase
       .from("ebooks")
-      .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url")
+      .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats")
       .eq("published", true)
       .eq("featured", true)
       .limit(8)
-      .then(({ data }) => setFeatured((data ?? []) as EbookCardData[]));
+      .then(({ data }) => setFeatured((data ?? []) as unknown as EbookCardData[]));
   }, []);
 
   return (

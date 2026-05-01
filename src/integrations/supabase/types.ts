@@ -43,63 +43,200 @@ export type Database = {
           },
         ]
       }
+      ebook_bonuses: {
+        Row: {
+          created_at: string
+          description: string | null
+          ebook_id: string
+          file_path: string
+          file_type: string | null
+          id: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          ebook_id: string
+          file_path: string
+          file_type?: string | null
+          id?: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          ebook_id?: string
+          file_path?: string
+          file_type?: string | null
+          id?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ebook_bonuses_ebook_id_fkey"
+            columns: ["ebook_id"]
+            isOneToOne: false
+            referencedRelation: "ebooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ebooks: {
         Row: {
+          audio_duration_seconds: number | null
+          audio_path_en: string | null
+          audio_path_pt: string | null
           author: string | null
+          author_avatar_url: string | null
+          author_bio: string | null
+          author_social_links: Json
+          available_formats: string[]
+          available_languages: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          cover_bg_color: string | null
+          cover_gradient: string | null
+          cover_text_color: string | null
+          cover_text_subtitle: string | null
+          cover_text_title: string | null
+          cover_type: Database["public"]["Enums"]["cover_type"]
           cover_url: string | null
           created_at: string
           description: string | null
           featured: boolean
+          free_until: string | null
           id: string
+          isbn: string | null
           language: string | null
+          narrator: string | null
+          original_type: Database["public"]["Enums"]["ebook_type"] | null
           pages: number | null
           pdf_path: string | null
+          pdf_path_en: string | null
+          pdf_path_pt: string | null
+          preview_audio_path: string | null
           preview_pdf_path: string | null
           price_mzn: number | null
           price_usd: number | null
+          publication_year: number | null
           published: boolean
+          published_at: string | null
+          publisher: string | null
+          sale_ends_at: string | null
+          sale_price_mzn: number | null
+          sale_price_usd: number | null
+          sale_starts_at: string | null
+          scheduled_at: string | null
           slug: string
+          sort_order: number
+          status: Database["public"]["Enums"]["ebook_status"]
+          tags: string[]
           title: string
           type: Database["public"]["Enums"]["ebook_type"]
           updated_at: string
         }
         Insert: {
+          audio_duration_seconds?: number | null
+          audio_path_en?: string | null
+          audio_path_pt?: string | null
           author?: string | null
+          author_avatar_url?: string | null
+          author_bio?: string | null
+          author_social_links?: Json
+          available_formats?: string[]
+          available_languages?: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          cover_bg_color?: string | null
+          cover_gradient?: string | null
+          cover_text_color?: string | null
+          cover_text_subtitle?: string | null
+          cover_text_title?: string | null
+          cover_type?: Database["public"]["Enums"]["cover_type"]
           cover_url?: string | null
           created_at?: string
           description?: string | null
           featured?: boolean
+          free_until?: string | null
           id?: string
+          isbn?: string | null
           language?: string | null
+          narrator?: string | null
+          original_type?: Database["public"]["Enums"]["ebook_type"] | null
           pages?: number | null
           pdf_path?: string | null
+          pdf_path_en?: string | null
+          pdf_path_pt?: string | null
+          preview_audio_path?: string | null
           preview_pdf_path?: string | null
           price_mzn?: number | null
           price_usd?: number | null
+          publication_year?: number | null
           published?: boolean
+          published_at?: string | null
+          publisher?: string | null
+          sale_ends_at?: string | null
+          sale_price_mzn?: number | null
+          sale_price_usd?: number | null
+          sale_starts_at?: string | null
+          scheduled_at?: string | null
           slug: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["ebook_status"]
+          tags?: string[]
           title: string
           type?: Database["public"]["Enums"]["ebook_type"]
           updated_at?: string
         }
         Update: {
+          audio_duration_seconds?: number | null
+          audio_path_en?: string | null
+          audio_path_pt?: string | null
           author?: string | null
+          author_avatar_url?: string | null
+          author_bio?: string | null
+          author_social_links?: Json
+          available_formats?: string[]
+          available_languages?: string[]
           category?: Database["public"]["Enums"]["ebook_category"]
+          cover_bg_color?: string | null
+          cover_gradient?: string | null
+          cover_text_color?: string | null
+          cover_text_subtitle?: string | null
+          cover_text_title?: string | null
+          cover_type?: Database["public"]["Enums"]["cover_type"]
           cover_url?: string | null
           created_at?: string
           description?: string | null
           featured?: boolean
+          free_until?: string | null
           id?: string
+          isbn?: string | null
           language?: string | null
+          narrator?: string | null
+          original_type?: Database["public"]["Enums"]["ebook_type"] | null
           pages?: number | null
           pdf_path?: string | null
+          pdf_path_en?: string | null
+          pdf_path_pt?: string | null
+          preview_audio_path?: string | null
           preview_pdf_path?: string | null
           price_mzn?: number | null
           price_usd?: number | null
+          publication_year?: number | null
           published?: boolean
+          published_at?: string | null
+          publisher?: string | null
+          sale_ends_at?: string | null
+          sale_price_mzn?: number | null
+          sale_price_usd?: number | null
+          sale_starts_at?: string | null
+          scheduled_at?: string | null
           slug?: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["ebook_status"]
+          tags?: string[]
           title?: string
           type?: Database["public"]["Enums"]["ebook_type"]
           updated_at?: string
@@ -174,6 +311,66 @@ export type Database = {
           },
         ]
       }
+      site_settings: {
+        Row: {
+          banner_enabled: boolean
+          banner_link: string | null
+          banner_text: string | null
+          contact_email: string | null
+          footer_text: string | null
+          id: boolean
+          logo_url: string | null
+          site_name: string
+          social_facebook: string | null
+          social_instagram: string | null
+          social_linkedin: string | null
+          social_tiktok: string | null
+          social_whatsapp: string | null
+          social_x: string | null
+          social_youtube: string | null
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          banner_enabled?: boolean
+          banner_link?: string | null
+          banner_text?: string | null
+          contact_email?: string | null
+          footer_text?: string | null
+          id?: boolean
+          logo_url?: string | null
+          site_name?: string
+          social_facebook?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_tiktok?: string | null
+          social_whatsapp?: string | null
+          social_x?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          banner_enabled?: boolean
+          banner_link?: string | null
+          banner_text?: string | null
+          contact_email?: string | null
+          footer_text?: string | null
+          id?: boolean
+          logo_url?: string | null
+          site_name?: string
+          social_facebook?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_tiktok?: string | null
+          social_whatsapp?: string | null
+          social_x?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -210,10 +407,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      cover_type: "image" | "text"
       ebook_category:
         | "marketing_negocios"
         | "educacao_estudo"
         | "desenvolvimento_pessoal"
+      ebook_status: "draft" | "scheduled" | "published" | "archived"
       ebook_type: "free" | "premium"
     }
     CompositeTypes: {
@@ -343,11 +542,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      cover_type: ["image", "text"],
       ebook_category: [
         "marketing_negocios",
         "educacao_estudo",
         "desenvolvimento_pessoal",
       ],
+      ebook_status: ["draft", "scheduled", "published", "archived"],
       ebook_type: ["free", "premium"],
     },
   },
