@@ -64,7 +64,7 @@ function AdminLayout() {
       <div className="grid lg:grid-cols-[220px_1fr] gap-8">
         <nav className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
           {links.map((l) => {
-            const active = l.exact ? pathname === l.to : pathname.startsWith(l.to) && l.to !== "/admin";
+            const active = l.exact ? pathname === l.to : pathname.startsWith(l.to);
             return (
               <Link
                 key={l.to}
