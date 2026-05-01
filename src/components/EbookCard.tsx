@@ -1,6 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Lock } from "lucide-react";
+import { Lock, Headphones, Languages } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { EbookCover } from "./EbookCover";
+import {
+  getEffectiveType,
+  isOnSale,
+  getDisplayPriceUSD,
+  getDisplayPriceMZN,
+  getDiscountPct,
+} from "@/lib/ebook-helpers";
 
 export interface EbookCardData {
   id: string;
@@ -13,11 +21,77 @@ export interface EbookCardData {
   price_usd: number | null;
   price_mzn: number | null;
   cover_url: string | null;
+  cover_type?: "image" | "text" | null;
+  cover_text_title?: string | null;
+  cover_text_subtitle?: string | null;
+  cover_bg_color?: string | null;
+  cover_text_color?: string | null;
+  cover_gradient?: string | null;
+  sale_price_usd?: number | null;
+  sale_price_mzn?: number | null;
+  sale_starts_at?: string | null;
+  sale_ends_at?: string | null;
+  free_until?: string | null;
+  available_languages?: string[] | null;
+  available_formats?: string[] | null;
 }
 
 export function EbookCard({ ebook }: { ebook: EbookCardData }) {
   const { t } = useI18n();
-  const isFree = ebook.type === "free";
+  const eff = getEffectiveType({
+    type: ebook.type,
+    price_usd: ebook.price_usd,
+    price_mzn: ebook.price_mzn,
+    sale_price_usd: ebook.sale_price_usd ?? null,
+    sale_price_mzn: ebook.sale_price_mzn ?? null,
+    sale_starts_at: ebook.sale_starts_at ?? null,
+    sale_ends_at: ebook.sale_ends_at ?? null,
+    free_until: ebook.free_until ?? null,
+  });
+  const onSale = isOnSale({
+    type: ebook.type,
+    price_usd: ebook.price_usd,
+    price_mzn: ebook.price_mzn,
+    sale_price_usd: ebook.sale_price_usd ?? null,
+    sale_price_mzn: ebook.sale_price_mzn ?? null,
+    sale_starts_at: ebook.sale_starts_at ?? null,
+    sale_ends_at: ebook.sale_ends_at ?? null,
+    free_until: ebook.free_until ?? null,
+  });
+  const priceUSD = getDisplayPriceUSD({
+    type: ebook.type,
+    price_usd: ebook.price_usd,
+    price_mzn: ebook.price_mzn,
+    sale_price_usd: ebook.sale_price_usd ?? null,
+    sale_price_mzn: ebook.sale_price_mzn ?? null,
+    sale_starts_at: ebook.sale_starts_at ?? null,
+    sale_ends_at: ebook.sale_ends_at ?? null,
+    free_until: ebook.free_until ?? null,
+  });
+  const priceMZN = getDisplayPriceMZN({
+    type: ebook.type,
+    price_usd: ebook.price_usd,
+    price_mzn: ebook.price_mzn,
+    sale_price_usd: ebook.sale_price_usd ?? null,
+    sale_price_mzn: ebook.sale_price_mzn ?? null,
+    sale_starts_at: ebook.sale_starts_at ?? null,
+    sale_ends_at: ebook.sale_ends_at ?? null,
+    free_until: ebook.free_until ?? null,
+  });
+  const discount = getDiscountPct({
+    type: ebook.type,
+    price_usd: ebook.price_usd,
+    price_mzn: ebook.price_mzn,
+    sale_price_usd: ebook.sale_price_usd ?? null,
+    sale_price_mzn: ebook.sale_price_mzn ?? null,
+    sale_starts_at: ebook.sale_starts_at ?? null,
+    sale_ends_at: ebook.sale_ends_at ?? null,
+    free_until: ebook.free_until ?? null,
+  });
+
+  const isFree = eff === "free" || eff === "free_temp";
+  const hasAudio = ebook.available_formats?.includes("audio");
+  const hasMulti = (ebook.available_languages?.length ?? 1) > 1;
 
   return (
     <Link
@@ -26,34 +100,49 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
       className="group flex flex-col surface-card rounded-2xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]"
     >
       <div className="relative aspect-[3/4] bg-muted overflow-hidden">
-        {ebook.cover_url ? (
-          <img
-            src={ebook.cover_url}
-            alt={ebook.title}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-secondary to-muted">
-            <BookOpen className="h-16 w-16 text-muted-foreground/40" />
-          </div>
-        )}
-        <div className="absolute top-3 right-3">
-          <span
-            className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full backdrop-blur-md ${
-              isFree
-                ? "bg-background/70 text-foreground border border-border"
-                : "bg-gold text-gold-foreground"
-            }`}
-          >
-            {isFree ? t("ebook.free") : t("ebook.premium")}
-          </span>
+        <EbookCover ebook={{ ...ebook, cover_type: ebook.cover_type ?? "image" }} rounded="rounded-none" />
+
+        {/* Top-right status badge */}
+        <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
+          {eff === "free_temp" ? (
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500 text-emerald-950">
+              Grátis agora
+            </span>
+          ) : onSale ? (
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-rose-500 text-white">
+              -{discount}%
+            </span>
+          ) : (
+            <span
+              className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full backdrop-blur-md ${
+                isFree
+                  ? "bg-background/70 text-foreground border border-border"
+                  : "bg-gold text-gold-foreground"
+              }`}
+            >
+              {isFree ? t("ebook.free") : t("ebook.premium")}
+            </span>
+          )}
         </div>
-        {!isFree && (
-          <div className="absolute top-3 left-3 p-1.5 rounded-full bg-background/70 backdrop-blur-md">
-            <Lock className="h-3 w-3 text-gold" />
-          </div>
-        )}
+
+        {/* Top-left format indicators */}
+        <div className="absolute top-3 left-3 flex gap-1.5">
+          {!isFree && (
+            <div className="p-1.5 rounded-full bg-background/70 backdrop-blur-md">
+              <Lock className="h-3 w-3 text-gold" />
+            </div>
+          )}
+          {hasAudio && (
+            <div className="p-1.5 rounded-full bg-background/70 backdrop-blur-md" title="Audiobook">
+              <Headphones className="h-3 w-3 text-gold" />
+            </div>
+          )}
+          {hasMulti && (
+            <div className="p-1.5 rounded-full bg-background/70 backdrop-blur-md" title="PT · EN">
+              <Languages className="h-3 w-3 text-gold" />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="p-4 flex-1 flex flex-col">
@@ -71,10 +160,17 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
             <span className="text-sm font-medium text-foreground">{t("ebook.free")}</span>
           ) : (
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-gold">${Number(ebook.price_usd ?? 0).toFixed(2)}</span>
-              {ebook.price_mzn ? (
-                <span className="text-[10px] text-muted-foreground">MZN {Number(ebook.price_mzn).toFixed(0)}</span>
-              ) : null}
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-semibold text-gold">${(priceUSD ?? 0).toFixed(2)}</span>
+                {onSale && ebook.price_usd != null && (
+                  <span className="text-[11px] text-muted-foreground line-through">
+                    ${Number(ebook.price_usd).toFixed(2)}
+                  </span>
+                )}
+              </div>
+              {priceMZN != null && (
+                <span className="text-[10px] text-muted-foreground">MZN {priceMZN.toFixed(0)}</span>
+              )}
             </div>
           )}
           <span className="text-xs text-muted-foreground group-hover:text-gold transition-colors">→</span>
