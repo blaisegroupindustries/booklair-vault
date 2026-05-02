@@ -17,7 +17,7 @@ const links = [
 ] as const;
 
 function AdminLayout() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin, loading, adminLoading } = useAuth();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -25,7 +25,7 @@ function AdminLayout() {
     if (!loading && !user) navigate({ to: "/auth" });
   }, [loading, user, navigate]);
 
-  if (loading) {
+  if (loading || (user && adminLoading)) {
     return (
       <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">
         A carregar…
