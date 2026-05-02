@@ -86,6 +86,7 @@ export type Database = {
       }
       ebooks: {
         Row: {
+          allow_download: boolean
           audio_duration_seconds: number | null
           audio_path_en: string | null
           audio_path_pt: string | null
@@ -96,6 +97,8 @@ export type Database = {
           available_formats: string[]
           available_languages: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          countdown_enabled: boolean
+          countdown_text: string | null
           cover_bg_color: string | null
           cover_gradient: string | null
           cover_text_color: string | null
@@ -105,6 +108,8 @@ export type Database = {
           cover_url: string | null
           created_at: string
           description: string | null
+          download_button_text: string | null
+          download_expires_at: string | null
           featured: boolean
           free_until: string | null
           id: string
@@ -138,6 +143,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          allow_download?: boolean
           audio_duration_seconds?: number | null
           audio_path_en?: string | null
           audio_path_pt?: string | null
@@ -148,6 +154,8 @@ export type Database = {
           available_formats?: string[]
           available_languages?: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          countdown_enabled?: boolean
+          countdown_text?: string | null
           cover_bg_color?: string | null
           cover_gradient?: string | null
           cover_text_color?: string | null
@@ -157,6 +165,8 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          download_button_text?: string | null
+          download_expires_at?: string | null
           featured?: boolean
           free_until?: string | null
           id?: string
@@ -190,6 +200,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          allow_download?: boolean
           audio_duration_seconds?: number | null
           audio_path_en?: string | null
           audio_path_pt?: string | null
@@ -200,6 +211,8 @@ export type Database = {
           available_formats?: string[]
           available_languages?: string[]
           category?: Database["public"]["Enums"]["ebook_category"]
+          countdown_enabled?: boolean
+          countdown_text?: string | null
           cover_bg_color?: string | null
           cover_gradient?: string | null
           cover_text_color?: string | null
@@ -209,6 +222,8 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          download_button_text?: string | null
+          download_expires_at?: string | null
           featured?: boolean
           free_until?: string | null
           id?: string
