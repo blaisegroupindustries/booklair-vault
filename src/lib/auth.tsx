@@ -6,6 +6,7 @@ interface AuthCtx {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  adminLoading: boolean;
   isAdmin: boolean;
   signOut: () => Promise<void>;
 }
@@ -16,6 +17,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminLoading, setAdminLoading] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,12 +26,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(newSession);
       setUser(newSession?.user ?? null);
       if (newSession?.user) {
+        setAdminLoading(true);
         // Defer DB call to avoid deadlock inside auth callback
         setTimeout(() => {
           checkAdmin(newSession.user.id);
         }, 0);
       } else {
         setIsAdmin(false);
+        setAdminLoading(false);
       }
     });
 
@@ -37,7 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data: { session: existing } }) => {
       setSession(existing);
       setUser(existing?.user ?? null);
-      if (existing?.user) checkAdmin(existing.user.id);
+      if (existing?.user) {
+        setAdminLoading(true);
+        await checkAdmin(existing.user.id);
+      } else {
+        setAdminLoading(false);
+      }
       setLoading(false);
     });
 
@@ -45,13 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const checkAdmin = async (userId: string) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", userId)
       .eq("role", "admin")
       .maybeSingle();
-    setIsAdmin(!!data);
+    setIsAdmin(!error && !!data);
+    setAdminLoading(false);
   };
 
   const signOut = async () => {
@@ -59,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Ctx.Provider value={{ user, session, loading, isAdmin, signOut }}>
+    <Ctx.Provider value={{ user, session, loading, adminLoading, isAdmin, signOut }}>
       {children}
     </Ctx.Provider>
   );
