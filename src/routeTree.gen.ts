@@ -21,8 +21,16 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EbookSlugRouteImport } from './routes/ebook.$slug'
 import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizadores'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminEbooksRouteImport } from './routes/admin.ebooks'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
+import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
+import { Route as AdminHomeRouteImport } from './routes/admin.home'
+import { Route as AdminDadosRouteImport } from './routes/admin.dados'
+import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
 import { Route as AdminComprasRouteImport } from './routes/admin.compras'
+import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
+import { Route as AdminCampanhasRouteImport } from './routes/admin.campanhas'
+import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
+import { Route as AdminEbooksIndexRouteImport } from './routes/admin.ebooks.index'
 import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as AdminEbooksIdRouteImport } from './routes/admin.ebooks.$id'
 
@@ -86,9 +94,29 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminEbooksRoute = AdminEbooksRouteImport.update({
-  id: '/ebooks',
-  path: '/ebooks',
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPopupsRoute = AdminPopupsRouteImport.update({
+  id: '/popups',
+  path: '/popups',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomeRoute = AdminHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDadosRoute = AdminDadosRouteImport.update({
+  id: '/dados',
+  path: '/dados',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCupoesRoute = AdminCupoesRouteImport.update({
+  id: '/cupoes',
+  path: '/cupoes',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminComprasRoute = AdminComprasRouteImport.update({
@@ -96,15 +124,35 @@ const AdminComprasRoute = AdminComprasRouteImport.update({
   path: '/compras',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminColecoesRoute = AdminColecoesRouteImport.update({
+  id: '/colecoes',
+  path: '/colecoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCampanhasRoute = AdminCampanhasRouteImport.update({
+  id: '/campanhas',
+  path: '/campanhas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAtividadeRoute = AdminAtividadeRouteImport.update({
+  id: '/atividade',
+  path: '/atividade',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEbooksIndexRoute = AdminEbooksIndexRouteImport.update({
+  id: '/ebooks/',
+  path: '/ebooks/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEbooksNovoRoute = AdminEbooksNovoRouteImport.update({
-  id: '/novo',
-  path: '/novo',
-  getParentRoute: () => AdminEbooksRoute,
+  id: '/ebooks/novo',
+  path: '/ebooks/novo',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminEbooksIdRoute = AdminEbooksIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AdminEbooksRoute,
+  id: '/ebooks/$id',
+  path: '/ebooks/$id',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -117,13 +165,21 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
-  '/admin/ebooks': typeof AdminEbooksRouteWithChildren
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
+  '/admin/ebooks/': typeof AdminEbooksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,13 +191,21 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
-  '/admin/ebooks': typeof AdminEbooksRouteWithChildren
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
+  '/admin/ebooks': typeof AdminEbooksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,13 +218,21 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
-  '/admin/ebooks': typeof AdminEbooksRouteWithChildren
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
+  '/admin/ebooks/': typeof AdminEbooksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -174,13 +246,21 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
-    | '/admin/ebooks'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
+    | '/admin/ebooks/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -192,13 +272,21 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
-    | '/admin/ebooks'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
+    | '/admin/ebooks'
   id:
     | '__root__'
     | '/'
@@ -210,13 +298,21 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
-    | '/admin/ebooks'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
+    | '/admin/ebooks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -318,11 +414,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/ebooks': {
-      id: '/admin/ebooks'
-      path: '/ebooks'
-      fullPath: '/admin/ebooks'
-      preLoaderRoute: typeof AdminEbooksRouteImport
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/popups': {
+      id: '/admin/popups'
+      path: '/popups'
+      fullPath: '/admin/popups'
+      preLoaderRoute: typeof AdminPopupsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/home': {
+      id: '/admin/home'
+      path: '/home'
+      fullPath: '/admin/home'
+      preLoaderRoute: typeof AdminHomeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dados': {
+      id: '/admin/dados'
+      path: '/dados'
+      fullPath: '/admin/dados'
+      preLoaderRoute: typeof AdminDadosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cupoes': {
+      id: '/admin/cupoes'
+      path: '/cupoes'
+      fullPath: '/admin/cupoes'
+      preLoaderRoute: typeof AdminCupoesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/compras': {
@@ -332,49 +456,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminComprasRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/colecoes': {
+      id: '/admin/colecoes'
+      path: '/colecoes'
+      fullPath: '/admin/colecoes'
+      preLoaderRoute: typeof AdminColecoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/campanhas': {
+      id: '/admin/campanhas'
+      path: '/campanhas'
+      fullPath: '/admin/campanhas'
+      preLoaderRoute: typeof AdminCampanhasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/atividade': {
+      id: '/admin/atividade'
+      path: '/atividade'
+      fullPath: '/admin/atividade'
+      preLoaderRoute: typeof AdminAtividadeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ebooks/': {
+      id: '/admin/ebooks/'
+      path: '/ebooks'
+      fullPath: '/admin/ebooks/'
+      preLoaderRoute: typeof AdminEbooksIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/ebooks/novo': {
       id: '/admin/ebooks/novo'
-      path: '/novo'
+      path: '/ebooks/novo'
       fullPath: '/admin/ebooks/novo'
       preLoaderRoute: typeof AdminEbooksNovoRouteImport
-      parentRoute: typeof AdminEbooksRoute
+      parentRoute: typeof AdminRoute
     }
     '/admin/ebooks/$id': {
       id: '/admin/ebooks/$id'
-      path: '/$id'
+      path: '/ebooks/$id'
       fullPath: '/admin/ebooks/$id'
       preLoaderRoute: typeof AdminEbooksIdRouteImport
-      parentRoute: typeof AdminEbooksRoute
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
-interface AdminEbooksRouteChildren {
-  AdminEbooksIdRoute: typeof AdminEbooksIdRoute
-  AdminEbooksNovoRoute: typeof AdminEbooksNovoRoute
-}
-
-const AdminEbooksRouteChildren: AdminEbooksRouteChildren = {
-  AdminEbooksIdRoute: AdminEbooksIdRoute,
-  AdminEbooksNovoRoute: AdminEbooksNovoRoute,
-}
-
-const AdminEbooksRouteWithChildren = AdminEbooksRoute._addFileChildren(
-  AdminEbooksRouteChildren,
-)
-
 interface AdminRouteChildren {
+  AdminAtividadeRoute: typeof AdminAtividadeRoute
+  AdminCampanhasRoute: typeof AdminCampanhasRoute
+  AdminColecoesRoute: typeof AdminColecoesRoute
   AdminComprasRoute: typeof AdminComprasRoute
-  AdminEbooksRoute: typeof AdminEbooksRouteWithChildren
+  AdminCupoesRoute: typeof AdminCupoesRoute
+  AdminDadosRoute: typeof AdminDadosRoute
+  AdminHomeRoute: typeof AdminHomeRoute
+  AdminPopupsRoute: typeof AdminPopupsRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUtilizadoresRoute: typeof AdminUtilizadoresRoute
+  AdminEbooksIdRoute: typeof AdminEbooksIdRoute
+  AdminEbooksNovoRoute: typeof AdminEbooksNovoRoute
+  AdminEbooksIndexRoute: typeof AdminEbooksIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAtividadeRoute: AdminAtividadeRoute,
+  AdminCampanhasRoute: AdminCampanhasRoute,
+  AdminColecoesRoute: AdminColecoesRoute,
   AdminComprasRoute: AdminComprasRoute,
-  AdminEbooksRoute: AdminEbooksRouteWithChildren,
+  AdminCupoesRoute: AdminCupoesRoute,
+  AdminDadosRoute: AdminDadosRoute,
+  AdminHomeRoute: AdminHomeRoute,
+  AdminPopupsRoute: AdminPopupsRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminUtilizadoresRoute: AdminUtilizadoresRoute,
+  AdminEbooksIdRoute: AdminEbooksIdRoute,
+  AdminEbooksNovoRoute: AdminEbooksNovoRoute,
+  AdminEbooksIndexRoute: AdminEbooksIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -394,3 +552,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

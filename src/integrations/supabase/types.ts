@@ -14,6 +14,166 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string
+          details: Json
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          ip_address: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+        }
+        Relationships: []
+      }
+      collection_items: {
+        Row: {
+          collection_id: string
+          ebook_id: string
+          id: string
+          sort_order: number
+        }
+        Insert: {
+          collection_id: string
+          ebook_id: string
+          id?: string
+          sort_order?: number
+        }
+        Update: {
+          collection_id?: string
+          ebook_id?: string
+          id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_items_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "ebook_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coupon_redemptions: {
+        Row: {
+          amount_discounted: number | null
+          coupon_id: string
+          created_at: string
+          ebook_id: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount_discounted?: number | null
+          coupon_id: string
+          created_at?: string
+          ebook_id?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          amount_discounted?: number | null
+          coupon_id?: string
+          created_at?: string
+          ebook_id?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupon_redemptions_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coupons: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discount_type: Database["public"]["Enums"]["coupon_type"]
+          discount_value: number
+          expires_at: string | null
+          id: string
+          max_uses: number | null
+          min_order_usd: number | null
+          scope: Database["public"]["Enums"]["coupon_scope"]
+          scope_category: string | null
+          scope_ebook_id: string | null
+          starts_at: string | null
+          updated_at: string
+          used_count: number
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: Database["public"]["Enums"]["coupon_type"]
+          discount_value: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order_usd?: number | null
+          scope?: Database["public"]["Enums"]["coupon_scope"]
+          scope_category?: string | null
+          scope_ebook_id?: string | null
+          starts_at?: string | null
+          updated_at?: string
+          used_count?: number
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: Database["public"]["Enums"]["coupon_type"]
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order_usd?: number | null
+          scope?: Database["public"]["Enums"]["coupon_scope"]
+          scope_category?: string | null
+          scope_ebook_id?: string | null
+          starts_at?: string | null
+          updated_at?: string
+          used_count?: number
+        }
+        Relationships: []
+      }
       downloads: {
         Row: {
           downloaded_at: string
@@ -83,6 +243,129 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ebook_chapters: {
+        Row: {
+          audio_timestamp_seconds: number | null
+          created_at: string
+          description: string | null
+          ebook_id: string
+          id: string
+          is_free_preview: boolean
+          page_start: number | null
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          audio_timestamp_seconds?: number | null
+          created_at?: string
+          description?: string | null
+          ebook_id: string
+          id?: string
+          is_free_preview?: boolean
+          page_start?: number | null
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          audio_timestamp_seconds?: number | null
+          created_at?: string
+          description?: string | null
+          ebook_id?: string
+          id?: string
+          is_free_preview?: boolean
+          page_start?: number | null
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      ebook_collections: {
+        Row: {
+          bundle_price_mzn: number | null
+          bundle_price_usd: number | null
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          published: boolean
+          slug: string
+          sort_order: number
+          title: string
+          type: Database["public"]["Enums"]["collection_type"]
+          updated_at: string
+        }
+        Insert: {
+          bundle_price_mzn?: number | null
+          bundle_price_usd?: number | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          published?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          type?: Database["public"]["Enums"]["collection_type"]
+          updated_at?: string
+        }
+        Update: {
+          bundle_price_mzn?: number | null
+          bundle_price_usd?: number | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          type?: Database["public"]["Enums"]["collection_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ebook_reviews: {
+        Row: {
+          approved: boolean
+          body: string | null
+          created_at: string
+          ebook_id: string
+          hidden: boolean
+          id: string
+          rating: number
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          approved?: boolean
+          body?: string | null
+          created_at?: string
+          ebook_id: string
+          hidden?: boolean
+          id?: string
+          rating: number
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          approved?: boolean
+          body?: string | null
+          created_at?: string
+          ebook_id?: string
+          hidden?: boolean
+          id?: string
+          rating?: number
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       ebooks: {
         Row: {
@@ -258,6 +541,183 @@ export type Database = {
         }
         Relationships: []
       }
+      email_campaigns: {
+        Row: {
+          body_html: string | null
+          clicks_count: number
+          created_at: string
+          id: string
+          name: string
+          opens_count: number
+          recipients_count: number
+          scheduled_at: string | null
+          segment: string
+          sent_at: string | null
+          status: Database["public"]["Enums"]["campaign_status"]
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          body_html?: string | null
+          clicks_count?: number
+          created_at?: string
+          id?: string
+          name: string
+          opens_count?: number
+          recipients_count?: number
+          scheduled_at?: string | null
+          segment?: string
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string | null
+          clicks_count?: number
+          created_at?: string
+          id?: string
+          name?: string
+          opens_count?: number
+          recipients_count?: number
+          scheduled_at?: string | null
+          segment?: string
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      home_sections: {
+        Row: {
+          config: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          kind: Database["public"]["Enums"]["home_section_kind"]
+          sort_order: number
+          subtitle: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind: Database["public"]["Enums"]["home_section_kind"]
+          sort_order?: number
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind?: Database["public"]["Enums"]["home_section_kind"]
+          sort_order?: number
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read: boolean
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          link?: string | null
+          read?: boolean
+          title: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
+      popups: {
+        Row: {
+          body: string | null
+          clicks_count: number
+          created_at: string
+          cta_link: string | null
+          cta_text: string | null
+          enabled: boolean
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          name: string
+          show_on_paths: string[]
+          starts_at: string | null
+          target: Database["public"]["Enums"]["popup_target"]
+          title: string | null
+          trigger: Database["public"]["Enums"]["popup_trigger"]
+          trigger_value: number
+          updated_at: string
+          views_count: number
+        }
+        Insert: {
+          body?: string | null
+          clicks_count?: number
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          enabled?: boolean
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          show_on_paths?: string[]
+          starts_at?: string | null
+          target?: Database["public"]["Enums"]["popup_target"]
+          title?: string | null
+          trigger?: Database["public"]["Enums"]["popup_trigger"]
+          trigger_value?: number
+          updated_at?: string
+          views_count?: number
+        }
+        Update: {
+          body?: string | null
+          clicks_count?: number
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          enabled?: boolean
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          show_on_paths?: string[]
+          starts_at?: string | null
+          target?: Database["public"]["Enums"]["popup_target"]
+          title?: string | null
+          trigger?: Database["public"]["Enums"]["popup_trigger"]
+          trigger_value?: number
+          updated_at?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -386,6 +846,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_bans: {
+        Row: {
+          banned_by: string | null
+          banned_until: string | null
+          created_at: string
+          id: string
+          reason: string | null
+          user_id: string
+        }
+        Insert: {
+          banned_by?: string | null
+          banned_until?: string | null
+          created_at?: string
+          id?: string
+          reason?: string | null
+          user_id: string
+        }
+        Update: {
+          banned_by?: string | null
+          banned_until?: string | null
+          created_at?: string
+          id?: string
+          reason?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -422,6 +909,10 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      campaign_status: "draft" | "scheduled" | "sending" | "sent" | "failed"
+      collection_type: "series" | "bundle" | "curated"
+      coupon_scope: "all" | "ebook" | "category"
+      coupon_type: "percent" | "fixed"
       cover_type: "image" | "text"
       ebook_category:
         | "marketing_negocios"
@@ -429,6 +920,17 @@ export type Database = {
         | "desenvolvimento_pessoal"
       ebook_status: "draft" | "scheduled" | "published" | "archived"
       ebook_type: "free" | "premium"
+      home_section_kind:
+        | "hero"
+        | "featured"
+        | "category"
+        | "collection"
+        | "newsletter"
+        | "testimonials"
+        | "custom_html"
+        | "stats"
+      popup_target: "all" | "guests" | "authenticated"
+      popup_trigger: "immediate" | "delay" | "scroll" | "exit_intent"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -557,6 +1059,10 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      campaign_status: ["draft", "scheduled", "sending", "sent", "failed"],
+      collection_type: ["series", "bundle", "curated"],
+      coupon_scope: ["all", "ebook", "category"],
+      coupon_type: ["percent", "fixed"],
       cover_type: ["image", "text"],
       ebook_category: [
         "marketing_negocios",
@@ -565,6 +1071,18 @@ export const Constants = {
       ],
       ebook_status: ["draft", "scheduled", "published", "archived"],
       ebook_type: ["free", "premium"],
+      home_section_kind: [
+        "hero",
+        "featured",
+        "category",
+        "collection",
+        "newsletter",
+        "testimonials",
+        "custom_html",
+        "stats",
+      ],
+      popup_target: ["all", "guests", "authenticated"],
+      popup_trigger: ["immediate", "delay", "scroll", "exit_intent"],
     },
   },
 } as const
