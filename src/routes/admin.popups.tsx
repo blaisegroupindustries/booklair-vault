@@ -26,10 +26,11 @@ interface Popup {
   views_count: number; clicks_count: number;
 }
 
-const EMPTY = {
+interface FormState { name: string; enabled: boolean; title: string; body: string; cta_text: string; cta_link: string; image_url: string; trigger: Popup["trigger"]; trigger_value: number; target: Popup["target"]; show_on_paths: string; starts_at: string; ends_at: string; }
+const EMPTY: FormState = {
   name: "", enabled: false, title: "", body: "", cta_text: "", cta_link: "", image_url: "",
-  trigger: "delay" as const, trigger_value: 5,
-  target: "all" as const, show_on_paths: "" as string,
+  trigger: "delay", trigger_value: 5,
+  target: "all", show_on_paths: "",
   starts_at: "", ends_at: "",
 };
 

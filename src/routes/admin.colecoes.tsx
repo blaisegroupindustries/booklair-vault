@@ -17,7 +17,8 @@ export const Route = createFileRoute("/admin/colecoes")({
 
 interface Col { id: string; slug: string; title: string; description: string | null; type: "series" | "bundle" | "curated"; cover_url: string | null; bundle_price_usd: number | null; bundle_price_mzn: number | null; published: boolean; featured: boolean; }
 
-const EMPTY = { slug: "", title: "", description: "", type: "curated" as const, cover_url: "", bundle_price_usd: "", bundle_price_mzn: "", published: false, featured: false };
+interface FormState { slug: string; title: string; description: string; type: Col["type"]; cover_url: string; bundle_price_usd: string; bundle_price_mzn: string; published: boolean; featured: boolean; }
+const EMPTY: FormState = { slug: "", title: "", description: "", type: "curated", cover_url: "", bundle_price_usd: "", bundle_price_mzn: "", published: false, featured: false };
 
 function CollectionsPage() {
   const [rows, setRows] = useState<Col[]>([]);

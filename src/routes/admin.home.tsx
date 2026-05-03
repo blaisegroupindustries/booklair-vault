@@ -38,7 +38,8 @@ function HomeBuilderPage() {
   const toggle = async (s: Section) => { await supabase.from("home_sections").update({ enabled: !s.enabled }).eq("id", s.id); load(); };
   const remove = async (s: Section) => { if (!confirm("Eliminar?")) return; await supabase.from("home_sections").delete().eq("id", s.id); load(); };
   const updateField = async (s: Section, key: "title" | "subtitle", value: string) => {
-    await supabase.from("home_sections").update({ [key]: value }).eq("id", s.id); load();
+    const patch = key === "title" ? { title: value } : { subtitle: value };
+    await supabase.from("home_sections").update(patch).eq("id", s.id); load();
   };
 
   const add = async (kind: Kind) => {

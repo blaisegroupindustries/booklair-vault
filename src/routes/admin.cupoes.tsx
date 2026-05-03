@@ -32,9 +32,10 @@ interface Coupon {
   created_at: string;
 }
 
-const EMPTY = {
-  code: "", description: "", discount_type: "percent" as const, discount_value: 10,
-  scope: "all" as const, max_uses: "", min_order_usd: "",
+interface FormState { code: string; description: string; discount_type: "percent" | "fixed"; discount_value: number; scope: "all" | "ebook" | "category"; max_uses: string; min_order_usd: string; starts_at: string; expires_at: string; active: boolean; }
+const EMPTY: FormState = {
+  code: "", description: "", discount_type: "percent", discount_value: 10,
+  scope: "all", max_uses: "", min_order_usd: "",
   starts_at: "", expires_at: "", active: true,
 };
 

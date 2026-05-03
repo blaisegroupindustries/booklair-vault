@@ -21,7 +21,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EbookSlugRouteImport } from './routes/ebook.$slug'
 import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizadores'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
+import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
+import { Route as AdminHomeRouteImport } from './routes/admin.home'
+import { Route as AdminDadosRouteImport } from './routes/admin.dados'
+import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
 import { Route as AdminComprasRouteImport } from './routes/admin.compras'
+import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
+import { Route as AdminCampanhasRouteImport } from './routes/admin.campanhas'
+import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
 import { Route as AdminEbooksIndexRouteImport } from './routes/admin.ebooks.index'
 import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as AdminEbooksIdRouteImport } from './routes/admin.ebooks.$id'
@@ -86,9 +94,49 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPopupsRoute = AdminPopupsRouteImport.update({
+  id: '/popups',
+  path: '/popups',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomeRoute = AdminHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDadosRoute = AdminDadosRouteImport.update({
+  id: '/dados',
+  path: '/dados',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCupoesRoute = AdminCupoesRouteImport.update({
+  id: '/cupoes',
+  path: '/cupoes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminComprasRoute = AdminComprasRouteImport.update({
   id: '/compras',
   path: '/compras',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminColecoesRoute = AdminColecoesRouteImport.update({
+  id: '/colecoes',
+  path: '/colecoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCampanhasRoute = AdminCampanhasRouteImport.update({
+  id: '/campanhas',
+  path: '/campanhas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAtividadeRoute = AdminAtividadeRouteImport.update({
+  id: '/atividade',
+  path: '/atividade',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEbooksIndexRoute = AdminEbooksIndexRouteImport.update({
@@ -117,7 +165,15 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
@@ -135,7 +191,15 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
@@ -154,7 +218,15 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/atividade': typeof AdminAtividadeRoute
+  '/admin/campanhas': typeof AdminCampanhasRoute
+  '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/compras': typeof AdminComprasRoute
+  '/admin/cupoes': typeof AdminCupoesRoute
+  '/admin/dados': typeof AdminDadosRoute
+  '/admin/home': typeof AdminHomeRoute
+  '/admin/popups': typeof AdminPopupsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
@@ -174,7 +246,15 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
@@ -192,7 +272,15 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
@@ -210,7 +298,15 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/atividade'
+    | '/admin/campanhas'
+    | '/admin/colecoes'
     | '/admin/compras'
+    | '/admin/cupoes'
+    | '/admin/dados'
+    | '/admin/home'
+    | '/admin/popups'
+    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
@@ -318,11 +414,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/popups': {
+      id: '/admin/popups'
+      path: '/popups'
+      fullPath: '/admin/popups'
+      preLoaderRoute: typeof AdminPopupsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/home': {
+      id: '/admin/home'
+      path: '/home'
+      fullPath: '/admin/home'
+      preLoaderRoute: typeof AdminHomeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dados': {
+      id: '/admin/dados'
+      path: '/dados'
+      fullPath: '/admin/dados'
+      preLoaderRoute: typeof AdminDadosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cupoes': {
+      id: '/admin/cupoes'
+      path: '/cupoes'
+      fullPath: '/admin/cupoes'
+      preLoaderRoute: typeof AdminCupoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/compras': {
       id: '/admin/compras'
       path: '/compras'
       fullPath: '/admin/compras'
       preLoaderRoute: typeof AdminComprasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/colecoes': {
+      id: '/admin/colecoes'
+      path: '/colecoes'
+      fullPath: '/admin/colecoes'
+      preLoaderRoute: typeof AdminColecoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/campanhas': {
+      id: '/admin/campanhas'
+      path: '/campanhas'
+      fullPath: '/admin/campanhas'
+      preLoaderRoute: typeof AdminCampanhasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/atividade': {
+      id: '/admin/atividade'
+      path: '/atividade'
+      fullPath: '/admin/atividade'
+      preLoaderRoute: typeof AdminAtividadeRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/ebooks/': {
@@ -350,7 +502,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAtividadeRoute: typeof AdminAtividadeRoute
+  AdminCampanhasRoute: typeof AdminCampanhasRoute
+  AdminColecoesRoute: typeof AdminColecoesRoute
   AdminComprasRoute: typeof AdminComprasRoute
+  AdminCupoesRoute: typeof AdminCupoesRoute
+  AdminDadosRoute: typeof AdminDadosRoute
+  AdminHomeRoute: typeof AdminHomeRoute
+  AdminPopupsRoute: typeof AdminPopupsRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUtilizadoresRoute: typeof AdminUtilizadoresRoute
   AdminEbooksIdRoute: typeof AdminEbooksIdRoute
@@ -359,7 +519,15 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAtividadeRoute: AdminAtividadeRoute,
+  AdminCampanhasRoute: AdminCampanhasRoute,
+  AdminColecoesRoute: AdminColecoesRoute,
   AdminComprasRoute: AdminComprasRoute,
+  AdminCupoesRoute: AdminCupoesRoute,
+  AdminDadosRoute: AdminDadosRoute,
+  AdminHomeRoute: AdminHomeRoute,
+  AdminPopupsRoute: AdminPopupsRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminUtilizadoresRoute: AdminUtilizadoresRoute,
   AdminEbooksIdRoute: AdminEbooksIdRoute,
