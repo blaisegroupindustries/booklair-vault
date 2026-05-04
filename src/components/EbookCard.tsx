@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Lock, Headphones, Languages } from "lucide-react";
+import { Lock, Headphones, Languages, Clock } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { EbookCover } from "./EbookCover";
+import { Countdown } from "./Countdown";
 import {
   getEffectiveType,
   isOnSale,
@@ -34,6 +35,8 @@ export interface EbookCardData {
   free_until?: string | null;
   available_languages?: string[] | null;
   available_formats?: string[] | null;
+  status?: string | null;
+  scheduled_at?: string | null;
 }
 
 export function EbookCard({ ebook }: { ebook: EbookCardData }) {
