@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Lock, Headphones, Languages } from "lucide-react";
+import { Lock, Headphones, Languages, Clock } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { EbookCover } from "./EbookCover";
+import { Countdown } from "./Countdown";
 import {
   getEffectiveType,
   isOnSale,
@@ -34,6 +35,8 @@ export interface EbookCardData {
   free_until?: string | null;
   available_languages?: string[] | null;
   available_formats?: string[] | null;
+  status?: string | null;
+  scheduled_at?: string | null;
 }
 
 export function EbookCard({ ebook }: { ebook: EbookCardData }) {
@@ -92,6 +95,10 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
   const isFree = eff === "free" || eff === "free_temp";
   const hasAudio = ebook.available_formats?.includes("audio");
   const hasMulti = (ebook.available_languages?.length ?? 1) > 1;
+  const isScheduled =
+    ebook.status === "scheduled" &&
+    !!ebook.scheduled_at &&
+    new Date(ebook.scheduled_at) > new Date();
 
   return (
     <Link
@@ -104,7 +111,11 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
 
         {/* Top-right status badge */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-          {eff === "free_temp" ? (
+          {isScheduled ? (
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-blue-500 text-white inline-flex items-center gap-1">
+              <Clock className="h-3 w-3" /> Em breve
+            </span>
+          ) : eff === "free_temp" ? (
             <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500 text-emerald-950">
               Grátis agora
             </span>
@@ -116,7 +127,7 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
             <span
               className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full backdrop-blur-md ${
                 isFree
-                  ? "bg-background/70 text-foreground border border-border"
+                  ? "bg-emerald-500/90 text-emerald-950"
                   : "bg-gold text-gold-foreground"
               }`}
             >
@@ -124,6 +135,12 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
             </span>
           )}
         </div>
+
+        {isScheduled && ebook.scheduled_at && (
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 via-background/70 to-transparent p-3 flex justify-center">
+            <Countdown to={ebook.scheduled_at} compact className="text-sm font-bold text-gold" />
+          </div>
+        )}
 
         {/* Top-left format indicators */}
         <div className="absolute top-3 left-3 flex gap-1.5">

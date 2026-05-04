@@ -26,6 +26,7 @@ const groups = [
     label: "Catálogo",
     links: [
       { to: "/admin/ebooks", label: "Ebooks", icon: BookOpen, exact: false },
+      { to: "/admin/midia", label: "Biblioteca de ficheiros", icon: FolderTree, exact: false },
       { to: "/admin/colecoes", label: "Coleções & Bundles", icon: FolderTree, exact: false },
       { to: "/admin/reviews", label: "Reviews", icon: MessageSquare, exact: false },
     ],
