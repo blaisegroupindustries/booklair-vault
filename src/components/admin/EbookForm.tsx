@@ -345,7 +345,12 @@ export function EbookFormPanel({ id }: { id?: string }) {
             <div className="space-y-4">
               {form.cover_type === "image" ? (
                 <>
-                  <FileUpload accept="image/*" label="Carregar imagem de capa" onFile={uploadCover} />
+                  <div className="flex flex-wrap gap-2">
+                    <FileUpload accept="image/*" label="Carregar imagem" onFile={uploadCover} />
+                    <button type="button" onClick={() => setLibrary({ bucket: "covers", field: "cover_url", accept: "image/*" })} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:border-gold/40 text-sm">
+                      <FolderOpen className="h-4 w-4" /> Escolher da biblioteca
+                    </button>
+                  </div>
                   {form.cover_url && (
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span className="truncate flex-1">{form.cover_url}</span>
