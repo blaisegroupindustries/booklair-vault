@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, BookOpen, GraduationCap, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Sparkles, TrendingUp, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EbookCard, type EbookCardData } from "@/components/EbookCard";
+import { Countdown } from "@/components/Countdown";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-book.jpg";
@@ -28,15 +29,27 @@ const categories = [
 function HomePage() {
   const { t } = useI18n();
   const [featured, setFeatured] = useState<EbookCardData[]>([]);
+  const [upcoming, setUpcoming] = useState<EbookCardData[]>([]);
 
   useEffect(() => {
+    const cols = "id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats, status, scheduled_at";
+
     supabase
       .from("ebooks")
-      .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats")
+      .select(cols)
       .eq("published", true)
       .eq("featured", true)
       .limit(8)
       .then(({ data }) => setFeatured((data ?? []) as unknown as EbookCardData[]));
+
+    supabase
+      .from("ebooks")
+      .select(cols)
+      .eq("status", "scheduled")
+      .gt("scheduled_at", new Date().toISOString())
+      .order("scheduled_at", { ascending: true })
+      .limit(4)
+      .then(({ data }) => setUpcoming((data ?? []) as unknown as EbookCardData[]));
   }, []);
 
   return (
@@ -102,6 +115,47 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Featured — agora antes das categorias */}
+      {featured.length > 0 && (
+        <section className="container mx-auto px-4 py-16">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("featured.title")}</p>
+              <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("featured.subtitle")}</h2>
+            </div>
+            <Link to="/loja" className="hidden md:inline-flex items-center gap-2 text-sm text-gold hover:gap-3 transition-all">
+              Ver tudo <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {featured.map((e) => (
+              <EbookCard key={e.id} ebook={e} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Próximos lançamentos com countdown */}
+      {upcoming.length > 0 && (
+        <section className="container mx-auto px-4 py-16">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-blue-400 mb-3">
+              <Clock className="h-3 w-3" /> Próximos lançamentos
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-foreground">A caminho da Booklair</h2>
+            <p className="mt-3 text-muted-foreground">Reserva no calendário — estes ebooks chegam em breve.</p>
+          </div>
+          {upcoming[0]?.scheduled_at && (
+            <div className="flex justify-center mb-10">
+              <Countdown to={upcoming[0].scheduled_at} label={`Próximo: "${upcoming[0].title}"`} />
+            </div>
+          )}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {upcoming.map((e) => <EbookCard key={e.id} ebook={e} />)}
+          </div>
+        </section>
+      )}
+
       {/* Categories */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center max-w-2xl mx-auto mb-12">
@@ -129,26 +183,6 @@ function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Featured */}
-      {featured.length > 0 && (
-        <section className="container mx-auto px-4 py-20">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("featured.title")}</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("featured.subtitle")}</h2>
-            </div>
-            <Link to="/loja" className="hidden md:inline-flex items-center gap-2 text-sm text-gold hover:gap-3 transition-all">
-              Ver tudo <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {featured.map((e) => (
-              <EbookCard key={e.id} ebook={e} />
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* CTA */}
       <section className="container mx-auto px-4 py-20">
