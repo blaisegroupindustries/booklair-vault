@@ -7,10 +7,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/loja")({
   head: () => ({
     meta: [
-      { title: "Loja Premium — Booklair" },
-      { name: "description", content: "Compra ebooks premium em marketing, negócios, educação e desenvolvimento pessoal. Pagas uma vez, ficam teus." },
-      { property: "og:title", content: "Loja Premium — Booklair" },
-      { property: "og:description", content: "Ebooks exclusivos. Pagas uma vez, ficam teus." },
+      { title: "Catálogo — Booklair" },
+      { name: "description", content: "Explora todos os ebooks Booklair: gratuitos e premium em marketing, negócios, educação e desenvolvimento pessoal." },
+      { property: "og:title", content: "Catálogo — Booklair" },
+      { property: "og:description", content: "Ebooks gratuitos e premium num único catálogo." },
     ],
   }),
   component: StorePage,
@@ -19,36 +19,48 @@ export const Route = createFileRoute("/loja")({
 const cats = ["all", "marketing_negocios", "educacao_estudo", "desenvolvimento_pessoal"] as const;
 type Cat = (typeof cats)[number];
 
+const access = ["all", "free", "premium"] as const;
+type Access = (typeof access)[number];
+
 function StorePage() {
   const { t } = useI18n();
   const [items, setItems] = useState<EbookCardData[]>([]);
   const [filter, setFilter] = useState<Cat>("all");
+  const [accessFilter, setAccessFilter] = useState<Access>("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     let q = supabase
       .from("ebooks")
-      .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats")
+      .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats, status, scheduled_at")
       .eq("published", true)
-      .eq("type", "premium")
       .order("created_at", { ascending: false });
     if (filter !== "all") q = q.eq("category", filter);
     q.then(({ data }) => {
-      setItems((data ?? []) as unknown as EbookCardData[]);
+      let rows = (data ?? []) as unknown as (EbookCardData & { status?: string; scheduled_at?: string | null })[];
+      if (accessFilter !== "all") {
+        rows = rows.filter((r) => {
+          const isFreeNow = r.type === "free" || (r.free_until && new Date(r.free_until) > new Date());
+          return accessFilter === "free" ? isFreeNow : !isFreeNow;
+        });
+      }
+      setItems(rows);
       setLoading(false);
     });
-  }, [filter]);
+  }, [filter, accessFilter]);
 
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-3xl mb-10">
-        <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("store.title")}</p>
-        <h1 className="font-serif text-5xl md:text-6xl text-foreground">{t("store.title")}</h1>
-        <p className="mt-4 text-lg text-muted-foreground">{t("store.subtitle")}</p>
+        <p className="text-xs uppercase tracking-widest text-gold mb-3">Catálogo completo</p>
+        <h1 className="font-serif text-5xl md:text-6xl text-foreground">Toda a Booklair num só sítio</h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Ebooks gratuitos e premium juntos. Filtra por categoria ou acesso para encontrar o teu próximo livro.
+        </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="flex flex-wrap gap-2 mb-4">
         {cats.map((c) => (
           <button
             key={c}
@@ -64,6 +76,22 @@ function StorePage() {
         ))}
       </div>
 
+      <div className="flex flex-wrap gap-2 mb-10">
+        {access.map((a) => (
+          <button
+            key={a}
+            onClick={() => setAccessFilter(a)}
+            className={`px-3 py-1.5 text-[11px] uppercase tracking-wider rounded-full border transition-colors ${
+              accessFilter === a
+                ? "bg-gold/15 text-gold border-gold/40"
+                : "border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {a === "all" ? "Todos" : a === "free" ? "Grátis" : "Premium"}
+          </button>
+        ))}
+      </div>
+
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {Array.from({ length: 8 }).map((_, i) => (
@@ -72,7 +100,7 @@ function StorePage() {
         </div>
       ) : items.length === 0 ? (
         <div className="surface-card rounded-2xl p-16 text-center">
-          <p className="text-muted-foreground">{t("store.empty")}</p>
+          <p className="text-muted-foreground">Nenhum ebook encontrado.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
