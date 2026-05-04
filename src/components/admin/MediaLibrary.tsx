@@ -9,9 +9,9 @@ export type Bucket = "covers" | "ebooks" | "audio";
 
 interface FileItem {
   name: string;
-  id?: string;
-  updated_at?: string;
-  metadata?: { size?: number; mimetype?: string };
+  id?: string | null;
+  updated_at?: string | null;
+  metadata?: Record<string, unknown> | null;
 }
 
 interface Props {

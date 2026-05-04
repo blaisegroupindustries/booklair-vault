@@ -23,6 +23,7 @@ import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizador
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
+import { Route as AdminMidiaRouteImport } from './routes/admin.midia'
 import { Route as AdminHomeRouteImport } from './routes/admin.home'
 import { Route as AdminDadosRouteImport } from './routes/admin.dados'
 import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
@@ -104,6 +105,11 @@ const AdminPopupsRoute = AdminPopupsRouteImport.update({
   path: '/popups',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMidiaRoute = AdminMidiaRouteImport.update({
+  id: '/midia',
+  path: '/midia',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHomeRoute = AdminHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -428,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPopupsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/midia': {
+      id: '/admin/midia'
+      path: '/midia'
+      fullPath: '/admin/midia'
+      preLoaderRoute: typeof AdminMidiaRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/home': {
       id: '/admin/home'
       path: '/home'
@@ -509,6 +528,7 @@ interface AdminRouteChildren {
   AdminCupoesRoute: typeof AdminCupoesRoute
   AdminDadosRoute: typeof AdminDadosRoute
   AdminHomeRoute: typeof AdminHomeRoute
+  AdminMidiaRoute: typeof AdminMidiaRoute
   AdminPopupsRoute: typeof AdminPopupsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -526,6 +546,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCupoesRoute: AdminCupoesRoute,
   AdminDadosRoute: AdminDadosRoute,
   AdminHomeRoute: AdminHomeRoute,
+  AdminMidiaRoute: AdminMidiaRoute,
   AdminPopupsRoute: AdminPopupsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
