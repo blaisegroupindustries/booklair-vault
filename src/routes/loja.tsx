@@ -34,7 +34,7 @@ function StorePage() {
     let q = supabase
       .from("ebooks")
       .select("id, slug, title, description, author, category, type, price_usd, price_mzn, cover_url, cover_type, cover_text_title, cover_text_subtitle, cover_bg_color, cover_text_color, cover_gradient, sale_price_usd, sale_price_mzn, sale_starts_at, sale_ends_at, free_until, available_languages, available_formats, status, scheduled_at")
-      .eq("published", true)
+      .or("published.eq.true,status.eq.scheduled")
       .order("created_at", { ascending: false });
     if (filter !== "all") q = q.eq("category", filter);
     q.then(({ data }) => {
