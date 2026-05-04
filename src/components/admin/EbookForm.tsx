@@ -478,6 +478,21 @@ export function EbookFormPanel({ id }: { id?: string }) {
           </div>
         </TabsContent>
       </Tabs>
+
+      {library && (
+        <MediaLibraryDialog
+          open
+          onClose={() => setLibrary(null)}
+          bucket={library.bucket}
+          accept={library.accept}
+          onPick={({ name, publicUrl }) => {
+            const value = library.bucket === "covers" ? (publicUrl ?? name) : name;
+            update(library.field, value as never);
+            if (library.field === "cover_url") update("cover_type", "image");
+            toast.success("Ficheiro selecionado");
+          }}
+        />
+      )}
     </form>
   );
 }
@@ -494,27 +509,39 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 
 function FileUpload({ label, accept, onFile }: { label: string; accept: string; onFile: (f: File) => void }) {
   return (
-    <label className="flex items-center justify-center gap-2 px-4 py-6 rounded-lg border border-dashed border-border hover:border-gold/40 cursor-pointer transition-colors text-sm text-muted-foreground">
+    <label className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-dashed border-border hover:border-gold/40 cursor-pointer transition-colors text-sm text-muted-foreground">
       <Upload className="h-4 w-4" /> {label}
       <input type="file" accept={accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ""; }} />
     </label>
   );
 }
 
-function FilePathField({ label, path, onUpload, accept, onClear }: { label: string; path: string; onUpload: (f: File) => void; accept: string; onClear: () => void }) {
+function FilePathField({
+  label, path, onUpload, accept, onClear, onPickLibrary,
+}: {
+  label: string; path: string; bucket: Bucket;
+  onUpload: (f: File) => void; accept: string; onClear: () => void;
+  onPickLibrary: () => void;
+}) {
   return (
     <div className="surface-card rounded-lg p-3">
       <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
       {path ? (
         <div className="flex items-center gap-2 text-xs">
           <span className="truncate flex-1 text-foreground">{path}</span>
+          <button type="button" onClick={onPickLibrary} className="text-muted-foreground p-1 hover:text-gold" title="Trocar da biblioteca"><FolderOpen className="h-3.5 w-3.5" /></button>
           <button type="button" onClick={onClear} className="text-rose-400 p-1"><Trash2 className="h-3.5 w-3.5" /></button>
         </div>
       ) : (
-        <label className="flex items-center justify-center gap-2 px-3 py-3 rounded-md border border-dashed border-border hover:border-gold/40 cursor-pointer text-xs text-muted-foreground">
-          <Upload className="h-3.5 w-3.5" /> Carregar
-          <input type="file" accept={accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); e.target.value = ""; }} />
-        </label>
+        <div className="flex flex-col gap-1.5">
+          <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-md border border-dashed border-border hover:border-gold/40 cursor-pointer text-xs text-muted-foreground">
+            <Upload className="h-3.5 w-3.5" /> Carregar novo
+            <input type="file" accept={accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); e.target.value = ""; }} />
+          </label>
+          <button type="button" onClick={onPickLibrary} className="flex items-center justify-center gap-2 px-3 py-2 rounded-md border border-border hover:border-gold/40 text-xs text-muted-foreground">
+            <FolderOpen className="h-3.5 w-3.5" /> Da biblioteca
+          </button>
+        </div>
       )}
     </div>
   );
