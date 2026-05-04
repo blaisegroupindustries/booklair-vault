@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Upload, Trash2, X, Plus } from "lucide-react";
+import { Upload, Trash2, X, Plus, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { slugify, CATEGORY_OPTIONS, STATUS_OPTIONS } from "@/lib/ebook-helpers";
 import { EbookCover } from "@/components/EbookCover";
+import { MediaLibraryDialog, type Bucket } from "@/components/admin/MediaLibrary";
 
 interface EbookForm {
   id?: string;
