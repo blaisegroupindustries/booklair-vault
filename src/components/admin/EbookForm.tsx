@@ -86,6 +86,7 @@ export function EbookFormPanel({ id }: { id?: string }) {
   const [loading, setLoading] = useState(!!id);
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
+  const [library, setLibrary] = useState<{ bucket: Bucket; field: keyof EbookForm; accept?: string } | null>(null);
 
   useEffect(() => {
     if (!id) return;
