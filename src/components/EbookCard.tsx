@@ -95,6 +95,10 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
   const isFree = eff === "free" || eff === "free_temp";
   const hasAudio = ebook.available_formats?.includes("audio");
   const hasMulti = (ebook.available_languages?.length ?? 1) > 1;
+  const isScheduled =
+    ebook.status === "scheduled" &&
+    !!ebook.scheduled_at &&
+    new Date(ebook.scheduled_at) > new Date();
 
   return (
     <Link
