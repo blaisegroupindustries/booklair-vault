@@ -95,6 +95,11 @@ export function EbookFormPanel({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [library, setLibrary] = useState<{ bucket: Bucket; field: keyof EbookForm; accept?: string } | null>(null);
+  const [recentField, setRecentField] = useState<keyof EbookForm | null>(null);
+  const flashField = (k: keyof EbookForm) => {
+    setRecentField(k);
+    setTimeout(() => setRecentField((cur) => (cur === k ? null : cur)), 2500);
+  };
 
   // Persist draft so file picker / OAuth round-trips don't lose work
   useEffect(() => {
@@ -171,12 +176,14 @@ export function EbookFormPanel({ id }: { id?: string }) {
   const uploadCover = async (file: File) => {
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${slugify(form.title || "cover")}.${ext}`;
+    const t = toast.loading(`A carregar ${file.name}…`);
     const { error } = await supabase.storage.from("covers").upload(path, file, { upsert: true });
-    if (error) { toast.error("Erro upload capa: " + error.message); return; }
+    if (error) { toast.error("Erro upload capa: " + error.message, { id: t }); return; }
     const { data: pub } = supabase.storage.from("covers").getPublicUrl(path);
     update("cover_url", pub.publicUrl);
     update("cover_type", "image");
-    toast.success("Capa carregada");
+    flashField("cover_url");
+    toast.success(`Capa anexada: ${file.name} ✓`, { id: t });
   };
 
   const uploadFile = async (
@@ -186,10 +193,12 @@ export function EbookFormPanel({ id }: { id?: string }) {
   ) => {
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${slugify(form.title || "file")}-${field}.${ext}`;
+    const t = toast.loading(`A carregar ${file.name}…`);
     const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-    if (error) { toast.error(`Erro upload: ${error.message}`); return; }
+    if (error) { toast.error(`Erro upload: ${error.message}`, { id: t }); return; }
     update(field, path as never);
-    toast.success("Ficheiro carregado");
+    flashField(field);
+    toast.success(`Ficheiro anexado: ${file.name} ✓`, { id: t });
   };
 
   const toggleArr = (key: "available_languages" | "available_formats", val: string) => {
@@ -395,15 +404,34 @@ export function EbookFormPanel({ id }: { id?: string }) {
 
         {/* FILES */}
         <TabsContent value="files" className="space-y-4 mt-6">
-          <p className="text-xs text-muted-foreground">Carrega ou escolhe da biblioteca de ficheiros já carregados.</p>
+          <p className="text-xs text-muted-foreground">Carrega ou escolhe da biblioteca de ficheiros já carregados. Os ficheiros anexados aparecem destacados a dourado.</p>
+
+          {(() => {
+            const slots: Array<[string, string]> = [
+              ["pdf_path_pt", "PDF PT"], ["pdf_path_en", "PDF EN"],
+              ["audio_path_pt", "Áudio PT"], ["audio_path_en", "Áudio EN"],
+              ["preview_pdf_path", "Preview PDF"], ["preview_audio_path", "Preview áudio"],
+            ];
+            const attached = slots.filter(([k]) => form[k as keyof EbookForm]);
+            return (
+              <div className="surface-card rounded-lg p-3 flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-muted-foreground">Anexados ({attached.length}/{slots.length}):</span>
+                {attached.length === 0 ? (
+                  <span className="text-muted-foreground/60 italic">Nenhum ficheiro anexado ainda</span>
+                ) : attached.map(([k, l]) => (
+                  <span key={k} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30">✓ {l}</span>
+                ))}
+              </div>
+            );
+          })()}
 
           <div className="grid md:grid-cols-2 gap-4">
-            <FilePathField label="PDF — Português" path={form.pdf_path_pt} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_pt")} onClear={() => update("pdf_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_pt", accept: "application/pdf" })} />
-            <FilePathField label="PDF — Inglês" path={form.pdf_path_en} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_en")} onClear={() => update("pdf_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_en", accept: "application/pdf" })} />
-            <FilePathField label="Áudio — Português" path={form.audio_path_pt} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_pt")} onClear={() => update("audio_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_pt", accept: "audio/*" })} />
-            <FilePathField label="Áudio — Inglês" path={form.audio_path_en} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_en")} onClear={() => update("audio_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_en", accept: "audio/*" })} />
-            <FilePathField label="Preview PDF (amostra grátis)" path={form.preview_pdf_path} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "preview_pdf_path")} onClear={() => update("preview_pdf_path", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "preview_pdf_path", accept: "application/pdf" })} />
-            <FilePathField label="Preview áudio (30s)" path={form.preview_audio_path} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "preview_audio_path")} onClear={() => update("preview_audio_path", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "preview_audio_path", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "pdf_path_pt"} label="PDF — Português" path={form.pdf_path_pt} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_pt")} onClear={() => update("pdf_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_pt", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "pdf_path_en"} label="PDF — Inglês" path={form.pdf_path_en} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_en")} onClear={() => update("pdf_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_en", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "audio_path_pt"} label="Áudio — Português" path={form.audio_path_pt} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_pt")} onClear={() => update("audio_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_pt", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "audio_path_en"} label="Áudio — Inglês" path={form.audio_path_en} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_en")} onClear={() => update("audio_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_en", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "preview_pdf_path"} label="Preview PDF (amostra grátis)" path={form.preview_pdf_path} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "preview_pdf_path")} onClear={() => update("preview_pdf_path", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "preview_pdf_path", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "preview_audio_path"} label="Preview áudio (30s)" path={form.preview_audio_path} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "preview_audio_path")} onClear={() => update("preview_audio_path", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "preview_audio_path", accept: "audio/*" })} />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border/50">
@@ -504,7 +532,8 @@ export function EbookFormPanel({ id }: { id?: string }) {
             const value = library.bucket === "covers" ? (publicUrl ?? name) : name;
             update(library.field, value as never);
             if (library.field === "cover_url") update("cover_type", "image");
-            toast.success("Ficheiro selecionado");
+            flashField(library.field);
+            toast.success(`Anexado ao formulário: ${name} ✓`);
           }}
         />
       )}
@@ -532,15 +561,15 @@ function FileUpload({ label, accept, onFile }: { label: string; accept: string; 
 }
 
 function FilePathField({
-  label, path, onUpload, accept, onClear, onPickLibrary,
+  label, path, onUpload, accept, onClear, onPickLibrary, recent,
 }: {
   label: string; path: string; bucket: Bucket;
   onUpload: (f: File) => void; accept: string; onClear: () => void;
-  onPickLibrary: () => void;
+  onPickLibrary: () => void; recent?: boolean;
 }) {
   return (
-    <div className="surface-card rounded-lg p-3">
-      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
+    <div className={`surface-card rounded-lg p-3 transition-all ${recent ? "ring-2 ring-gold/60 shadow-[0_0_0_4px_rgba(244,210,122,0.15)]" : path ? "border border-gold/30" : ""}`}>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-2">{label} {path && <span className="text-gold normal-case tracking-normal text-[10px]">✓ anexado</span>}</p>
       {path ? (
         <div className="flex items-center gap-2 text-xs">
           <span className="truncate flex-1 text-foreground">{path}</span>
