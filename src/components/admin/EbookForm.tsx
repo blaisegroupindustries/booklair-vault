@@ -82,11 +82,25 @@ const DEFAULT: EbookForm = {
 
 export function EbookFormPanel({ id }: { id?: string }) {
   const navigate = useNavigate();
-  const [form, setForm] = useState<EbookForm>(DEFAULT);
+  const draftKey = `ebook-draft:${id ?? "novo"}`;
+  const [form, setForm] = useState<EbookForm>(() => {
+    if (typeof window === "undefined") return DEFAULT;
+    try {
+      const raw = localStorage.getItem(draftKey);
+      if (raw) return { ...DEFAULT, ...JSON.parse(raw) } as EbookForm;
+    } catch { /* ignore */ }
+    return DEFAULT;
+  });
   const [loading, setLoading] = useState(!!id);
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [library, setLibrary] = useState<{ bucket: Bucket; field: keyof EbookForm; accept?: string } | null>(null);
+
+  // Persist draft so file picker / OAuth round-trips don't lose work
+  useEffect(() => {
+    if (loading) return;
+    try { localStorage.setItem(draftKey, JSON.stringify(form)); } catch { /* ignore */ }
+  }, [form, loading, draftKey]);
 
   useEffect(() => {
     if (!id) return;
