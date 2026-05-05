@@ -272,6 +272,7 @@ export function EbookFormPanel({ id }: { id?: string }) {
 
     setSaving(false);
     if (res.error) { toast.error(res.error.message); return; }
+    try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
     toast.success(id ? "Atualizado" : "Criado");
     navigate({ to: "/admin/ebooks" });
   };
