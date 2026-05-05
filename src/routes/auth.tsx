@@ -67,7 +67,7 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Conta criada! Verifica o teu email.");
-        navigate({ to: "/perfil" });
+        navigate({ to: search.redirect ?? "/perfil" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: parsed.email,
@@ -89,7 +89,7 @@ function AuthPage() {
     setSubmitting(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + "/perfil",
+        redirect_uri: window.location.origin + (search.redirect ?? "/perfil"),
       });
 
       if (result.error) throw result.error;

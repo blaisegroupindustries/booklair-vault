@@ -22,7 +22,13 @@ export function Logo({ className = "" }: { className?: string }) {
       });
   }, []);
 
-  const logoUrl = settings?.logo_url;
+  const rawLogo = settings?.logo_url ?? null;
+  // Auto-fix common GitHub blob URLs (não servem como imagem)
+  const logoUrl = rawLogo
+    ? rawLogo
+        .replace(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\//, "https://raw.githubusercontent.com/$1/$2/")
+        .replace(/\?.*$/, "")
+    : null;
   const siteName = settings?.site_name || "Booklair";
 
   return (
