@@ -560,15 +560,15 @@ function FileUpload({ label, accept, onFile }: { label: string; accept: string; 
 }
 
 function FilePathField({
-  label, path, onUpload, accept, onClear, onPickLibrary,
+  label, path, onUpload, accept, onClear, onPickLibrary, recent,
 }: {
   label: string; path: string; bucket: Bucket;
   onUpload: (f: File) => void; accept: string; onClear: () => void;
-  onPickLibrary: () => void;
+  onPickLibrary: () => void; recent?: boolean;
 }) {
   return (
-    <div className="surface-card rounded-lg p-3">
-      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
+    <div className={`surface-card rounded-lg p-3 transition-all ${recent ? "ring-2 ring-gold/60 shadow-[0_0_0_4px_rgba(244,210,122,0.15)]" : path ? "border border-gold/30" : ""}`}>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-2">{label} {path && <span className="text-gold normal-case tracking-normal text-[10px]">✓ anexado</span>}</p>
       {path ? (
         <div className="flex items-center gap-2 text-xs">
           <span className="truncate flex-1 text-foreground">{path}</span>
