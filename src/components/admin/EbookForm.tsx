@@ -176,12 +176,14 @@ export function EbookFormPanel({ id }: { id?: string }) {
   const uploadCover = async (file: File) => {
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${slugify(form.title || "cover")}.${ext}`;
+    const t = toast.loading(`A carregar ${file.name}…`);
     const { error } = await supabase.storage.from("covers").upload(path, file, { upsert: true });
-    if (error) { toast.error("Erro upload capa: " + error.message); return; }
+    if (error) { toast.error("Erro upload capa: " + error.message, { id: t }); return; }
     const { data: pub } = supabase.storage.from("covers").getPublicUrl(path);
     update("cover_url", pub.publicUrl);
     update("cover_type", "image");
-    toast.success("Capa carregada");
+    flashField("cover_url");
+    toast.success(`Capa anexada: ${file.name} ✓`, { id: t });
   };
 
   const uploadFile = async (
@@ -191,10 +193,12 @@ export function EbookFormPanel({ id }: { id?: string }) {
   ) => {
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${slugify(form.title || "file")}-${field}.${ext}`;
+    const t = toast.loading(`A carregar ${file.name}…`);
     const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-    if (error) { toast.error(`Erro upload: ${error.message}`); return; }
+    if (error) { toast.error(`Erro upload: ${error.message}`, { id: t }); return; }
     update(field, path as never);
-    toast.success("Ficheiro carregado");
+    flashField(field);
+    toast.success(`Ficheiro anexado: ${file.name} ✓`, { id: t });
   };
 
   const toggleArr = (key: "available_languages" | "available_formats", val: string) => {
