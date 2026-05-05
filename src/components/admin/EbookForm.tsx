@@ -532,7 +532,8 @@ export function EbookFormPanel({ id }: { id?: string }) {
             const value = library.bucket === "covers" ? (publicUrl ?? name) : name;
             update(library.field, value as never);
             if (library.field === "cover_url") update("cover_type", "image");
-            toast.success("Ficheiro selecionado");
+            flashField(library.field);
+            toast.success(`Anexado ao formulário: ${name} ✓`);
           }}
         />
       )}
