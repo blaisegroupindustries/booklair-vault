@@ -404,15 +404,34 @@ export function EbookFormPanel({ id }: { id?: string }) {
 
         {/* FILES */}
         <TabsContent value="files" className="space-y-4 mt-6">
-          <p className="text-xs text-muted-foreground">Carrega ou escolhe da biblioteca de ficheiros já carregados.</p>
+          <p className="text-xs text-muted-foreground">Carrega ou escolhe da biblioteca de ficheiros já carregados. Os ficheiros anexados aparecem destacados a dourado.</p>
+
+          {(() => {
+            const slots: Array<[string, string]> = [
+              ["pdf_path_pt", "PDF PT"], ["pdf_path_en", "PDF EN"],
+              ["audio_path_pt", "Áudio PT"], ["audio_path_en", "Áudio EN"],
+              ["preview_pdf_path", "Preview PDF"], ["preview_audio_path", "Preview áudio"],
+            ];
+            const attached = slots.filter(([k]) => form[k as keyof EbookForm]);
+            return (
+              <div className="surface-card rounded-lg p-3 flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-muted-foreground">Anexados ({attached.length}/{slots.length}):</span>
+                {attached.length === 0 ? (
+                  <span className="text-muted-foreground/60 italic">Nenhum ficheiro anexado ainda</span>
+                ) : attached.map(([k, l]) => (
+                  <span key={k} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30">✓ {l}</span>
+                ))}
+              </div>
+            );
+          })()}
 
           <div className="grid md:grid-cols-2 gap-4">
-            <FilePathField label="PDF — Português" path={form.pdf_path_pt} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_pt")} onClear={() => update("pdf_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_pt", accept: "application/pdf" })} />
-            <FilePathField label="PDF — Inglês" path={form.pdf_path_en} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_en")} onClear={() => update("pdf_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_en", accept: "application/pdf" })} />
-            <FilePathField label="Áudio — Português" path={form.audio_path_pt} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_pt")} onClear={() => update("audio_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_pt", accept: "audio/*" })} />
-            <FilePathField label="Áudio — Inglês" path={form.audio_path_en} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_en")} onClear={() => update("audio_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_en", accept: "audio/*" })} />
-            <FilePathField label="Preview PDF (amostra grátis)" path={form.preview_pdf_path} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "preview_pdf_path")} onClear={() => update("preview_pdf_path", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "preview_pdf_path", accept: "application/pdf" })} />
-            <FilePathField label="Preview áudio (30s)" path={form.preview_audio_path} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "preview_audio_path")} onClear={() => update("preview_audio_path", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "preview_audio_path", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "pdf_path_pt"} label="PDF — Português" path={form.pdf_path_pt} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_pt")} onClear={() => update("pdf_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_pt", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "pdf_path_en"} label="PDF — Inglês" path={form.pdf_path_en} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "pdf_path_en")} onClear={() => update("pdf_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "pdf_path_en", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "audio_path_pt"} label="Áudio — Português" path={form.audio_path_pt} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_pt")} onClear={() => update("audio_path_pt", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_pt", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "audio_path_en"} label="Áudio — Inglês" path={form.audio_path_en} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "audio_path_en")} onClear={() => update("audio_path_en", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "audio_path_en", accept: "audio/*" })} />
+            <FilePathField recent={recentField === "preview_pdf_path"} label="Preview PDF (amostra grátis)" path={form.preview_pdf_path} bucket="ebooks" accept="application/pdf" onUpload={(f) => uploadFile(f, "ebooks", "preview_pdf_path")} onClear={() => update("preview_pdf_path", "")} onPickLibrary={() => setLibrary({ bucket: "ebooks", field: "preview_pdf_path", accept: "application/pdf" })} />
+            <FilePathField recent={recentField === "preview_audio_path"} label="Preview áudio (30s)" path={form.preview_audio_path} bucket="audio" accept="audio/*" onUpload={(f) => uploadFile(f, "audio", "preview_audio_path")} onClear={() => update("preview_audio_path", "")} onPickLibrary={() => setLibrary({ bucket: "audio", field: "preview_audio_path", accept: "audio/*" })} />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border/50">
