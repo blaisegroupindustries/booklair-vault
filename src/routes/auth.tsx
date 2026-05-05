@@ -89,7 +89,7 @@ function AuthPage() {
     setSubmitting(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + "/perfil",
+        redirect_uri: window.location.origin + (search.redirect ?? "/perfil"),
       });
 
       if (result.error) throw result.error;
