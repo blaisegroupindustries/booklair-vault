@@ -174,7 +174,10 @@ export function MediaLibraryDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h3 className="font-serif text-lg">Biblioteca · {bucket}</h3>
+          <div>
+            <h3 className="font-serif text-lg">Biblioteca · {bucket}</h3>
+            <p className="text-[11px] text-muted-foreground mt-0.5">Carrega vários ficheiros e clica em "Usar este ficheiro" para anexar ao formulário.</p>
+          </div>
           <button onClick={onClose} className="p-1 rounded hover:bg-accent"><X className="h-5 w-5" /></button>
         </div>
         <div className="p-4 overflow-y-auto">
