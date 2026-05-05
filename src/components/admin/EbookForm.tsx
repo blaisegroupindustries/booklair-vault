@@ -95,6 +95,11 @@ export function EbookFormPanel({ id }: { id?: string }) {
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [library, setLibrary] = useState<{ bucket: Bucket; field: keyof EbookForm; accept?: string } | null>(null);
+  const [recentField, setRecentField] = useState<keyof EbookForm | null>(null);
+  const flashField = (k: keyof EbookForm) => {
+    setRecentField(k);
+    setTimeout(() => setRecentField((cur) => (cur === k ? null : cur)), 2500);
+  };
 
   // Persist draft so file picker / OAuth round-trips don't lose work
   useEffect(() => {
