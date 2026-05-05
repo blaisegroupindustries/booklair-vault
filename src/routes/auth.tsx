@@ -67,7 +67,7 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Conta criada! Verifica o teu email.");
-        navigate({ to: "/perfil" });
+        navigate({ to: search.redirect ?? "/perfil" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: parsed.email,
