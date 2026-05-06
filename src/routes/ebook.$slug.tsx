@@ -104,7 +104,7 @@ function EbookPage() {
     );
   }, [ebook, lang, format]);
 
-  const bucket = format === "audio" ? "audio" : "ebooks";
+  
 
   const startReading = async () => {
     if (!ebook) return;
