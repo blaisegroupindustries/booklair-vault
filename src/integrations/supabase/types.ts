@@ -894,11 +894,52 @@ export type Database = {
         }
         Relationships: []
       }
+      vault_access_grants: {
+        Row: {
+          created_at: string
+          ebook_id: string
+          email: string | null
+          external_order_id: string | null
+          granted_by: string | null
+          id: string
+          notes: string | null
+          source: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          ebook_id: string
+          email?: string | null
+          external_order_id?: string | null
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          source?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          ebook_id?: string
+          email?: string | null
+          external_order_id?: string | null
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          source?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      claim_vault_access_for_email: { Args: never; Returns: undefined }
+      has_ebook_access: {
+        Args: { _ebook_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

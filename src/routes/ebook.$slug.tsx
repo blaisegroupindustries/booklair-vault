@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { EbookCover } from "@/components/EbookCover";
+import { getEbookSignedUrl, getFreeEbookSignedUrl } from "@/server/ebook-access.functions";
 
 export const Route = createFileRoute("/ebook/$slug")({
   component: EbookPage,
@@ -103,42 +104,39 @@ function EbookPage() {
     );
   }, [ebook, lang, format]);
 
-  const bucket = format === "audio" ? "audio" : "ebooks";
+  
 
   const startReading = async () => {
     if (!ebook) return;
-    if (!user) {
+    const isFreeEbook = ebook.type === "free";
+    if (!user && !isFreeEbook) {
       navigate({
         to: "/auth",
         search: { mode: "signin", redirect: `/ebook/${ebook.slug}?read=1` },
       });
       return;
     }
-    if (ebook.type === "premium" && !purchased) {
-      toast.info("Precisas de comprar este ebook para o ler.");
-      return;
-    }
-    if (!filePath) {
-      toast.error("Este formato/idioma ainda não está disponível.");
-      return;
-    }
     setSigning(true);
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .createSignedUrl(filePath, 3600);
-    setSigning(false);
-    if (error || !data) {
+    try {
+      const res = user
+        ? await getEbookSignedUrl({ data: { ebookId: ebook.id, format, lang } })
+        : await getFreeEbookSignedUrl({ data: { ebookId: ebook.id, format, lang } });
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
+      setSignedUrl(res.url);
+      setReading(true);
+    } catch {
       toast.error("Não foi possível abrir o ficheiro.");
-      return;
+    } finally {
+      setSigning(false);
     }
-    setSignedUrl(data.signedUrl);
-    setReading(true);
-    void supabase.from("downloads").insert({ user_id: user.id, ebook_id: ebook.id });
   };
 
   // Auto-start if redirected back with ?read=1
   useEffect(() => {
-    if (!loading && ebook && user) {
+    if (!loading && ebook) {
       const url = new URL(window.location.href);
       if (url.searchParams.get("read") === "1" && !reading) {
         url.searchParams.delete("read");
