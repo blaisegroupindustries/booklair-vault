@@ -108,7 +108,8 @@ function EbookPage() {
 
   const startReading = async () => {
     if (!ebook) return;
-    if (!user) {
+    const isFreeEbook = ebook.type === "free";
+    if (!user && !isFreeEbook) {
       navigate({
         to: "/auth",
         search: { mode: "signin", redirect: `/ebook/${ebook.slug}?read=1` },
@@ -117,16 +118,16 @@ function EbookPage() {
     }
     setSigning(true);
     try {
-      const res = await getEbookSignedUrl({
-        data: { ebookId: ebook.id, format, lang },
-      });
+      const res = user
+        ? await getEbookSignedUrl({ data: { ebookId: ebook.id, format, lang } })
+        : await getFreeEbookSignedUrl({ data: { ebookId: ebook.id, format, lang } });
       if (!res.ok) {
         toast.error(res.error);
         return;
       }
       setSignedUrl(res.url);
       setReading(true);
-    } catch (e) {
+    } catch {
       toast.error("Não foi possível abrir o ficheiro.");
     } finally {
       setSigning(false);
@@ -135,7 +136,7 @@ function EbookPage() {
 
   // Auto-start if redirected back with ?read=1
   useEffect(() => {
-    if (!loading && ebook && user) {
+    if (!loading && ebook) {
       const url = new URL(window.location.href);
       if (url.searchParams.get("read") === "1" && !reading) {
         url.searchParams.delete("read");
