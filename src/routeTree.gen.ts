@@ -34,6 +34,7 @@ import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
 import { Route as AdminEbooksIndexRouteImport } from './routes/admin.ebooks.index'
 import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as AdminEbooksIdRouteImport } from './routes/admin.ebooks.$id'
+import { Route as ApiPublicWebhooksLemonSqueezyRouteImport } from './routes/api.public.webhooks.lemon-squeezy'
 
 const TermosRoute = TermosRouteImport.update({
   id: '/termos',
@@ -160,6 +161,12 @@ const AdminEbooksIdRoute = AdminEbooksIdRouteImport.update({
   path: '/ebooks/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicWebhooksLemonSqueezyRoute =
+  ApiPublicWebhooksLemonSqueezyRouteImport.update({
+    id: '/api/public/webhooks/lemon-squeezy',
+    path: '/api/public/webhooks/lemon-squeezy',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks/': typeof AdminEbooksIndexRoute
+  '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -214,6 +222,7 @@ export interface FileRoutesByTo {
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks': typeof AdminEbooksIndexRoute
+  '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -242,6 +251,7 @@ export interface FileRoutesById {
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks/': typeof AdminEbooksIndexRoute
+  '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks/'
+    | '/api/public/webhooks/lemon-squeezy'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks'
+    | '/api/public/webhooks/lemon-squeezy'
   id:
     | '__root__'
     | '/'
@@ -325,6 +337,7 @@ export interface FileRouteTypes {
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks/'
+    | '/api/public/webhooks/lemon-squeezy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -338,6 +351,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   TermosRoute: typeof TermosRoute
   EbookSlugRoute: typeof EbookSlugRoute
+  ApiPublicWebhooksLemonSqueezyRoute: typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -517,6 +531,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEbooksIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/public/webhooks/lemon-squeezy': {
+      id: '/api/public/webhooks/lemon-squeezy'
+      path: '/api/public/webhooks/lemon-squeezy'
+      fullPath: '/api/public/webhooks/lemon-squeezy'
+      preLoaderRoute: typeof ApiPublicWebhooksLemonSqueezyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -569,6 +590,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   TermosRoute: TermosRoute,
   EbookSlugRoute: EbookSlugRoute,
+  ApiPublicWebhooksLemonSqueezyRoute: ApiPublicWebhooksLemonSqueezyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
