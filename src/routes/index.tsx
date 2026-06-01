@@ -11,10 +11,10 @@ import heroImg from "@/assets/hero-book.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Booklair — Ebooks premium para mentes ambiciosas" },
-      { name: "description", content: "Plataforma lusófona de ebooks premium. Marketing, negócios, educação e desenvolvimento pessoal." },
-      { property: "og:title", content: "Booklair — Ebooks premium para mentes ambiciosas" },
-      { property: "og:description", content: "Conhecimento que transforma. Ebooks selecionados em português e inglês." },
+      { title: "Booklair — Your Personal Library of Knowledge" },
+      { name: "description", content: "Premium ebooks for entrepreneurs and ambitious minds. Marketing, business, education and personal development." },
+      { property: "og:title", content: "Booklair" },
+      { property: "og:description", content: "Knowledge that transforms. Curated ebooks for builders worldwide." },
     ],
   }),
   component: HomePage,
@@ -87,17 +87,17 @@ function HomePage() {
               <div className="mt-10 flex items-center gap-8 text-xs text-muted-foreground">
                 <div>
                   <div className="text-2xl font-serif text-foreground">3</div>
-                  <div className="uppercase tracking-wider">Categorias</div>
+                  <div className="uppercase tracking-wider">Categories</div>
                 </div>
                 <div className="h-8 w-px bg-border" />
                 <div>
-                  <div className="text-2xl font-serif text-foreground">PT · EN</div>
-                  <div className="uppercase tracking-wider">Bilingue</div>
+                  <div className="text-2xl font-serif text-foreground">EN · PT</div>
+                  <div className="uppercase tracking-wider">Bilingual</div>
                 </div>
                 <div className="h-8 w-px bg-border" />
                 <div>
                   <div className="text-2xl font-serif text-foreground">∞</div>
-                  <div className="uppercase tracking-wider">Acesso</div>
+                  <div className="uppercase tracking-wider">Access</div>
                 </div>
               </div>
             </div>
@@ -124,7 +124,7 @@ function HomePage() {
               <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("featured.subtitle")}</h2>
             </div>
             <Link to="/loja" className="hidden md:inline-flex items-center gap-2 text-sm text-gold hover:gap-3 transition-all">
-              Ver tudo <ArrowRight className="h-4 w-4" />
+              View all <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -140,14 +140,14 @@ function HomePage() {
         <section className="container mx-auto px-4 py-16">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-blue-400 mb-3">
-              <Clock className="h-3 w-3" /> Próximos lançamentos
+              <Clock className="h-3 w-3" /> Coming soon
             </p>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground">A caminho da Booklair</h2>
-            <p className="mt-3 text-muted-foreground">Reserva no calendário — estes ebooks chegam em breve.</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-foreground">On the way to Booklair</h2>
+            <p className="mt-3 text-muted-foreground">Mark your calendar — these ebooks land soon.</p>
           </div>
           {upcoming[0]?.scheduled_at && (
             <div className="flex justify-center mb-10">
-              <Countdown to={upcoming[0].scheduled_at} label={`Próximo: "${upcoming[0].title}"`} />
+              <Countdown to={upcoming[0].scheduled_at} label={`Next: "${upcoming[0].title}"`} />
             </div>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -174,10 +174,10 @@ function HomePage() {
               </div>
               <h3 className="font-serif text-2xl text-foreground mb-2">{t(`cat.${key}`)}</h3>
               <p className="text-sm text-muted-foreground">
-                Conteúdo selecionado para acelerar o teu crescimento.
+                Curated content to accelerate your growth.
               </p>
               <p className="mt-5 text-xs uppercase tracking-widest text-gold flex items-center gap-1">
-                Explorar <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
               </p>
             </Link>
           ))}
@@ -190,14 +190,14 @@ function HomePage() {
           <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
           <div className="relative">
             <h2 className="font-serif text-4xl md:text-5xl text-foreground max-w-2xl mx-auto">
-              Constrói a tua biblioteca de <span className="gradient-text-gold">elite</span>.
+              Build your <span className="gradient-text-gold">elite</span> library.
             </h2>
             <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Cria a tua conta gratuita e começa hoje. Sem subscrições. Sem letras pequenas.
+              Create your free account and start today. No subscriptions. No fine print.
             </p>
             <Button variant="hero" size="xl" asChild className="mt-8">
               <Link to="/auth" search={{ mode: "signup" }}>
-                Criar conta grátis <ArrowRight className="h-4 w-4" />
+                Get started free <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
