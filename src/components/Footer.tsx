@@ -77,7 +77,7 @@ export function Footer() {
         </div>
         <div className="mt-12 pt-6 border-t border-border/50 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between gap-2">
           <span>© {new Date().getFullYear()} Booklair. {t("footer.rights")}</span>
-          <span>Lisboa · Maputo · São Paulo · Luanda</span>
+          <span>{t("footer.location")}</span>
         </div>
       </div>
     </footer>
