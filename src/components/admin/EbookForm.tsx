@@ -486,6 +486,18 @@ export function EbookFormPanel({ id }: { id?: string }) {
             <p className="text-xs text-muted-foreground mb-3">Torna o ebook grátis até esta data. Depois volta ao preço normal automaticamente.</p>
             <Field label="Grátis até"><Input type="datetime-local" value={form.free_until} onChange={(e) => update("free_until", e.target.value)} /></Field>
           </div>
+          <div className="border-t border-border/50 pt-6">
+            <h3 className="text-sm font-semibold mb-1">Lemon Squeezy — checkout</h3>
+            <p className="text-xs text-muted-foreground mb-3">Cola aqui o link de checkout deste ebook (da tua conta Lemon Squeezy). Quando o utilizador clica em "Comprar", abre este link.</p>
+            <div className="grid md:grid-cols-2 gap-4">
+              <Field label="URL do checkout" hint="ex: https://store.lemonsqueezy.com/checkout/buy/xxxx">
+                <Input value={form.checkout_url} onChange={(e) => update("checkout_url", e.target.value)} placeholder="https://…" />
+              </Field>
+              <Field label="Variant ID (opcional)" hint="Útil para o webhook">
+                <Input value={form.lemon_squeezy_variant_id} onChange={(e) => update("lemon_squeezy_variant_id", e.target.value)} placeholder="123456" />
+              </Field>
+            </div>
+          </div>
         </TabsContent>
 
         {/* META */}
