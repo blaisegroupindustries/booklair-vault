@@ -164,6 +164,8 @@ export function EbookFormPanel({ id }: { id?: string }) {
         author_social_twitter: social.twitter ?? "",
         author_social_linkedin: social.linkedin ?? "",
         author_social_website: social.website ?? "",
+        checkout_url: (data as Record<string, unknown>).checkout_url as string ?? "",
+        lemon_squeezy_variant_id: (data as Record<string, unknown>).lemon_squeezy_variant_id as string ?? "",
       });
       setLoading(false);
     })();
