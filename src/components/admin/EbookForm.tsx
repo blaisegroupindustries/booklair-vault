@@ -61,6 +61,8 @@ interface EbookForm {
   author_social_twitter: string;
   author_social_linkedin: string;
   author_social_website: string;
+  checkout_url: string;
+  lemon_squeezy_variant_id: string;
 }
 
 const DEFAULT: EbookForm = {
