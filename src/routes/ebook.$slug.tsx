@@ -40,6 +40,7 @@ interface Ebook {
   available_languages: string[] | null;
   available_formats: string[] | null;
   pages: number | null;
+  checkout_url: string | null;
 }
 
 type Lang = "pt" | "en";
