@@ -278,7 +278,9 @@ export function EbookFormPanel({ id }: { id?: string }) {
       featured: form.featured,
       published: form.status === "published",
       published_at: form.status === "published" ? new Date().toISOString() : null,
-    };
+      checkout_url: form.checkout_url || null,
+      lemon_squeezy_variant_id: form.lemon_squeezy_variant_id || null,
+    } as never;
 
     const res = id
       ? await supabase.from("ebooks").update(payload).eq("id", id)
