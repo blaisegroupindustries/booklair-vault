@@ -36,6 +36,8 @@ const groups = [
     links: [
       { to: "/admin/compras", label: "Compras", icon: ShoppingBag, exact: false },
       { to: "/admin/cupoes", label: "Cupões", icon: Tag, exact: false },
+      { to: "/admin/afiliados", label: "Afiliados", icon: Users, exact: false },
+      { to: "/admin/mentor10k", label: "Mentor 10K", icon: ShieldCheck, exact: false },
     ],
   },
   {
