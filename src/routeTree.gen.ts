@@ -24,6 +24,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
 import { Route as AdminMidiaRouteImport } from './routes/admin.midia'
+import { Route as AdminMentor10kRouteImport } from './routes/admin.mentor10k'
 import { Route as AdminHomeRouteImport } from './routes/admin.home'
 import { Route as AdminDadosRouteImport } from './routes/admin.dados'
 import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
@@ -31,6 +32,7 @@ import { Route as AdminComprasRouteImport } from './routes/admin.compras'
 import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
 import { Route as AdminCampanhasRouteImport } from './routes/admin.campanhas'
 import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
+import { Route as AdminAfiliadosRouteImport } from './routes/admin.afiliados'
 import { Route as AdminEbooksIndexRouteImport } from './routes/admin.ebooks.index'
 import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as AdminEbooksIdRouteImport } from './routes/admin.ebooks.$id'
@@ -111,6 +113,11 @@ const AdminMidiaRoute = AdminMidiaRouteImport.update({
   path: '/midia',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMentor10kRoute = AdminMentor10kRouteImport.update({
+  id: '/mentor10k',
+  path: '/mentor10k',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHomeRoute = AdminHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -146,6 +153,11 @@ const AdminAtividadeRoute = AdminAtividadeRouteImport.update({
   path: '/atividade',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAfiliadosRoute = AdminAfiliadosRouteImport.update({
+  id: '/afiliados',
+  path: '/afiliados',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEbooksIndexRoute = AdminEbooksIndexRouteImport.update({
   id: '/ebooks/',
   path: '/ebooks/',
@@ -178,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/afiliados': typeof AdminAfiliadosRoute
   '/admin/atividade': typeof AdminAtividadeRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -185,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -206,6 +220,7 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/afiliados': typeof AdminAfiliadosRoute
   '/admin/atividade': typeof AdminAtividadeRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -213,6 +228,7 @@ export interface FileRoutesByTo {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -235,6 +251,7 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
+  '/admin/afiliados': typeof AdminAfiliadosRoute
   '/admin/atividade': typeof AdminAtividadeRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -242,6 +259,7 @@ export interface FileRoutesById {
   '/admin/cupoes': typeof AdminCupoesRoute
   '/admin/dados': typeof AdminDadosRoute
   '/admin/home': typeof AdminHomeRoute
+  '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -265,6 +283,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/afiliados'
     | '/admin/atividade'
     | '/admin/campanhas'
     | '/admin/colecoes'
@@ -272,6 +291,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/mentor10k'
     | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
@@ -293,6 +313,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/afiliados'
     | '/admin/atividade'
     | '/admin/campanhas'
     | '/admin/colecoes'
@@ -300,6 +321,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/mentor10k'
     | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
@@ -321,6 +343,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sobre'
     | '/termos'
+    | '/admin/afiliados'
     | '/admin/atividade'
     | '/admin/campanhas'
     | '/admin/colecoes'
@@ -328,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/cupoes'
     | '/admin/dados'
     | '/admin/home'
+    | '/admin/mentor10k'
     | '/admin/midia'
     | '/admin/popups'
     | '/admin/reviews'
@@ -461,6 +485,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMidiaRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/mentor10k': {
+      id: '/admin/mentor10k'
+      path: '/mentor10k'
+      fullPath: '/admin/mentor10k'
+      preLoaderRoute: typeof AdminMentor10kRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/home': {
       id: '/admin/home'
       path: '/home'
@@ -510,6 +541,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAtividadeRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/afiliados': {
+      id: '/admin/afiliados'
+      path: '/afiliados'
+      fullPath: '/admin/afiliados'
+      preLoaderRoute: typeof AdminAfiliadosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/ebooks/': {
       id: '/admin/ebooks/'
       path: '/ebooks'
@@ -542,6 +580,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAfiliadosRoute: typeof AdminAfiliadosRoute
   AdminAtividadeRoute: typeof AdminAtividadeRoute
   AdminCampanhasRoute: typeof AdminCampanhasRoute
   AdminColecoesRoute: typeof AdminColecoesRoute
@@ -549,6 +588,7 @@ interface AdminRouteChildren {
   AdminCupoesRoute: typeof AdminCupoesRoute
   AdminDadosRoute: typeof AdminDadosRoute
   AdminHomeRoute: typeof AdminHomeRoute
+  AdminMentor10kRoute: typeof AdminMentor10kRoute
   AdminMidiaRoute: typeof AdminMidiaRoute
   AdminPopupsRoute: typeof AdminPopupsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
@@ -560,6 +600,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAfiliadosRoute: AdminAfiliadosRoute,
   AdminAtividadeRoute: AdminAtividadeRoute,
   AdminCampanhasRoute: AdminCampanhasRoute,
   AdminColecoesRoute: AdminColecoesRoute,
@@ -567,6 +608,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCupoesRoute: AdminCupoesRoute,
   AdminDadosRoute: AdminDadosRoute,
   AdminHomeRoute: AdminHomeRoute,
+  AdminMentor10kRoute: AdminMentor10kRoute,
   AdminMidiaRoute: AdminMidiaRoute,
   AdminPopupsRoute: AdminPopupsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
@@ -595,13 +637,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

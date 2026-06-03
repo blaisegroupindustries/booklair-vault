@@ -40,6 +40,7 @@ interface Ebook {
   available_languages: string[] | null;
   available_formats: string[] | null;
   pages: number | null;
+  checkout_url: string | null;
 }
 
 type Lang = "pt" | "en";
@@ -148,7 +149,15 @@ function EbookPage() {
   }, [loading, ebook, user]);
 
   const handleBuy = () => {
-    toast.info("Pagamentos em breve.");
+    if (!ebook) return;
+    if (ebook.checkout_url) {
+      // Append user email so Lemon Squeezy pre-fills + webhook can attribute
+      const sep = ebook.checkout_url.includes("?") ? "&" : "?";
+      const email = user?.email ? `${sep}checkout[email]=${encodeURIComponent(user.email)}` : "";
+      window.open(ebook.checkout_url + email, "_blank", "noopener,noreferrer");
+      return;
+    }
+    toast.info("Checkout ainda não configurado. Abre o painel admin → Ebooks → Preços para colar o link Lemon Squeezy.");
   };
 
   if (loading) {

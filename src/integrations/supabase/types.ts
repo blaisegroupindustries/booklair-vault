@@ -50,6 +50,139 @@ export type Database = {
         }
         Relationships: []
       }
+      affiliate_clicks: {
+        Row: {
+          affiliate_id: string
+          created_at: string
+          ebook_id: string | null
+          id: string
+          ip_address: string | null
+          landing_path: string | null
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          affiliate_id: string
+          created_at?: string
+          ebook_id?: string | null
+          id?: string
+          ip_address?: string | null
+          landing_path?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          affiliate_id?: string
+          created_at?: string
+          ebook_id?: string | null
+          id?: string
+          ip_address?: string | null
+          landing_path?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_clicks_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliate_conversions: {
+        Row: {
+          affiliate_id: string
+          amount_usd: number
+          commission_usd: number
+          created_at: string
+          ebook_id: string | null
+          email: string | null
+          external_order_id: string | null
+          id: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          affiliate_id: string
+          amount_usd?: number
+          commission_usd?: number
+          created_at?: string
+          ebook_id?: string | null
+          email?: string | null
+          external_order_id?: string | null
+          id?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          affiliate_id?: string
+          amount_usd?: number
+          commission_usd?: number
+          created_at?: string
+          ebook_id?: string | null
+          email?: string | null
+          external_order_id?: string | null
+          id?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_conversions_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliates: {
+        Row: {
+          active: boolean
+          code: string
+          commission_percent: number
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          total_clicks: number
+          total_conversions: number
+          total_revenue_usd: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          commission_percent?: number
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          total_clicks?: number
+          total_conversions?: number
+          total_revenue_usd?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          commission_percent?: number
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          total_clicks?: number
+          total_conversions?: number
+          total_revenue_usd?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       collection_items: {
         Row: {
           collection_id: string
@@ -380,6 +513,7 @@ export type Database = {
           available_formats: string[]
           available_languages: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          checkout_url: string | null
           countdown_enabled: boolean
           countdown_text: string | null
           cover_bg_color: string | null
@@ -398,6 +532,7 @@ export type Database = {
           id: string
           isbn: string | null
           language: string | null
+          lemon_squeezy_variant_id: string | null
           narrator: string | null
           original_type: Database["public"]["Enums"]["ebook_type"] | null
           pages: number | null
@@ -437,6 +572,7 @@ export type Database = {
           available_formats?: string[]
           available_languages?: string[]
           category: Database["public"]["Enums"]["ebook_category"]
+          checkout_url?: string | null
           countdown_enabled?: boolean
           countdown_text?: string | null
           cover_bg_color?: string | null
@@ -455,6 +591,7 @@ export type Database = {
           id?: string
           isbn?: string | null
           language?: string | null
+          lemon_squeezy_variant_id?: string | null
           narrator?: string | null
           original_type?: Database["public"]["Enums"]["ebook_type"] | null
           pages?: number | null
@@ -494,6 +631,7 @@ export type Database = {
           available_formats?: string[]
           available_languages?: string[]
           category?: Database["public"]["Enums"]["ebook_category"]
+          checkout_url?: string | null
           countdown_enabled?: boolean
           countdown_text?: string | null
           cover_bg_color?: string | null
@@ -512,6 +650,7 @@ export type Database = {
           id?: string
           isbn?: string | null
           language?: string | null
+          lemon_squeezy_variant_id?: string | null
           narrator?: string | null
           original_type?: Database["public"]["Enums"]["ebook_type"] | null
           pages?: number | null
@@ -622,6 +761,39 @@ export type Database = {
           subtitle?: string | null
           title?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      mentor10k_access: {
+        Row: {
+          created_at: string
+          email: string | null
+          external_order_id: string | null
+          granted_by: string | null
+          id: string
+          notes: string | null
+          source: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          external_order_id?: string | null
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          source?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          external_order_id?: string | null
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          source?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -940,6 +1112,7 @@ export type Database = {
         Args: { _ebook_id: string; _user_id: string }
         Returns: boolean
       }
+      has_mentor10k_access: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

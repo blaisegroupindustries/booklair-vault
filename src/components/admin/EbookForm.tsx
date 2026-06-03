@@ -61,6 +61,8 @@ interface EbookForm {
   author_social_twitter: string;
   author_social_linkedin: string;
   author_social_website: string;
+  checkout_url: string;
+  lemon_squeezy_variant_id: string;
 }
 
 const DEFAULT: EbookForm = {
@@ -78,6 +80,7 @@ const DEFAULT: EbookForm = {
   narrator: "", audio_duration_seconds: "",
   tags: [], featured: false, published: false,
   author_social_instagram: "", author_social_twitter: "", author_social_linkedin: "", author_social_website: "",
+  checkout_url: "", lemon_squeezy_variant_id: "",
 };
 
 export function EbookFormPanel({ id }: { id?: string }) {
@@ -161,6 +164,8 @@ export function EbookFormPanel({ id }: { id?: string }) {
         author_social_twitter: social.twitter ?? "",
         author_social_linkedin: social.linkedin ?? "",
         author_social_website: social.website ?? "",
+        checkout_url: (data as Record<string, unknown>).checkout_url as string ?? "",
+        lemon_squeezy_variant_id: (data as Record<string, unknown>).lemon_squeezy_variant_id as string ?? "",
       });
       setLoading(false);
     })();
@@ -273,7 +278,9 @@ export function EbookFormPanel({ id }: { id?: string }) {
       featured: form.featured,
       published: form.status === "published",
       published_at: form.status === "published" ? new Date().toISOString() : null,
-    };
+      checkout_url: form.checkout_url || null,
+      lemon_squeezy_variant_id: form.lemon_squeezy_variant_id || null,
+    } as never;
 
     const res = id
       ? await supabase.from("ebooks").update(payload).eq("id", id)
@@ -478,6 +485,18 @@ export function EbookFormPanel({ id }: { id?: string }) {
             <h3 className="text-sm font-semibold mb-1">Grátis por tempo limitado</h3>
             <p className="text-xs text-muted-foreground mb-3">Torna o ebook grátis até esta data. Depois volta ao preço normal automaticamente.</p>
             <Field label="Grátis até"><Input type="datetime-local" value={form.free_until} onChange={(e) => update("free_until", e.target.value)} /></Field>
+          </div>
+          <div className="border-t border-border/50 pt-6">
+            <h3 className="text-sm font-semibold mb-1">Lemon Squeezy — checkout</h3>
+            <p className="text-xs text-muted-foreground mb-3">Cola aqui o link de checkout deste ebook (da tua conta Lemon Squeezy). Quando o utilizador clica em "Comprar", abre este link.</p>
+            <div className="grid md:grid-cols-2 gap-4">
+              <Field label="URL do checkout" hint="ex: https://store.lemonsqueezy.com/checkout/buy/xxxx">
+                <Input value={form.checkout_url} onChange={(e) => update("checkout_url", e.target.value)} placeholder="https://…" />
+              </Field>
+              <Field label="Variant ID (opcional)" hint="Útil para o webhook">
+                <Input value={form.lemon_squeezy_variant_id} onChange={(e) => update("lemon_squeezy_variant_id", e.target.value)} placeholder="123456" />
+              </Field>
+            </div>
           </div>
         </TabsContent>
 
