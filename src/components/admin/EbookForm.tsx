@@ -80,6 +80,7 @@ const DEFAULT: EbookForm = {
   narrator: "", audio_duration_seconds: "",
   tags: [], featured: false, published: false,
   author_social_instagram: "", author_social_twitter: "", author_social_linkedin: "", author_social_website: "",
+  checkout_url: "", lemon_squeezy_variant_id: "",
 };
 
 export function EbookFormPanel({ id }: { id?: string }) {
