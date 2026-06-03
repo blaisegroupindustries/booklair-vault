@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { EbookCover } from "@/components/EbookCover";
-import { getEbookSignedUrl, getFreeEbookSignedUrl } from "@/server/ebook-access.functions";
+import { getEbookSignedUrl, getFreeEbookSignedUrl } from "@/lib/ebook-access.functions";
 
 export const Route = createFileRoute("/ebook/$slug")({
   component: EbookPage,
