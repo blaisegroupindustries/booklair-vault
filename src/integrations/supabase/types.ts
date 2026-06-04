@@ -797,6 +797,225 @@ export type Database = {
         }
         Relationships: []
       }
+      mentor10k_checkins: {
+        Row: {
+          created_at: string
+          id: string
+          income_eur: number | null
+          mentor_feedback: string | null
+          mood: string | null
+          next_focus: string | null
+          plan_id: string | null
+          progress_score: number | null
+          user_id: string
+          week_number: number
+          what_blocked: string | null
+          what_done: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          income_eur?: number | null
+          mentor_feedback?: string | null
+          mood?: string | null
+          next_focus?: string | null
+          plan_id?: string | null
+          progress_score?: number | null
+          user_id: string
+          week_number: number
+          what_blocked?: string | null
+          what_done?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          income_eur?: number | null
+          mentor_feedback?: string | null
+          mood?: string | null
+          next_focus?: string | null
+          plan_id?: string | null
+          progress_score?: number | null
+          user_id?: string
+          week_number?: number
+          what_blocked?: string | null
+          what_done?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor10k_checkins_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "mentor10k_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mentor10k_diagnostics: {
+        Row: {
+          available_hours_week: number | null
+          created_at: string
+          current_situation: string
+          deadline_months: number | null
+          goal: string
+          id: string
+          monthly_income_eur: number | null
+          obstacles: string | null
+          profile_type: string | null
+          raw_answers: Json | null
+          resources: string | null
+          skills: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available_hours_week?: number | null
+          created_at?: string
+          current_situation: string
+          deadline_months?: number | null
+          goal: string
+          id?: string
+          monthly_income_eur?: number | null
+          obstacles?: string | null
+          profile_type?: string | null
+          raw_answers?: Json | null
+          resources?: string | null
+          skills?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available_hours_week?: number | null
+          created_at?: string
+          current_situation?: string
+          deadline_months?: number | null
+          goal?: string
+          id?: string
+          monthly_income_eur?: number | null
+          obstacles?: string | null
+          profile_type?: string | null
+          raw_answers?: Json | null
+          resources?: string | null
+          skills?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mentor10k_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mentor10k_milestones: {
+        Row: {
+          achieved_at: string
+          description: string | null
+          id: string
+          plan_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          achieved_at?: string
+          description?: string | null
+          id?: string
+          plan_id?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          achieved_at?: string
+          description?: string | null
+          id?: string
+          plan_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor10k_milestones_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "mentor10k_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mentor10k_plans: {
+        Row: {
+          created_at: string
+          diagnostic_id: string | null
+          duration_weeks: number | null
+          id: string
+          kpis: Json | null
+          model: string | null
+          phases: Json
+          status: string
+          summary: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          weekly_tasks: Json
+        }
+        Insert: {
+          created_at?: string
+          diagnostic_id?: string | null
+          duration_weeks?: number | null
+          id?: string
+          kpis?: Json | null
+          model?: string | null
+          phases?: Json
+          status?: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+          weekly_tasks?: Json
+        }
+        Update: {
+          created_at?: string
+          diagnostic_id?: string | null
+          duration_weeks?: number | null
+          id?: string
+          kpis?: Json | null
+          model?: string | null
+          phases?: Json
+          status?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          weekly_tasks?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor10k_plans_diagnostic_id_fkey"
+            columns: ["diagnostic_id"]
+            isOneToOne: false
+            referencedRelation: "mentor10k_diagnostics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
