@@ -22,6 +22,7 @@ export function Header() {
     { to: "/", label: t("nav.home") },
     { to: "/biblioteca", label: t("nav.library") },
     { to: "/loja", label: t("nav.store") },
+    { to: "/mentor-10k", label: "Mentor 10K" },
     { to: "/sobre", label: t("nav.about") },
   ] as const;
 
