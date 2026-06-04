@@ -154,4 +154,27 @@
     background: var(--gradient-card);
     border: 1px solid var(--color-border);
   }
+
+  /* Liquid Glass — Apple iOS 26 inspired */
+  .glass-card {
+    background:
+      linear-gradient(135deg,
+        color-mix(in oklab, white 6%, transparent) 0%,
+        color-mix(in oklab, white 2%, transparent) 50%,
+        color-mix(in oklab, var(--gold) 3%, transparent) 100%);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid color-mix(in oklab, white 10%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in oklab, white 8%, transparent) inset,
+      0 -1px 0 0 color-mix(in oklab, white 3%, transparent) inset,
+      0 20px 60px -20px oklch(0 0 0 / 0.5);
+  }
+
+  .glass-pill {
+    background: color-mix(in oklab, white 5%, transparent);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid color-mix(in oklab, white 10%, transparent);
+  }
 }
