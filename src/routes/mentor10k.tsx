@@ -55,14 +55,14 @@ function Mentor10kLayout() {
     );
   }
 
-  const tabs = [
+  const tabs: Array<{ to: string; label: string; icon: typeof Sparkles; exact?: boolean }> = [
     { to: "/mentor10k", label: "Dashboard", icon: Sparkles, exact: true },
     { to: "/mentor10k/diagnostico", label: "Diagnóstico", icon: Target },
     { to: "/mentor10k/plano", label: "Plano", icon: ClipboardList },
     { to: "/mentor10k/checkin", label: "Check-in", icon: Activity },
     { to: "/mentor10k/chat", label: "Mentor IA", icon: MessageSquare },
     { to: "/mentor10k/historico", label: "Histórico", icon: History },
-  ] as const;
+  ];
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">

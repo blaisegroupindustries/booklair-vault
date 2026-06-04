@@ -13,11 +13,19 @@ import { Route as TermosRouteImport } from './routes/termos'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as Mentor10kRouteImport } from './routes/mentor10k'
+import { Route as Mentor10kRouteImport } from './routes/mentor-10k'
 import { Route as LojaRouteImport } from './routes/loja'
 import { Route as BibliotecaRouteImport } from './routes/biblioteca'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Mentor10kIndexRouteImport } from './routes/mentor10k.index'
+import { Route as Mentor10kPlanoRouteImport } from './routes/mentor10k.plano'
+import { Route as Mentor10kHistoricoRouteImport } from './routes/mentor10k.historico'
+import { Route as Mentor10kDiagnosticoRouteImport } from './routes/mentor10k.diagnostico'
+import { Route as Mentor10kCheckinRouteImport } from './routes/mentor10k.checkin'
+import { Route as Mentor10kChatRouteImport } from './routes/mentor10k.chat'
 import { Route as EbookSlugRouteImport } from './routes/ebook.$slug'
 import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizadores'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
@@ -58,6 +66,16 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Mentor10kRoute = Mentor10kRouteImport.update({
+  id: '/mentor10k',
+  path: '/mentor10k',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Mentor10kRoute = Mentor10kRouteImport.update({
+  id: '/mentor-10k',
+  path: '/mentor-10k',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LojaRoute = LojaRouteImport.update({
   id: '/loja',
   path: '/loja',
@@ -82,6 +100,36 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const Mentor10kIndexRoute = Mentor10kIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kPlanoRoute = Mentor10kPlanoRouteImport.update({
+  id: '/plano',
+  path: '/plano',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kHistoricoRoute = Mentor10kHistoricoRouteImport.update({
+  id: '/historico',
+  path: '/historico',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kDiagnosticoRoute = Mentor10kDiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kCheckinRoute = Mentor10kCheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kChatRoute = Mentor10kChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => Mentor10kRoute,
 } as any)
 const EbookSlugRoute = EbookSlugRouteImport.update({
   id: '/ebook/$slug',
@@ -186,6 +234,8 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
+  '/mentor-10k': typeof Mentor10kRoute
+  '/mentor10k': typeof Mentor10kRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -205,6 +255,12 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
+  '/mentor10k/chat': typeof Mentor10kChatRoute
+  '/mentor10k/checkin': typeof Mentor10kCheckinRoute
+  '/mentor10k/diagnostico': typeof Mentor10kDiagnosticoRoute
+  '/mentor10k/historico': typeof Mentor10kHistoricoRoute
+  '/mentor10k/plano': typeof Mentor10kPlanoRoute
+  '/mentor10k/': typeof Mentor10kIndexRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks/': typeof AdminEbooksIndexRoute
@@ -216,6 +272,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
+  '/mentor-10k': typeof Mentor10kRoute
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -235,6 +292,12 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
+  '/mentor10k/chat': typeof Mentor10kChatRoute
+  '/mentor10k/checkin': typeof Mentor10kCheckinRoute
+  '/mentor10k/diagnostico': typeof Mentor10kDiagnosticoRoute
+  '/mentor10k/historico': typeof Mentor10kHistoricoRoute
+  '/mentor10k/plano': typeof Mentor10kPlanoRoute
+  '/mentor10k': typeof Mentor10kIndexRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks': typeof AdminEbooksIndexRoute
@@ -247,6 +310,8 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
+  '/mentor-10k': typeof Mentor10kRoute
+  '/mentor10k': typeof Mentor10kRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -266,6 +331,12 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/utilizadores': typeof AdminUtilizadoresRoute
   '/ebook/$slug': typeof EbookSlugRoute
+  '/mentor10k/chat': typeof Mentor10kChatRoute
+  '/mentor10k/checkin': typeof Mentor10kCheckinRoute
+  '/mentor10k/diagnostico': typeof Mentor10kDiagnosticoRoute
+  '/mentor10k/historico': typeof Mentor10kHistoricoRoute
+  '/mentor10k/plano': typeof Mentor10kPlanoRoute
+  '/mentor10k/': typeof Mentor10kIndexRoute
   '/admin/ebooks/$id': typeof AdminEbooksIdRoute
   '/admin/ebooks/novo': typeof AdminEbooksNovoRoute
   '/admin/ebooks/': typeof AdminEbooksIndexRoute
@@ -279,6 +350,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
+    | '/mentor-10k'
+    | '/mentor10k'
     | '/perfil'
     | '/privacidade'
     | '/sobre'
@@ -298,6 +371,12 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
+    | '/mentor10k/chat'
+    | '/mentor10k/checkin'
+    | '/mentor10k/diagnostico'
+    | '/mentor10k/historico'
+    | '/mentor10k/plano'
+    | '/mentor10k/'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks/'
@@ -309,6 +388,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
+    | '/mentor-10k'
     | '/perfil'
     | '/privacidade'
     | '/sobre'
@@ -328,6 +408,12 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
+    | '/mentor10k/chat'
+    | '/mentor10k/checkin'
+    | '/mentor10k/diagnostico'
+    | '/mentor10k/historico'
+    | '/mentor10k/plano'
+    | '/mentor10k'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks'
@@ -339,6 +425,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
+    | '/mentor-10k'
+    | '/mentor10k'
     | '/perfil'
     | '/privacidade'
     | '/sobre'
@@ -358,6 +446,12 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/utilizadores'
     | '/ebook/$slug'
+    | '/mentor10k/chat'
+    | '/mentor10k/checkin'
+    | '/mentor10k/diagnostico'
+    | '/mentor10k/historico'
+    | '/mentor10k/plano'
+    | '/mentor10k/'
     | '/admin/ebooks/$id'
     | '/admin/ebooks/novo'
     | '/admin/ebooks/'
@@ -370,6 +464,8 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BibliotecaRoute: typeof BibliotecaRoute
   LojaRoute: typeof LojaRoute
+  Mentor10kRoute: typeof Mentor10kRoute
+  Mentor10kRoute: typeof Mentor10kRouteWithChildren
   PerfilRoute: typeof PerfilRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   SobreRoute: typeof SobreRoute
@@ -408,6 +504,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentor10k': {
+      id: '/mentor10k'
+      path: '/mentor10k'
+      fullPath: '/mentor10k'
+      preLoaderRoute: typeof Mentor10kRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentor-10k': {
+      id: '/mentor-10k'
+      path: '/mentor-10k'
+      fullPath: '/mentor-10k'
+      preLoaderRoute: typeof Mentor10kRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/loja': {
       id: '/loja'
       path: '/loja'
@@ -442,6 +552,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/mentor10k/': {
+      id: '/mentor10k/'
+      path: '/'
+      fullPath: '/mentor10k/'
+      preLoaderRoute: typeof Mentor10kIndexRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/plano': {
+      id: '/mentor10k/plano'
+      path: '/plano'
+      fullPath: '/mentor10k/plano'
+      preLoaderRoute: typeof Mentor10kPlanoRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/historico': {
+      id: '/mentor10k/historico'
+      path: '/historico'
+      fullPath: '/mentor10k/historico'
+      preLoaderRoute: typeof Mentor10kHistoricoRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/diagnostico': {
+      id: '/mentor10k/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/mentor10k/diagnostico'
+      preLoaderRoute: typeof Mentor10kDiagnosticoRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/checkin': {
+      id: '/mentor10k/checkin'
+      path: '/checkin'
+      fullPath: '/mentor10k/checkin'
+      preLoaderRoute: typeof Mentor10kCheckinRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/chat': {
+      id: '/mentor10k/chat'
+      path: '/chat'
+      fullPath: '/mentor10k/chat'
+      preLoaderRoute: typeof Mentor10kChatRouteImport
+      parentRoute: typeof Mentor10kRoute
     }
     '/ebook/$slug': {
       id: '/ebook/$slug'
@@ -621,12 +773,36 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface Mentor10kRouteChildren {
+  Mentor10kChatRoute: typeof Mentor10kChatRoute
+  Mentor10kCheckinRoute: typeof Mentor10kCheckinRoute
+  Mentor10kDiagnosticoRoute: typeof Mentor10kDiagnosticoRoute
+  Mentor10kHistoricoRoute: typeof Mentor10kHistoricoRoute
+  Mentor10kPlanoRoute: typeof Mentor10kPlanoRoute
+  Mentor10kIndexRoute: typeof Mentor10kIndexRoute
+}
+
+const Mentor10kRouteChildren: Mentor10kRouteChildren = {
+  Mentor10kChatRoute: Mentor10kChatRoute,
+  Mentor10kCheckinRoute: Mentor10kCheckinRoute,
+  Mentor10kDiagnosticoRoute: Mentor10kDiagnosticoRoute,
+  Mentor10kHistoricoRoute: Mentor10kHistoricoRoute,
+  Mentor10kPlanoRoute: Mentor10kPlanoRoute,
+  Mentor10kIndexRoute: Mentor10kIndexRoute,
+}
+
+const Mentor10kRouteWithChildren = Mentor10kRoute._addFileChildren(
+  Mentor10kRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   BibliotecaRoute: BibliotecaRoute,
   LojaRoute: LojaRoute,
+  Mentor10kRoute: Mentor10kRoute,
+  Mentor10kRoute: Mentor10kRouteWithChildren,
   PerfilRoute: PerfilRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   SobreRoute: SobreRoute,
