@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, Target, ClipboardList, MessageSquare, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/mentor-10k")({
+export const Route = createFileRoute("/programa-mentor-10k")({
   head: () => ({
     meta: [
       { title: "Mentor 10K — Programa Booklair" },

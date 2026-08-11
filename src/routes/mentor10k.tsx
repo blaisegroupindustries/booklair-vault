@@ -44,7 +44,7 @@ function Mentor10kLayout() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button variant="gold" size="lg" asChild>
-              <Link to="/mentor-10k">Saber mais</Link>
+              <Link to="/programa-mentor-10k">Saber mais</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
               <Link to="/loja">Ver loja</Link>
