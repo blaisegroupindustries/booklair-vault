@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as ProgramaMentor10kRouteImport } from './routes/programa-mentor-10k'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as Mentor10kRouteImport } from './routes/mentor10k'
-import { Route as Mentor10kRouteImport } from './routes/mentor-10k'
 import { Route as LojaRouteImport } from './routes/loja'
 import { Route as BibliotecaRouteImport } from './routes/biblioteca'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -56,6 +56,11 @@ const SobreRoute = SobreRouteImport.update({
   path: '/sobre',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramaMentor10kRoute = ProgramaMentor10kRouteImport.update({
+  id: '/programa-mentor-10k',
+  path: '/programa-mentor-10k',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
@@ -69,11 +74,6 @@ const PerfilRoute = PerfilRouteImport.update({
 const Mentor10kRoute = Mentor10kRouteImport.update({
   id: '/mentor10k',
   path: '/mentor10k',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Mentor10kRoute = Mentor10kRouteImport.update({
-  id: '/mentor-10k',
-  path: '/mentor-10k',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LojaRoute = LojaRouteImport.update({
@@ -234,10 +234,10 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
-  '/mentor-10k': typeof Mentor10kRoute
   '/mentor10k': typeof Mentor10kRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/programa-mentor-10k': typeof ProgramaMentor10kRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/admin/afiliados': typeof AdminAfiliadosRoute
@@ -272,9 +272,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
-  '/mentor-10k': typeof Mentor10kRoute
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/programa-mentor-10k': typeof ProgramaMentor10kRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/admin/afiliados': typeof AdminAfiliadosRoute
@@ -310,10 +310,10 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
-  '/mentor-10k': typeof Mentor10kRoute
   '/mentor10k': typeof Mentor10kRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/programa-mentor-10k': typeof ProgramaMentor10kRoute
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/admin/afiliados': typeof AdminAfiliadosRoute
@@ -350,10 +350,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
-    | '/mentor-10k'
     | '/mentor10k'
     | '/perfil'
     | '/privacidade'
+    | '/programa-mentor-10k'
     | '/sobre'
     | '/termos'
     | '/admin/afiliados'
@@ -388,9 +388,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
-    | '/mentor-10k'
     | '/perfil'
     | '/privacidade'
+    | '/programa-mentor-10k'
     | '/sobre'
     | '/termos'
     | '/admin/afiliados'
@@ -425,10 +425,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
-    | '/mentor-10k'
     | '/mentor10k'
     | '/perfil'
     | '/privacidade'
+    | '/programa-mentor-10k'
     | '/sobre'
     | '/termos'
     | '/admin/afiliados'
@@ -464,10 +464,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BibliotecaRoute: typeof BibliotecaRoute
   LojaRoute: typeof LojaRoute
-  Mentor10kRoute: typeof Mentor10kRoute
   Mentor10kRoute: typeof Mentor10kRouteWithChildren
   PerfilRoute: typeof PerfilRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ProgramaMentor10kRoute: typeof ProgramaMentor10kRoute
   SobreRoute: typeof SobreRoute
   TermosRoute: typeof TermosRoute
   EbookSlugRoute: typeof EbookSlugRoute
@@ -490,6 +490,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SobreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programa-mentor-10k': {
+      id: '/programa-mentor-10k'
+      path: '/programa-mentor-10k'
+      fullPath: '/programa-mentor-10k'
+      preLoaderRoute: typeof ProgramaMentor10kRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
@@ -508,13 +515,6 @@ declare module '@tanstack/react-router' {
       id: '/mentor10k'
       path: '/mentor10k'
       fullPath: '/mentor10k'
-      preLoaderRoute: typeof Mentor10kRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mentor-10k': {
-      id: '/mentor-10k'
-      path: '/mentor-10k'
-      fullPath: '/mentor-10k'
       preLoaderRoute: typeof Mentor10kRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -801,10 +801,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BibliotecaRoute: BibliotecaRoute,
   LojaRoute: LojaRoute,
-  Mentor10kRoute: Mentor10kRoute,
   Mentor10kRoute: Mentor10kRouteWithChildren,
   PerfilRoute: PerfilRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ProgramaMentor10kRoute: ProgramaMentor10kRoute,
   SobreRoute: SobreRoute,
   TermosRoute: TermosRoute,
   EbookSlugRoute: EbookSlugRoute,
@@ -813,13 +813,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
