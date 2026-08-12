@@ -1,51 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-
-const MENTOR_SYSTEM_PROMPT = `És o Mentor 10K — um mentor de negócios direto, prático e ambicioso que ajuda pessoas a chegar aos primeiros 10.000€/mês de receita.
-
-Princípios:
-- Direto, sem encher chouriço. Português europeu natural.
-- Foca em ações concretas, mensuráveis, executáveis esta semana.
-- Quando o utilizador hesita, desafia com respeito.
-- Usa dados do diagnóstico e check-ins anteriores para personalizar.
-- Nunca prometes resultados garantidos; foca em sistemas e disciplina.
-- Quando geras um plano, divides em fases (Fundação → Validação → Tração → Escala) ao longo de 12 semanas.
-- Quando dás feedback de check-in: 1) reconhece o progresso real, 2) aponta o bloqueio principal, 3) prescreve a próxima ação. Máximo 4 frases.`;
-
-async function callGemini(payload: {
-  systemPrompt: string;
-  userPrompt: string;
-  jsonSchema?: object;
-}): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY");
-
-  const body: Record<string, unknown> = {
-    contents: [{ role: "user", parts: [{ text: payload.userPrompt }] }],
-    systemInstruction: { parts: [{ text: payload.systemPrompt }] },
-  };
-  if (payload.jsonSchema) {
-    body.generationConfig = {
-      responseMimeType: "application/json",
-      responseSchema: payload.jsonSchema,
-    };
-  }
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    const txt = await res.text();
-    throw new Error(`Gemini API ${res.status}: ${txt.slice(0, 300)}`);
-  }
-  const json = await res.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
-  const text = json.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") ?? "";
-  if (!text) throw new Error("Gemini returned empty response");
-  return text;
-}
+import { callMentorAi, parseMentorJson } from "@/lib/mentor10k.server";
 
 // ===== Generate Plan =====
 export const generateMentorPlan = createServerFn({ method: "POST" })
@@ -83,46 +38,7 @@ DIAGNÓSTICO:
 
 Retorna JSON com: title, summary, phases (array de 4: nome, semanas, objetivo, entregas), weekly_tasks (array de 12 semanas: week, focus, tasks[3-5]), kpis (array de métricas-chave a acompanhar).`;
 
-    const schema = {
-      type: "object",
-      properties: {
-        title: { type: "string" },
-        summary: { type: "string" },
-        phases: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              name: { type: "string" },
-              weeks: { type: "string" },
-              objective: { type: "string" },
-              deliverables: { type: "array", items: { type: "string" } },
-            },
-            required: ["name", "weeks", "objective", "deliverables"],
-          },
-        },
-        weekly_tasks: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              week: { type: "integer" },
-              focus: { type: "string" },
-              tasks: { type: "array", items: { type: "string" } },
-            },
-            required: ["week", "focus", "tasks"],
-          },
-        },
-        kpis: { type: "array", items: { type: "string" } },
-      },
-      required: ["title", "summary", "phases", "weekly_tasks", "kpis"],
-    };
-
-    const text = await callGemini({
-      systemPrompt: MENTOR_SYSTEM_PROMPT,
-      userPrompt: prompt,
-      jsonSchema: schema,
-    });
+    const text = await callMentorAi(prompt, true);
 
     let parsed: {
       title: string;
@@ -132,9 +48,9 @@ Retorna JSON com: title, summary, phases (array de 4: nome, semanas, objetivo, e
       kpis: unknown;
     };
     try {
-      parsed = JSON.parse(text);
+      parsed = parseMentorJson(text);
     } catch {
-      throw new Error("Plano inválido recebido do Gemini");
+      throw new Error("O Mentor gerou um plano inválido. Tenta novamente.");
     }
 
     const { data: plan, error: insErr } = await supabase
@@ -149,7 +65,7 @@ Retorna JSON com: title, summary, phases (array de 4: nome, semanas, objetivo, e
         kpis: parsed.kpis as never,
         duration_weeks: 12,
         status: "active",
-        model: "gemini-2.5-flash",
+        model: "openai/gpt-5.6-sol",
       })
       .select()
       .single();
@@ -195,10 +111,7 @@ export const generateCheckinFeedback = createServerFn({ method: "POST" })
 
 Dá feedback direto em 4 frases máximo: 1) reconhece o que está bem, 2) aponta o bloqueio real, 3) prescreve a próxima ação, 4) desafia para a próxima semana.`;
 
-    const feedback = await callGemini({
-      systemPrompt: MENTOR_SYSTEM_PROMPT,
-      userPrompt,
-    });
+    const feedback = await callMentorAi(userPrompt);
 
     const { data: checkin, error } = await supabase
       .from("mentor10k_checkins")
@@ -254,10 +167,7 @@ export const askMentor = createServerFn({ method: "POST" })
 
     const prompt = `${latestPlan ? `Plano ativo: ${latestPlan.title}\n${latestPlan.summary}\n\n` : ""}${history ? `Histórico recente:\n${history}\n\n` : ""}Utilizador: ${data.message}\n\nResponde como Mentor 10K.`;
 
-    const reply = await callGemini({
-      systemPrompt: MENTOR_SYSTEM_PROMPT,
-      userPrompt: prompt,
-    });
+    const reply = await callMentorAi(prompt);
 
     await supabase.from("mentor10k_messages").insert([
       { user_id: userId, role: "user", content: data.message },
