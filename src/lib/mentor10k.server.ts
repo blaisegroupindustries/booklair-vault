@@ -1,6 +1,3 @@
-import { streamText } from "ai";
-import { createMentorAiProvider } from "@/lib/ai-gateway.server";
-
 export const MENTOR_SYSTEM_PROMPT = `És o Mentor 10K — um mentor de negócios direto, prático e ambicioso que ajuda pessoas a chegar aos primeiros 10.000€/mês de receita.
 
 Princípios:
@@ -12,43 +9,75 @@ Princípios:
 - Quando geras um plano, divides em fases (Fundação → Validação → Tração → Escala) ao longo de 12 semanas.
 - Quando dás feedback de check-in: 1) reconhece o progresso real, 2) aponta o bloqueio principal, 3) prescreve a próxima ação. Máximo 4 frases.`;
 
+// Modelos verificados na API Gemini (fallback em cascata se um falhar).
+const GEMINI_MODELS = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-flash-latest"];
+
+interface GeminiResponse {
+  candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  error?: { message?: string; code?: number };
+}
+
 export async function callMentorAi(userPrompt: string, jsonOnly = false) {
-  const lovableApiKey = process.env["LOVABLE_API_KEY"];
-  if (!lovableApiKey) {
+  const apiKey = process.env["GEMINI_API_KEY"];
+  if (!apiKey) {
     throw new Error("O Mentor IA não está configurado. Tenta novamente dentro de instantes.");
   }
 
-  try {
-    const result = streamText({
-      model: createMentorAiProvider(lovableApiKey),
-      system: MENTOR_SYSTEM_PROMPT,
-      prompt: jsonOnly
-        ? `${userPrompt}\n\nResponde exclusivamente com um objeto JSON válido, sem markdown nem blocos de código.`
-        : userPrompt,
-      providerOptions: {
-        openai: {
-          forceReasoning: true,
-          reasoningEffort: "medium",
-          reasoningSummary: "auto",
-          store: false,
-          include: ["reasoning.encrypted_content"],
+  const body = {
+    systemInstruction: { parts: [{ text: MENTOR_SYSTEM_PROMPT }] },
+    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+    generationConfig: jsonOnly
+      ? { responseMimeType: "application/json", temperature: 0.7 }
+      : { temperature: 0.8 },
+  };
+
+  let lastError = "";
+
+  for (const model of GEMINI_MODELS) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+          body: JSON.stringify(body),
         },
-      },
-    });
-    const text = (await result.text).trim();
-    if (!text) throw new Error("empty_response");
-    return text;
-  } catch (error) {
-    console.error("[Mentor10K AI]", error);
-    const message = error instanceof Error ? error.message : "";
-    if (message.includes("402")) {
-      throw new Error("Os créditos do Mentor IA esgotaram. Contacta o suporte.");
+      );
+
+      if (!res.ok) {
+        const errText = await res.text();
+        lastError = `${res.status} ${errText.slice(0, 300)}`;
+        console.error("[Mentor10K Gemini]", model, lastError);
+        if (res.status === 429) {
+          throw new Error("O Mentor está com muita procura. Tenta novamente dentro de alguns segundos.");
+        }
+        if (res.status === 400 && errText.includes("API key")) {
+          throw new Error("A chave do Mentor IA é inválida. Contacta o suporte.");
+        }
+        // 404 (modelo indisponível) ou 5xx → tenta o próximo modelo
+        continue;
+      }
+
+      const json = (await res.json()) as GeminiResponse;
+      const text = (json.candidates?.[0]?.content?.parts ?? [])
+        .map((p) => p.text ?? "")
+        .join("")
+        .trim();
+
+      if (!text) {
+        lastError = "resposta vazia";
+        continue;
+      }
+      return text;
+    } catch (error) {
+      if (error instanceof Error && error.message.startsWith("O Mentor") ) throw error;
+      if (error instanceof Error && error.message.startsWith("A chave")) throw error;
+      lastError = error instanceof Error ? error.message : String(error);
+      console.error("[Mentor10K Gemini]", model, lastError);
     }
-    if (message.includes("429")) {
-      throw new Error("O Mentor está com muita procura. Tenta novamente dentro de alguns segundos.");
-    }
-    throw new Error("Não foi possível contactar o Mentor IA. Tenta novamente.");
   }
+
+  throw new Error("Não foi possível contactar o Mentor IA. Tenta novamente.");
 }
 
 export function parseMentorJson(text: string) {
