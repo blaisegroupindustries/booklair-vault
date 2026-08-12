@@ -65,7 +65,7 @@ Retorna JSON com: title, summary, phases (array de 4: nome, semanas, objetivo, e
         kpis: parsed.kpis as never,
         duration_weeks: 12,
         status: "active",
-        model: "openai/gpt-5.6-sol",
+        model: "gemini-3.6-flash",
       })
       .select()
       .single();

@@ -57,7 +57,7 @@ function Chat() {
       <div className="p-4 border-b border-border/40 flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-gold" />
         <p className="font-medium">Mentor 10K</p>
-        <span className="text-xs text-muted-foreground">• Lovable AI</span>
+        <span className="text-xs text-muted-foreground">• Gemini</span>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
