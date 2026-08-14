@@ -55,66 +55,64 @@ function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 pt-16 md:pt-24 pb-20 md:pb-28 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/30 bg-gold/5 text-xs uppercase tracking-widest text-gold mb-6">
-                <Sparkles className="h-3 w-3" /> {t("hero.eyebrow")}
-              </p>
-              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[0.95] text-foreground">
+      {/* Hero — catálogo editorial, não "título + imagem + 2 botões" */}
+      <section className="paper relative overflow-hidden rule-bottom">
+        <div className="container mx-auto px-4 pt-10 md:pt-16 pb-14 md:pb-20 relative">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 rule-bottom pb-4">
+            <span className="call-number">Booklair · Catálogo N.º {new Date().getFullYear()}</span>
+            <span className="call-number">PT · EN — acesso vitalício</span>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 pt-10 md:pt-14">
+            <div className="lg:col-span-7">
+              <h1 className="font-serif text-[2.75rem] leading-[0.94] sm:text-6xl lg:text-[5.25rem] text-foreground">
                 {t("hero.title").split(" ").slice(0, -2).join(" ")}{" "}
-                <span className="gradient-text-gold">
+                <em className="not-italic font-normal text-gold">
                   {t("hero.title").split(" ").slice(-2).join(" ")}
-                </span>
+                </em>
               </h1>
-              <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
+              <p className="mt-7 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground">
                 {t("hero.subtitle")}
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button variant="hero" size="xl" asChild>
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <Button variant="hero" size="lg" asChild>
                   <Link to="/loja">
                     {t("hero.cta.primary")} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="goldOutline" size="xl" asChild>
-                  <Link to="/biblioteca">
-                    <BookOpen className="h-4 w-4" /> {t("hero.cta.secondary")}
-                  </Link>
-                </Button>
-              </div>
-              <div className="mt-10 flex items-center gap-8 text-xs text-muted-foreground">
-                <div>
-                  <div className="text-2xl font-serif text-foreground">3</div>
-                  <div className="uppercase tracking-wider">Categories</div>
-                </div>
-                <div className="h-8 w-px bg-border" />
-                <div>
-                  <div className="text-2xl font-serif text-foreground">EN · PT</div>
-                  <div className="uppercase tracking-wider">Bilingual</div>
-                </div>
-                <div className="h-8 w-px bg-border" />
-                <div>
-                  <div className="text-2xl font-serif text-foreground">∞</div>
-                  <div className="uppercase tracking-wider">Access</div>
-                </div>
+                <Link
+                  to="/biblioteca"
+                  className="inline-flex items-center gap-2 text-sm text-foreground underline decoration-[var(--rule)] underline-offset-[6px] hover:decoration-gold transition-colors"
+                >
+                  <BookOpen className="h-4 w-4 text-ember" /> {t("hero.cta.secondary")}
+                </Link>
               </div>
             </div>
-            <div className="relative">
-              <div className="absolute -inset-8 bg-gold/10 blur-3xl rounded-full" />
-              <img
-                src={heroImg}
-                alt="Livro premium iluminado"
-                width={1600}
-                height={1024}
-                className="relative rounded-3xl shadow-[var(--shadow-elevated)] border border-border/50"
-              />
+
+            {/* Assinatura visual: estante + fichas de catálogo */}
+            <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-[var(--rule)]">
+              <ShelfMark className="h-40 md:h-48" />
+              <dl className="mt-8 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+                {[
+                  ["01", "Marketing & Negócios", "12 títulos"],
+                  ["02", "Educação & Estudo", "08 títulos"],
+                  ["03", "Desenvolvimento Pessoal", "10 títulos"],
+                ].map(([n, name, meta]) => (
+                  <div key={n} className="flex items-baseline gap-4 py-3">
+                    <dt className="call-number text-ember">{n}</dt>
+                    <dd className="flex-1 text-sm text-foreground">{name}</dd>
+                    <dd className="call-number">{meta}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                Cada título é lido, escolhido e catalogado à mão. Sem subscrições, sem catálogos infinitos.
+              </p>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Featured — agora antes das categorias */}
       {featured.length > 0 && (
