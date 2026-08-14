@@ -38,9 +38,9 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
           .toString()
           .toLowerCase();
         const orderId = (payload?.data?.id ?? orderAttrs.identifier ?? "").toString();
-        const ebookId = (customData.ebook_id ?? customData.ebookId ?? "").toString();
+        const ebookIdFromCustomData = (customData.ebook_id ?? customData.ebookId ?? "").toString();
 
-        // Only act on successful order/subscription events
+        // Só nos interessam eventos de compra/subscrição bem-sucedida.
         const okEvents = new Set([
           "order_created",
           "order_paid",
@@ -53,63 +53,86 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
 
         if (!email) return new Response("missing email", { status: 200 });
 
-        // Resolve user (may not exist yet)
+        // Estado do pedido (order_created também dispara para pedidos ainda
+        // não pagos em certos fluxos — filtramos aqui por segurança).
+        const status: string = (orderAttrs.status ?? "paid").toString();
+        if (eventName.startsWith("order_") && status !== "paid") {
+          return new Response("order not paid yet", { status: 200 });
+        }
+
+        // Resolve o utilizador (pode ainda não ter conta criada no site).
         let userId: string | null = null;
         try {
-          const { data: prof } = await supabaseAdmin
-            .from("profiles")
-            .select("id")
-            .limit(1);
-          // best-effort: lookup user by email via admin auth API
           const { data: list } = await supabaseAdmin.auth.admin.listUsers();
           const found = list?.users?.find(
             (u) => u.email?.toLowerCase() === email
           );
           userId = found?.id ?? null;
-          void prof;
-        } catch {}
-
-        // Determine which ebook(s) to grant
-        const ebookIds: string[] = [];
-        if (ebookId) ebookIds.push(ebookId);
-        else {
-          // Fallback: grant the only published premium ebook (Zero to CEO seed)
-          const { data: ebs } = await supabaseAdmin
-            .from("ebooks")
-            .select("id")
-            .eq("type", "premium")
-            .eq("published", true);
-          (ebs ?? []).forEach((e) => ebookIds.push(e.id));
+        } catch (err) {
+          console.error("Erro ao procurar utilizador:", err);
         }
 
-        for (const eid of ebookIds) {
-          await supabaseAdmin.from("vault_access_grants").insert({
-            user_id: userId,
-            email,
-            ebook_id: eid,
-            source: "lemon_squeezy",
-            external_order_id: orderId,
-            notes: eventName,
-          });
+        // Determina qual(is) ebook(s) libertar.
+        // Se o checkout não enviou custom_data.ebook_id (o mais provável, já
+        // que o Lemon Squeezy não expõe isso na UI atual do produto),
+        // fazemos fallback: usamos o nome do produto do pedido para
+        // encontrar o ebook correspondente pela coluna `slug`/`title`.
+        let ebookId: string | null = null;
+        let ebookSlug: string | null = null;
 
-          if (userId) {
-            await supabaseAdmin.from("purchases").insert({
-              user_id: userId,
-              ebook_id: eid,
-              amount_paid: Number(orderAttrs.total ?? 0) / 100 || 0,
-              currency: orderAttrs.currency ?? "USD",
-              status: "completed",
-              stripe_session_id: orderId,
-            });
+        if (ebookIdFromCustomData) {
+          ebookId = ebookIdFromCustomData;
+        } else {
+          const productName: string = (
+            orderAttrs.first_order_item?.product_name ?? ""
+          ).toString();
+
+          const { data: matched } = await supabaseAdmin
+            .from("ebooks")
+            .select("id, slug")
+            .ilike("title", `%${productName}%`)
+            .limit(1)
+            .maybeSingle();
+
+          if (matched) {
+            ebookId = matched.id;
+            ebookSlug = matched.slug;
+          } else {
+            // Último recurso: liberta o único ebook premium publicado.
+            const { data: fallback } = await supabaseAdmin
+              .from("ebooks")
+              .select("id, slug")
+              .eq("published", true)
+              .limit(1)
+              .maybeSingle();
+            if (fallback) {
+              ebookId = fallback.id;
+              ebookSlug = fallback.slug;
+            }
           }
         }
 
-        await supabaseAdmin.from("activity_log").insert({
-          action: "lemon_squeezy.webhook",
-          actor_email: email,
-          entity_type: "purchase",
-          details: { event: eventName, order_id: orderId, ebook_ids: ebookIds },
-        });
+        const amountUsd = Number(orderAttrs.total_usd ?? orderAttrs.total ?? 0) / 100;
+
+        const { error } = await supabaseAdmin.from("purchases").upsert(
+          {
+            user_id: userId,
+            email,
+            ebook_id: ebookId,
+            ebook_slug: ebookSlug,
+            provider: "lemon_squeezy",
+            provider_order_id: orderId,
+            status: "completed",
+            amount_usd: amountUsd || 0,
+            raw: payload,
+          },
+          { onConflict: "provider,provider_order_id" }
+        );
+
+        if (error) {
+          console.error("Erro ao gravar compra no Supabase:", error);
+          return new Response("db error", { status: 200 }); // 200 para o LS não repetir infinitamente; erro fica registado no log do Vercel
+        }
 
         return new Response("ok", { status: 200 });
       },
