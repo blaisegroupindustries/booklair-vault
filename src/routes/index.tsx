@@ -4,9 +4,10 @@ import { ArrowRight, BookOpen, GraduationCap, Sparkles, TrendingUp, Clock } from
 import { Button } from "@/components/ui/button";
 import { EbookCard, type EbookCardData } from "@/components/EbookCard";
 import { Countdown } from "@/components/Countdown";
+import { ShelfMark } from "@/components/ShelfMark";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
-import heroImg from "@/assets/hero-book.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
