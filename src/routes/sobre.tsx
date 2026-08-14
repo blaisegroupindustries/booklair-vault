@@ -19,7 +19,7 @@ function AboutPage() {
       <h1 className="font-serif text-5xl md:text-6xl text-foreground">{t("about.title")}</h1>
       <p className="mt-6 text-lg text-muted-foreground leading-relaxed">{t("about.lead")}</p>
 
-      <div className="prose prose-invert mt-10 space-y-6 text-foreground/90">
+      <div className="prose dark:prose-invert mt-10 space-y-6 text-foreground/90">
         <p>
           Acreditamos que o conhecimento certo, na altura certa, muda trajetórias. É por isso que
           curamos cada ebook publicado na Booklair — não vendemos catálogos infinitos, vendemos

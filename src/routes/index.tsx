@@ -4,9 +4,10 @@ import { ArrowRight, BookOpen, GraduationCap, Sparkles, TrendingUp, Clock } from
 import { Button } from "@/components/ui/button";
 import { EbookCard, type EbookCardData } from "@/components/EbookCard";
 import { Countdown } from "@/components/Countdown";
+import { ShelfMark } from "@/components/ShelfMark";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
-import heroImg from "@/assets/hero-book.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,77 +55,75 @@ function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 pt-16 md:pt-24 pb-20 md:pb-28 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/30 bg-gold/5 text-xs uppercase tracking-widest text-gold mb-6">
-                <Sparkles className="h-3 w-3" /> {t("hero.eyebrow")}
-              </p>
-              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[0.95] text-foreground">
+      {/* Hero — catálogo editorial, não "título + imagem + 2 botões" */}
+      <section className="paper relative overflow-hidden rule-bottom">
+        <div className="container mx-auto px-4 pt-10 md:pt-16 pb-14 md:pb-20 relative">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 rule-bottom pb-4">
+            <span className="call-number">Booklair · Catálogo N.º {new Date().getFullYear()}</span>
+            <span className="call-number">PT · EN — acesso vitalício</span>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 pt-10 md:pt-14">
+            <div className="lg:col-span-7">
+              <h1 className="font-serif text-[2.75rem] leading-[0.94] sm:text-6xl lg:text-[5.25rem] text-foreground">
                 {t("hero.title").split(" ").slice(0, -2).join(" ")}{" "}
-                <span className="gradient-text-gold">
+                <em className="not-italic font-normal text-gold">
                   {t("hero.title").split(" ").slice(-2).join(" ")}
-                </span>
+                </em>
               </h1>
-              <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
+              <p className="mt-7 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground">
                 {t("hero.subtitle")}
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button variant="hero" size="xl" asChild>
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <Button variant="hero" size="lg" asChild>
                   <Link to="/loja">
                     {t("hero.cta.primary")} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="goldOutline" size="xl" asChild>
-                  <Link to="/biblioteca">
-                    <BookOpen className="h-4 w-4" /> {t("hero.cta.secondary")}
-                  </Link>
-                </Button>
-              </div>
-              <div className="mt-10 flex items-center gap-8 text-xs text-muted-foreground">
-                <div>
-                  <div className="text-2xl font-serif text-foreground">3</div>
-                  <div className="uppercase tracking-wider">Categories</div>
-                </div>
-                <div className="h-8 w-px bg-border" />
-                <div>
-                  <div className="text-2xl font-serif text-foreground">EN · PT</div>
-                  <div className="uppercase tracking-wider">Bilingual</div>
-                </div>
-                <div className="h-8 w-px bg-border" />
-                <div>
-                  <div className="text-2xl font-serif text-foreground">∞</div>
-                  <div className="uppercase tracking-wider">Access</div>
-                </div>
+                <Link
+                  to="/biblioteca"
+                  className="inline-flex items-center gap-2 text-sm text-foreground underline decoration-[var(--rule)] underline-offset-[6px] hover:decoration-gold transition-colors"
+                >
+                  <BookOpen className="h-4 w-4 text-ember" /> {t("hero.cta.secondary")}
+                </Link>
               </div>
             </div>
-            <div className="relative">
-              <div className="absolute -inset-8 bg-gold/10 blur-3xl rounded-full" />
-              <img
-                src={heroImg}
-                alt="Livro premium iluminado"
-                width={1600}
-                height={1024}
-                className="relative rounded-3xl shadow-[var(--shadow-elevated)] border border-border/50"
-              />
+
+            {/* Assinatura visual: estante + fichas de catálogo */}
+            <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-[var(--rule)]">
+              <ShelfMark className="h-40 md:h-48" />
+              <dl className="mt-8 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+                {[
+                  ["01", "Marketing & Negócios", "12 títulos"],
+                  ["02", "Educação & Estudo", "08 títulos"],
+                  ["03", "Desenvolvimento Pessoal", "10 títulos"],
+                ].map(([n, name, meta]) => (
+                  <div key={n} className="flex items-baseline gap-4 py-3">
+                    <dt className="call-number text-ember">{n}</dt>
+                    <dd className="flex-1 text-sm text-foreground">{name}</dd>
+                    <dd className="call-number">{meta}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                Cada título é lido, escolhido e catalogado à mão. Sem subscrições, sem catálogos infinitos.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured — agora antes das categorias */}
+
+      {/* Featured */}
       {featured.length > 0 && (
-        <section className="container mx-auto px-4 py-16">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("featured.title")}</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("featured.subtitle")}</h2>
+        <section className="container mx-auto px-4 py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
+            <div className="flex items-baseline gap-4">
+              <span className="call-number text-ember">§ 01</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("featured.subtitle")}</h2>
             </div>
-            <Link to="/loja" className="hidden md:inline-flex items-center gap-2 text-sm text-gold hover:gap-3 transition-all">
-              View all <ArrowRight className="h-4 w-4" />
+            <Link to="/loja" className="call-number hover:text-gold transition-colors">
+              {t("featured.title")} →
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -137,17 +136,19 @@ function HomePage() {
 
       {/* Próximos lançamentos com countdown */}
       {upcoming.length > 0 && (
-        <section className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-blue-400 mb-3">
-              <Clock className="h-3 w-3" /> Coming soon
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground">On the way to Booklair</h2>
-            <p className="mt-3 text-muted-foreground">Mark your calendar — these ebooks land soon.</p>
+        <section className="container mx-auto px-4 py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
+            <div className="flex items-baseline gap-4">
+              <span className="call-number text-ember">§ 02</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground">Em catalogação</h2>
+            </div>
+            <span className="call-number inline-flex items-center gap-1.5">
+              <Clock className="h-3 w-3" /> próximos lançamentos
+            </span>
           </div>
           {upcoming[0]?.scheduled_at && (
             <div className="flex justify-center mb-10">
-              <Countdown to={upcoming[0].scheduled_at} label={`Next: "${upcoming[0].title}"`} />
+              <Countdown to={upcoming[0].scheduled_at} label={`A seguir: "${upcoming[0].title}"`} />
             </div>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -156,53 +157,74 @@ function HomePage() {
         </section>
       )}
 
-      {/* Categories */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("categories.title")}</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("categories.subtitle")}</h2>
+      {/* Categories — índice, não três cartões genéricos */}
+      <section className="container mx-auto px-4 py-16 md:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4">
+          <div className="flex items-baseline gap-4">
+            <span className="call-number text-ember">§ 03</span>
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("categories.subtitle")}</h2>
+          </div>
+          <span className="call-number">{t("categories.title")}</span>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          {categories.map(({ key, icon: Icon }) => (
+        <div className="divide-y divide-[var(--rule)] border-b border-[var(--rule)]">
+          {categories.map(({ key, icon: Icon }, i) => (
             <Link
               key={key}
               to="/loja"
-              className="group surface-card rounded-2xl p-8 transition-all hover:-translate-y-1 hover:border-gold/40"
+              className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 py-6 md:py-8 transition-colors hover:bg-[color-mix(in_oklab,var(--gold)_5%,transparent)]"
             >
-              <div className="h-12 w-12 rounded-xl bg-gold/10 flex items-center justify-center mb-5 group-hover:bg-gold/20 transition-colors">
-                <Icon className="h-6 w-6 text-gold" />
+              <span className="call-number w-10">{String(i + 1).padStart(2, "0")}</span>
+              <div className="min-w-0">
+                <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-gold transition-colors">
+                  {t(`cat.${key}`)}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground max-w-lg">
+                  Leituras escolhidas para acelerar decisões reais — não teoria de prateleira.
+                </p>
               </div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">{t(`cat.${key}`)}</h3>
-              <p className="text-sm text-muted-foreground">
-                Curated content to accelerate your growth.
-              </p>
-              <p className="mt-5 text-xs uppercase tracking-widest text-gold flex items-center gap-1">
-                Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-              </p>
+              <div className="flex items-center gap-4">
+                <Icon className="hidden sm:block h-5 w-5 text-muted-foreground group-hover:text-ember transition-colors" />
+                <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="surface-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
-          <div className="relative">
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground max-w-2xl mx-auto">
-              Build your <span className="gradient-text-gold">elite</span> library.
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Create your free account and start today. No subscriptions. No fine print.
+      {/* Nota humana + CTA */}
+      <section className="container mx-auto px-4 pb-24">
+        <div className="grid md:grid-cols-12 gap-8 items-start rule-top pt-12">
+          <blockquote className="md:col-span-7">
+            <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">
+              “Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que
+              esperava de uma livraria — não uma subscrição que nunca uso.”
             </p>
-            <Button variant="hero" size="xl" asChild className="mt-8">
+            <footer className="mt-5 flex items-center gap-3">
+              <span className="h-8 w-8 rounded-full bg-[var(--ember)] text-background flex items-center justify-center font-mono text-xs">
+                MC
+              </span>
+              <span className="text-sm text-muted-foreground">
+                Marta C. — leitora, Maputo <span className="call-number ml-2">Cliente desde 2025</span>
+              </span>
+            </footer>
+          </blockquote>
+          <div className="md:col-span-5 md:pl-8 md:border-l md:border-[var(--rule)]">
+            <p className="call-number">Começar</p>
+            <h2 className="mt-3 font-serif text-3xl text-foreground">
+              A tua conta é gratuita. A biblioteca fica contigo.
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Sem subscrições. Sem letras pequenas. Compras uma vez, é teu para sempre.
+            </p>
+            <Button variant="hero" size="lg" asChild className="mt-6">
               <Link to="/auth" search={{ mode: "signup" }}>
-                Get started free <ArrowRight className="h-4 w-4" />
+                Criar conta <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
         </div>
       </section>
+
     </>
   );
 }
