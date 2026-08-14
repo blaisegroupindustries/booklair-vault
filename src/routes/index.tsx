@@ -114,16 +114,16 @@ function HomePage() {
       </section>
 
 
-      {/* Featured — agora antes das categorias */}
+      {/* Featured */}
       {featured.length > 0 && (
-        <section className="container mx-auto px-4 py-16">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("featured.title")}</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("featured.subtitle")}</h2>
+        <section className="container mx-auto px-4 py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
+            <div className="flex items-baseline gap-4">
+              <span className="call-number text-ember">§ 01</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("featured.subtitle")}</h2>
             </div>
-            <Link to="/loja" className="hidden md:inline-flex items-center gap-2 text-sm text-gold hover:gap-3 transition-all">
-              View all <ArrowRight className="h-4 w-4" />
+            <Link to="/loja" className="call-number hover:text-gold transition-colors">
+              {t("featured.title")} →
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -136,17 +136,19 @@ function HomePage() {
 
       {/* Próximos lançamentos com countdown */}
       {upcoming.length > 0 && (
-        <section className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-blue-400 mb-3">
-              <Clock className="h-3 w-3" /> Coming soon
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground">On the way to Booklair</h2>
-            <p className="mt-3 text-muted-foreground">Mark your calendar — these ebooks land soon.</p>
+        <section className="container mx-auto px-4 py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
+            <div className="flex items-baseline gap-4">
+              <span className="call-number text-ember">§ 02</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground">Em catalogação</h2>
+            </div>
+            <span className="call-number inline-flex items-center gap-1.5">
+              <Clock className="h-3 w-3" /> próximos lançamentos
+            </span>
           </div>
           {upcoming[0]?.scheduled_at && (
             <div className="flex justify-center mb-10">
-              <Countdown to={upcoming[0].scheduled_at} label={`Next: "${upcoming[0].title}"`} />
+              <Countdown to={upcoming[0].scheduled_at} label={`A seguir: "${upcoming[0].title}"`} />
             </div>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -155,53 +157,74 @@ function HomePage() {
         </section>
       )}
 
-      {/* Categories */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("categories.title")}</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground">{t("categories.subtitle")}</h2>
+      {/* Categories — índice, não três cartões genéricos */}
+      <section className="container mx-auto px-4 py-16 md:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4">
+          <div className="flex items-baseline gap-4">
+            <span className="call-number text-ember">§ 03</span>
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("categories.subtitle")}</h2>
+          </div>
+          <span className="call-number">{t("categories.title")}</span>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          {categories.map(({ key, icon: Icon }) => (
+        <div className="divide-y divide-[var(--rule)] border-b border-[var(--rule)]">
+          {categories.map(({ key, icon: Icon }, i) => (
             <Link
               key={key}
               to="/loja"
-              className="group surface-card rounded-2xl p-8 transition-all hover:-translate-y-1 hover:border-gold/40"
+              className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 py-6 md:py-8 transition-colors hover:bg-[color-mix(in_oklab,var(--gold)_5%,transparent)]"
             >
-              <div className="h-12 w-12 rounded-xl bg-gold/10 flex items-center justify-center mb-5 group-hover:bg-gold/20 transition-colors">
-                <Icon className="h-6 w-6 text-gold" />
+              <span className="call-number w-10">{String(i + 1).padStart(2, "0")}</span>
+              <div className="min-w-0">
+                <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-gold transition-colors">
+                  {t(`cat.${key}`)}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground max-w-lg">
+                  Leituras escolhidas para acelerar decisões reais — não teoria de prateleira.
+                </p>
               </div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">{t(`cat.${key}`)}</h3>
-              <p className="text-sm text-muted-foreground">
-                Curated content to accelerate your growth.
-              </p>
-              <p className="mt-5 text-xs uppercase tracking-widest text-gold flex items-center gap-1">
-                Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-              </p>
+              <div className="flex items-center gap-4">
+                <Icon className="hidden sm:block h-5 w-5 text-muted-foreground group-hover:text-ember transition-colors" />
+                <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="surface-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
-          <div className="relative">
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground max-w-2xl mx-auto">
-              Build your <span className="gradient-text-gold">elite</span> library.
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Create your free account and start today. No subscriptions. No fine print.
+      {/* Nota humana + CTA */}
+      <section className="container mx-auto px-4 pb-24">
+        <div className="grid md:grid-cols-12 gap-8 items-start rule-top pt-12">
+          <blockquote className="md:col-span-7">
+            <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">
+              “Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que
+              esperava de uma livraria — não uma subscrição que nunca uso.”
             </p>
-            <Button variant="hero" size="xl" asChild className="mt-8">
+            <footer className="mt-5 flex items-center gap-3">
+              <span className="h-8 w-8 rounded-full bg-[var(--ember)] text-background flex items-center justify-center font-mono text-xs">
+                MC
+              </span>
+              <span className="text-sm text-muted-foreground">
+                Marta C. — leitora, Maputo <span className="call-number ml-2">Cliente desde 2025</span>
+              </span>
+            </footer>
+          </blockquote>
+          <div className="md:col-span-5 md:pl-8 md:border-l md:border-[var(--rule)]">
+            <p className="call-number">Começar</p>
+            <h2 className="mt-3 font-serif text-3xl text-foreground">
+              A tua conta é gratuita. A biblioteca fica contigo.
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Sem subscrições. Sem letras pequenas. Compras uma vez, é teu para sempre.
+            </p>
+            <Button variant="hero" size="lg" asChild className="mt-6">
               <Link to="/auth" search={{ mode: "signup" }}>
-                Get started free <ArrowRight className="h-4 w-4" />
+                Criar conta <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
         </div>
       </section>
+
     </>
   );
 }
