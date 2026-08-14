@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[6px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -16,9 +16,9 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        gold: "bg-gold text-gold-foreground font-semibold shadow-lg hover:brightness-110 hover:shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--gold)_50%,transparent)] transition-all",
-        hero: "relative bg-[image:var(--gradient-gold)] text-gold-foreground font-semibold shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--gold)_45%,transparent)] hover:brightness-110 transition-all",
-        goldOutline: "border border-gold/40 text-gold bg-gold/5 hover:bg-gold/10 transition-colors",
+        gold: "bg-gold text-gold-foreground font-medium hover:brightness-[1.08] transition-all",
+        hero: "relative bg-gold text-gold-foreground font-medium tracking-[-0.01em] shadow-[0_1px_0_0_color-mix(in_oklab,white_18%,transparent)_inset] hover:brightness-[1.1] transition-all",
+        goldOutline: "border border-gold/35 text-gold bg-transparent hover:bg-gold/[0.07] transition-colors",
       },
       size: {
         default: "h-10 px-5 py-2",

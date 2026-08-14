@@ -104,7 +104,7 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
     <Link
       to="/ebook/$slug"
       params={{ slug: ebook.slug }}
-      className="group flex flex-col surface-card rounded-2xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]"
+      className="group flex flex-col surface-card rounded-[10px] overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)] hover:border-gold/40"
     >
       <div className="relative aspect-[3/4] bg-muted overflow-hidden">
         <EbookCover ebook={{ ...ebook, cover_type: ebook.cover_type ?? "image" }} rounded="rounded-none" />
@@ -163,7 +163,7 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
       </div>
 
       <div className="p-4 flex-1 flex flex-col">
-        <p className="text-[10px] uppercase tracking-widest text-gold/80 mb-1">
+        <p className="call-number mb-1.5">
           {t(`cat.${ebook.category}`)}
         </p>
         <h3 className="font-serif text-lg leading-tight text-foreground group-hover:text-gold transition-colors line-clamp-2">

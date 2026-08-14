@@ -27,7 +27,7 @@ export function Header() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-[var(--rule)] bg-background/85 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Logo />
 
@@ -38,7 +38,7 @@ export function Header() {
               to={l.to}
               activeProps={{ className: "text-gold" }}
               activeOptions={{ exact: l.to === "/" }}
-              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="px-3 py-2 text-[13px] tracking-tight text-muted-foreground hover:text-foreground transition-colors"
             >
               {l.label}
             </Link>
