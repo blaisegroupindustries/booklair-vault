@@ -39,7 +39,8 @@ export const Route = createRootRoute({
           "Premium ebooks for entrepreneurs and ambitious minds. Marketing, business, education and personal development.",
       },
       { name: "author", content: "Booklair" },
-      { name: "theme-color", content: "#0A0A0A" },
+      { name: "theme-color", content: "#FBFAF7", media: "(prefers-color-scheme: light)" },
+      { name: "theme-color", content: "#181A20", media: "(prefers-color-scheme: dark)" },
       { property: "og:title", content: "Booklair" },
       { property: "og:description", content: "Knowledge that transforms. Curated ebooks for builders worldwide." },
       { property: "og:type", content: "website" },
@@ -56,7 +57,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
       },
     ],
   }),
