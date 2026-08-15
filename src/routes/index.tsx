@@ -4,7 +4,6 @@ import { ArrowRight, BookOpen, GraduationCap, Sparkles, TrendingUp, Clock } from
 import { Button } from "@/components/ui/button";
 import { EbookCard, type EbookCardData } from "@/components/EbookCard";
 import { Countdown } from "@/components/Countdown";
-import { ShelfMark } from "@/components/ShelfMark";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -55,63 +54,74 @@ function HomePage() {
 
   return (
     <>
-      {/* Hero — catálogo editorial, não "título + imagem + 2 botões" */}
-      <section className="paper relative overflow-hidden rule-bottom">
-        <div className="container mx-auto px-4 pt-10 md:pt-16 pb-14 md:pb-20 relative">
-          <div className="flex flex-wrap items-baseline justify-between gap-3 rule-bottom pb-4">
-            <span className="call-number">Booklair · Catálogo N.º {new Date().getFullYear()}</span>
-            <span className="call-number">PT · EN — acesso vitalício</span>
+      {/* Hero — liquid glass */}
+      <section className="aurora relative overflow-hidden rule-bottom">
+        <div className="container mx-auto px-4 pt-12 md:pt-20 pb-16 md:pb-24 relative">
+          <div className="reveal flex flex-wrap items-center justify-between gap-3">
+            <span className="glass-pill px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Booklair · {new Date().getFullYear()}
+            </span>
+            <span className="glass-pill px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              PT · EN — lifetime access
+            </span>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 pt-10 md:pt-14">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-10 pt-12 md:pt-16 items-center">
             <div className="lg:col-span-7">
-              <h1 className="font-serif text-[2.75rem] leading-[0.94] sm:text-6xl lg:text-[5.25rem] text-foreground">
+              <h1 className="reveal reveal-1 font-serif text-[2.75rem] leading-[0.95] sm:text-6xl lg:text-[5.25rem] text-foreground">
                 {t("hero.title").split(" ").slice(0, -2).join(" ")}{" "}
-                <em className="not-italic font-normal text-gold">
+                <em className="not-italic font-normal shimmer-text">
                   {t("hero.title").split(" ").slice(-2).join(" ")}
                 </em>
               </h1>
-              <p className="mt-7 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground">
+              <p className="reveal reveal-2 mt-7 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground">
                 {t("hero.subtitle")}
               </p>
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button variant="hero" size="lg" asChild>
+              <div className="reveal reveal-3 mt-9 flex flex-wrap items-center gap-3">
+                <Button variant="hero" size="lg" asChild className="hover-lift">
                   <Link to="/loja">
                     {t("hero.cta.primary")} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Link
                   to="/biblioteca"
-                  className="inline-flex items-center gap-2 text-sm text-foreground underline decoration-[var(--rule)] underline-offset-[6px] hover:decoration-gold transition-colors"
+                  className="glass-pill inline-flex items-center gap-2 px-5 py-3 text-sm text-foreground hover-lift"
                 >
-                  <BookOpen className="h-4 w-4 text-ember" /> {t("hero.cta.secondary")}
+                  <BookOpen className="h-4 w-4 text-gold" /> {t("hero.cta.secondary")}
                 </Link>
               </div>
             </div>
 
-            {/* Assinatura visual: estante + fichas de catálogo */}
-            <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-[var(--rule)]">
-              <ShelfMark className="h-40 md:h-48" />
-              <dl className="mt-8 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
-                {[
-                  ["01", "Marketing & Negócios", "12 títulos"],
-                  ["02", "Educação & Estudo", "08 títulos"],
-                  ["03", "Desenvolvimento Pessoal", "10 títulos"],
-                ].map(([n, name, meta]) => (
-                  <div key={n} className="flex items-baseline gap-4 py-3">
-                    <dt className="call-number text-ember">{n}</dt>
-                    <dd className="flex-1 text-sm text-foreground">{name}</dd>
-                    <dd className="call-number">{meta}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                Cada título é lido, escolhido e catalogado à mão. Sem subscrições, sem catálogos infinitos.
-              </p>
+            {/* Glass panel */}
+            <div className="lg:col-span-5">
+              <div className="glass-card glass-sheen float-slow reveal reveal-3 p-6 md:p-7">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("categories.title")}
+                </p>
+                <div className="mt-5 space-y-3">
+                  {[
+                    ["Marketing & Business", "12"],
+                    ["Education & Study", "08"],
+                    ["Personal Development", "10"],
+                  ].map(([name, count], i) => (
+                    <div
+                      key={name}
+                      className={`glass-pill flex items-center justify-between gap-4 px-4 py-3 reveal reveal-${i + 3}`}
+                    >
+                      <span className="text-sm text-foreground">{name}</span>
+                      <span className="font-mono text-xs text-gold tabular-nums">{count}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+                  Every title is read, chosen and curated by hand. No subscriptions, no endless catalogues.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
 
       {/* Featured */}
