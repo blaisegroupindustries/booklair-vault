@@ -114,7 +114,7 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
 
         const amountUsd = Number(orderAttrs.total_usd ?? orderAttrs.total ?? 0) / 100;
 
-        const { error } = await supabaseAdmin.from("purchases").upsert(
+        const { error } = await (supabaseAdmin.from("purchases") as any).upsert(
           {
             user_id: userId,
             email,
@@ -128,6 +128,7 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
           },
           { onConflict: "provider,provider_order_id" }
         );
+
 
         if (error) {
           console.error("Erro ao gravar compra no Supabase:", error);
