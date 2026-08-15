@@ -83,7 +83,7 @@ function Mentor10kLayout() {
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   active
                     ? "bg-gold/15 text-gold shadow-[0_4px_20px_-8px_color-mix(in_oklab,var(--gold)_50%,transparent)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-white/[0.03]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)]"
                 }`}
               >
                 <t.icon className="h-4 w-4" /> {t.label}

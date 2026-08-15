@@ -72,14 +72,14 @@ function Chat() {
             <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
               m.role === "user"
                 ? "bg-gold/15 text-foreground border border-gold/20"
-                : "bg-white/[0.04] border border-border/40"
+                : "bg-[color-mix(in_oklab,var(--foreground)_7%,transparent)] border border-border/40"
             }`}>
               {m.content}
             </div>
           </div>
         ))}
         {sending && (
-          <div className="flex justify-start"><div className="rounded-2xl px-4 py-2.5 bg-white/[0.04] border border-border/40"><Loader2 className="h-4 w-4 animate-spin text-gold" /></div></div>
+          <div className="flex justify-start"><div className="rounded-2xl px-4 py-2.5 bg-[color-mix(in_oklab,var(--foreground)_7%,transparent)] border border-border/40"><Loader2 className="h-4 w-4 animate-spin text-gold" /></div></div>
         )}
         <div ref={endRef} />
       </div>

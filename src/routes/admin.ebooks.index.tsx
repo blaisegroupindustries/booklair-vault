@@ -144,7 +144,7 @@ function AdminEbooksPage() {
                       <span className={`px-2 py-0.5 text-[10px] rounded-full ${
                         r.status === "published" ? "bg-emerald-500/15 text-emerald-400" :
                         r.status === "draft" ? "bg-muted text-muted-foreground" :
-                        r.status === "scheduled" ? "bg-blue-500/15 text-blue-400" :
+                        r.status === "scheduled" ? "bg-blue-500/15 text-gold" :
                         "bg-rose-500/15 text-rose-400"
                       }`}>
                         {r.status}
