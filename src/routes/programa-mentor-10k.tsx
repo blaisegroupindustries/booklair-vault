@@ -64,7 +64,7 @@ function Landing() {
         <h2 className="font-serif text-3xl md:text-4xl text-center mb-8">Tudo o que precisas. Nada do que não precisas.</h2>
         <div className="grid md:grid-cols-2 gap-3 max-w-2xl mx-auto">
           {promises.map((p) => (
-            <div key={p} className="flex gap-3 items-start p-3 rounded-xl bg-white/[0.02]">
+            <div key={p} className="flex gap-3 items-start p-3 rounded-xl bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)]">
               <CheckCircle2 className="h-5 w-5 text-gold mt-0.5 shrink-0" />
               <span className="text-sm">{p}</span>
             </div>

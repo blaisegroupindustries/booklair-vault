@@ -112,7 +112,7 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
         {/* Top-right status badge */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
           {isScheduled ? (
-            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-blue-500 text-white inline-flex items-center gap-1">
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-gold text-gold-foreground inline-flex items-center gap-1">
               <Clock className="h-3 w-3" /> Em breve
             </span>
           ) : eff === "free_temp" ? (

@@ -4,14 +4,14 @@
  * drawn like a library index card. No stock photography, no generic 3D.
  */
 const SPINES = [
-  { w: 26, h: 88, label: "BL·001", tone: "gold" },
-  { w: 16, h: 74, label: "PT", tone: "line" },
-  { w: 34, h: 96, label: "BL·014", tone: "ink" },
-  { w: 14, h: 66, label: "EN", tone: "line" },
-  { w: 22, h: 82, label: "BL·027", tone: "ember" },
-  { w: 30, h: 92, label: "BL·033", tone: "gold" },
-  { w: 12, h: 60, label: "·", tone: "line" },
-  { w: 24, h: 78, label: "BL·041", tone: "ink" },
+  { w: 30, h: 88, label: "BL·001", tone: "gold" },
+  { w: 18, h: 74, label: "PT", tone: "line" },
+  { w: 40, h: 100, label: "BL·014", tone: "ink" },
+  { w: 16, h: 66, label: "EN", tone: "line" },
+  { w: 26, h: 82, label: "BL·027", tone: "ember" },
+  { w: 34, h: 94, label: "BL·033", tone: "gold" },
+  { w: 14, h: 60, label: "·", tone: "line" },
+  { w: 28, h: 78, label: "BL·041", tone: "ink" },
 ] as const;
 
 const toneStyle: Record<string, React.CSSProperties> = {
@@ -22,11 +22,12 @@ const toneStyle: Record<string, React.CSSProperties> = {
   },
   ember: { background: "var(--ember)", color: "var(--background)" },
   line: {
-    background: "transparent",
+    background: "var(--surface)",
     color: "var(--muted-foreground)",
-    border: "1px solid var(--rule)",
+    border: "1px solid color-mix(in oklab, var(--foreground) 32%, transparent)",
   },
 };
+
 
 export function ShelfMark({ className = "" }: { className?: string }) {
   return (

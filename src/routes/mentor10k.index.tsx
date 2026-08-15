@@ -53,7 +53,7 @@ function Dashboard() {
         <p className="text-sm text-muted-foreground mb-5">Segue a sequência. Sem atalhos.</p>
         <div className="space-y-2">
           {steps.map((s, i) => (
-            <Link key={s.to} to={s.to} className={`flex items-center gap-4 p-4 rounded-xl transition-all border ${s.done ? "border-gold/30 bg-gold/[0.04]" : "border-border/40 bg-white/[0.02] hover:bg-white/[0.04]"}`}>
+            <Link key={s.to} to={s.to} className={`flex items-center gap-4 p-4 rounded-xl transition-all border ${s.done ? "border-gold/30 bg-gold/[0.04]" : "border-border/40 bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)] hover:bg-[color-mix(in_oklab,var(--foreground)_7%,transparent)]"}`}>
               <div className={`h-9 w-9 rounded-lg flex items-center justify-center ${s.done ? "bg-gold/20 text-gold" : "bg-muted/30 text-muted-foreground"}`}>
                 {s.done ? "✓" : i + 1}
               </div>

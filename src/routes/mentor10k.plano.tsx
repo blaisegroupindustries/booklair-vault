@@ -108,7 +108,7 @@ function Plano() {
         <h3 className="font-serif text-2xl mb-4">Semana a semana</h3>
         <div className="space-y-3">
           {plan.weekly_tasks.map((w) => (
-            <div key={w.week} className="rounded-xl border border-border/40 bg-white/[0.02] p-4">
+            <div key={w.week} className="rounded-xl border border-border/40 bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)] p-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-7 w-7 rounded-md bg-gold/15 text-gold text-xs font-semibold flex items-center justify-center">{w.week}</div>
                 <p className="font-medium">{w.focus}</p>
