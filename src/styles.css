@@ -181,8 +181,21 @@
   }
 
   html {
-    color-scheme: light dark;
+    color-scheme: dark;
   }
+
+  .light {
+    color-scheme: light;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 12% -10%, color-mix(in oklab, var(--gold) 26%, transparent), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 92% 8%, color-mix(in oklab, var(--gold-glow) 20%, transparent), transparent 62%),
+      radial-gradient(ellipse 90% 60% at 50% 108%, color-mix(in oklab, var(--ember) 12%, transparent), transparent 65%);
+    background-attachment: fixed;
+  }
+
 
   body {
     background-color: var(--color-background);
