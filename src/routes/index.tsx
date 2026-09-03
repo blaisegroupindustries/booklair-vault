@@ -176,13 +176,14 @@ function HomePage() {
           </div>
           <span className="call-number">{t("categories.title")}</span>
         </div>
-        <div className="divide-y divide-[var(--rule)] border-b border-[var(--rule)]">
+        <div className="mt-6 grid gap-4">
           {categories.map(({ key, icon: Icon }, i) => (
             <Link
               key={key}
               to="/loja"
-              className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 py-6 md:py-8 transition-colors hover:bg-[color-mix(in_oklab,var(--gold)_5%,transparent)]"
+              className={`group glass-card glass-sheen reveal reveal-${i + 1} grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 px-5 md:px-7 py-6 md:py-7`}
             >
+
               <span className="call-number w-10">{String(i + 1).padStart(2, "0")}</span>
               <div className="min-w-0">
                 <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-gold transition-colors">
