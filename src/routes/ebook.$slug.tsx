@@ -151,14 +151,19 @@ function EbookPage() {
   const handleBuy = () => {
     if (!ebook) return;
     if (ebook.checkout_url) {
-      // Append user email so Lemon Squeezy pre-fills + webhook can attribute
-      const sep = ebook.checkout_url.includes("?") ? "&" : "?";
-      const email = user?.email ? `${sep}checkout[email]=${encodeURIComponent(user.email)}` : "";
-      window.open(ebook.checkout_url + email, "_blank", "noopener,noreferrer");
+      const url = new URL(ebook.checkout_url);
+      if (user?.email) url.searchParams.set("checkout[email]", user.email);
+      // Após pagar, o Lemon Squeezy devolve o cliente à página de confirmação.
+      url.searchParams.set(
+        "checkout[success_url]",
+        `${window.location.origin}/obrigado?produto=ebook&slug=${encodeURIComponent(ebook.slug)}`,
+      );
+      window.open(url.toString(), "_blank", "noopener,noreferrer");
       return;
     }
     toast.info("Checkout ainda não configurado. Abre o painel admin → Ebooks → Preços para colar o link Lemon Squeezy.");
   };
+
 
   if (loading) {
     return (
