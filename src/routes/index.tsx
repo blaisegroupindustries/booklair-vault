@@ -204,8 +204,8 @@ function HomePage() {
 
       {/* Nota humana + CTA */}
       <section className="container mx-auto px-4 pb-24">
-        <div className="grid md:grid-cols-12 gap-8 items-start rule-top pt-12">
-          <blockquote className="md:col-span-7">
+        <div className="grid md:grid-cols-12 gap-6 items-stretch">
+          <blockquote className="md:col-span-7 glass-card reveal p-7 md:p-9">
             <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">
               “Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que
               esperava de uma livraria — não uma subscrição que nunca uso.”
@@ -219,7 +219,8 @@ function HomePage() {
               </span>
             </footer>
           </blockquote>
-          <div className="md:col-span-5 md:pl-8 md:border-l md:border-[var(--rule)]">
+          <div className="md:col-span-5 glass-card glass-sheen reveal reveal-2 p-7 md:p-9">
+
             <p className="call-number">Começar</p>
             <h2 className="mt-3 font-serif text-3xl text-foreground">
               A tua conta é gratuita. A biblioteca fica contigo.
