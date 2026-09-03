@@ -129,7 +129,7 @@ function HomePage() {
         <section className="container mx-auto px-4 py-16 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
             <div className="flex items-baseline gap-4">
-              <span className="call-number text-ember">§ 01</span>
+              <span className="call-number text-gold">§ 01</span>
               <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("featured.subtitle")}</h2>
             </div>
             <Link to="/loja" className="call-number hover:text-gold transition-colors">
@@ -149,7 +149,7 @@ function HomePage() {
         <section className="container mx-auto px-4 py-16 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
             <div className="flex items-baseline gap-4">
-              <span className="call-number text-ember">§ 02</span>
+              <span className="call-number text-gold">§ 02</span>
               <h2 className="font-serif text-3xl md:text-4xl text-foreground">Em catalogação</h2>
             </div>
             <span className="call-number inline-flex items-center gap-1.5">
@@ -171,7 +171,7 @@ function HomePage() {
       <section className="container mx-auto px-4 py-16 md:py-20">
         <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4">
           <div className="flex items-baseline gap-4">
-            <span className="call-number text-ember">§ 03</span>
+            <span className="call-number text-gold">§ 03</span>
             <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("categories.subtitle")}</h2>
           </div>
           <span className="call-number">{t("categories.title")}</span>
