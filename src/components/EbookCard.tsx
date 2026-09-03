@@ -104,10 +104,15 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
     <Link
       to="/ebook/$slug"
       params={{ slug: ebook.slug }}
-      className="group flex flex-col surface-card rounded-[10px] overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)] hover:border-gold/40"
+      className="group flex flex-col glass-card glass-sheen reveal overflow-hidden"
     >
       <div className="relative aspect-[3/4] bg-muted overflow-hidden">
-        <EbookCover ebook={{ ...ebook, cover_type: ebook.cover_type ?? "image" }} rounded="rounded-none" />
+        <EbookCover
+          ebook={{ ...ebook, cover_type: ebook.cover_type ?? "image" }}
+          rounded="rounded-none"
+        />
+        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(160deg,color-mix(in_oklab,var(--gold)_22%,transparent),transparent_60%)]" />
+
 
         {/* Top-right status badge */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
