@@ -14,6 +14,7 @@ import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as ProgramaMentor10kRouteImport } from './routes/programa-mentor-10k'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as Mentor10kRouteImport } from './routes/mentor10k'
 import { Route as LojaRouteImport } from './routes/loja'
 import { Route as BibliotecaRouteImport } from './routes/biblioteca'
@@ -69,6 +70,11 @@ const PrivacidadeRoute = PrivacidadeRouteImport.update({
 const PerfilRoute = PerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Mentor10kRoute = Mentor10kRouteImport.update({
@@ -235,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
   '/mentor10k': typeof Mentor10kRouteWithChildren
+  '/obrigado': typeof ObrigadoRoute
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/programa-mentor-10k': typeof ProgramaMentor10kRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
+  '/obrigado': typeof ObrigadoRoute
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/programa-mentor-10k': typeof ProgramaMentor10kRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/biblioteca': typeof BibliotecaRoute
   '/loja': typeof LojaRoute
   '/mentor10k': typeof Mentor10kRouteWithChildren
+  '/obrigado': typeof ObrigadoRoute
   '/perfil': typeof PerfilRoute
   '/privacidade': typeof PrivacidadeRoute
   '/programa-mentor-10k': typeof ProgramaMentor10kRoute
@@ -351,6 +360,7 @@ export interface FileRouteTypes {
     | '/biblioteca'
     | '/loja'
     | '/mentor10k'
+    | '/obrigado'
     | '/perfil'
     | '/privacidade'
     | '/programa-mentor-10k'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/biblioteca'
     | '/loja'
+    | '/obrigado'
     | '/perfil'
     | '/privacidade'
     | '/programa-mentor-10k'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/biblioteca'
     | '/loja'
     | '/mentor10k'
+    | '/obrigado'
     | '/perfil'
     | '/privacidade'
     | '/programa-mentor-10k'
@@ -465,6 +477,7 @@ export interface RootRouteChildren {
   BibliotecaRoute: typeof BibliotecaRoute
   LojaRoute: typeof LojaRoute
   Mentor10kRoute: typeof Mentor10kRouteWithChildren
+  ObrigadoRoute: typeof ObrigadoRoute
   PerfilRoute: typeof PerfilRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ProgramaMentor10kRoute: typeof ProgramaMentor10kRoute
@@ -509,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/perfil'
       fullPath: '/perfil'
       preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentor10k': {
@@ -802,6 +822,7 @@ const rootRouteChildren: RootRouteChildren = {
   BibliotecaRoute: BibliotecaRoute,
   LojaRoute: LojaRoute,
   Mentor10kRoute: Mentor10kRouteWithChildren,
+  ObrigadoRoute: ObrigadoRoute,
   PerfilRoute: PerfilRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ProgramaMentor10kRoute: ProgramaMentor10kRoute,

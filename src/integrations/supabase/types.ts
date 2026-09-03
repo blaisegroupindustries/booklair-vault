@@ -1186,6 +1186,8 @@ export type Database = {
           footer_text: string | null
           id: boolean
           logo_url: string | null
+          mentor10k_checkout_url: string | null
+          mentor10k_price_usd: number | null
           site_name: string
           social_facebook: string | null
           social_instagram: string | null
@@ -1205,6 +1207,8 @@ export type Database = {
           footer_text?: string | null
           id?: boolean
           logo_url?: string | null
+          mentor10k_checkout_url?: string | null
+          mentor10k_price_usd?: number | null
           site_name?: string
           social_facebook?: string | null
           social_instagram?: string | null
@@ -1224,6 +1228,8 @@ export type Database = {
           footer_text?: string | null
           id?: boolean
           logo_url?: string | null
+          mentor10k_checkout_url?: string | null
+          mentor10k_price_usd?: number | null
           site_name?: string
           social_facebook?: string | null
           social_instagram?: string | null

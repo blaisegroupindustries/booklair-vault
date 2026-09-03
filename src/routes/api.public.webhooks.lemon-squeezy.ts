@@ -72,11 +72,31 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
           console.error("Erro ao procurar utilizador:", err);
         }
 
+        // Produto Mentor 10K → liberta acesso ao programa, não a um ebook.
+        const productNameRaw: string = (
+          orderAttrs.first_order_item?.product_name ??
+          orderAttrs.first_order_item?.variant_name ??
+          ""
+        ).toString();
+
+        if (/mentor\s*10k/i.test(productNameRaw) || customData.product === "mentor10k") {
+          const { error: mErr } = await (supabaseAdmin.from("mentor10k_access") as any).insert({
+            user_id: userId,
+            email,
+            source: "lemon_squeezy",
+            external_order_id: orderId,
+            notes: productNameRaw,
+          });
+          if (mErr) console.error("Erro ao libertar Mentor 10K:", mErr);
+          return new Response("ok", { status: 200 });
+        }
+
         // Determina qual(is) ebook(s) libertar.
         // Se o checkout não enviou custom_data.ebook_id (o mais provável, já
         // que o Lemon Squeezy não expõe isso na UI atual do produto),
         // fazemos fallback: usamos o nome do produto do pedido para
         // encontrar o ebook correspondente pela coluna `slug`/`title`.
+
         let ebookId: string | null = null;
         let ebookSlug: string | null = null;
 
