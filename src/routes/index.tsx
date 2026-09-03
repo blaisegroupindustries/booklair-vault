@@ -129,7 +129,7 @@ function HomePage() {
         <section className="container mx-auto px-4 py-16 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
             <div className="flex items-baseline gap-4">
-              <span className="call-number text-ember">§ 01</span>
+              <span className="call-number text-gold">§ 01</span>
               <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("featured.subtitle")}</h2>
             </div>
             <Link to="/loja" className="call-number hover:text-gold transition-colors">
@@ -149,7 +149,7 @@ function HomePage() {
         <section className="container mx-auto px-4 py-16 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
             <div className="flex items-baseline gap-4">
-              <span className="call-number text-ember">§ 02</span>
+              <span className="call-number text-gold">§ 02</span>
               <h2 className="font-serif text-3xl md:text-4xl text-foreground">Em catalogação</h2>
             </div>
             <span className="call-number inline-flex items-center gap-1.5">
@@ -171,18 +171,19 @@ function HomePage() {
       <section className="container mx-auto px-4 py-16 md:py-20">
         <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4">
           <div className="flex items-baseline gap-4">
-            <span className="call-number text-ember">§ 03</span>
+            <span className="call-number text-gold">§ 03</span>
             <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("categories.subtitle")}</h2>
           </div>
           <span className="call-number">{t("categories.title")}</span>
         </div>
-        <div className="divide-y divide-[var(--rule)] border-b border-[var(--rule)]">
+        <div className="mt-6 grid gap-4">
           {categories.map(({ key, icon: Icon }, i) => (
             <Link
               key={key}
               to="/loja"
-              className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 py-6 md:py-8 transition-colors hover:bg-[color-mix(in_oklab,var(--gold)_5%,transparent)]"
+              className={`group glass-card glass-sheen reveal reveal-${i + 1} grid grid-cols-[auto_1fr_auto] items-center gap-5 md:gap-8 px-5 md:px-7 py-6 md:py-7`}
             >
+
               <span className="call-number w-10">{String(i + 1).padStart(2, "0")}</span>
               <div className="min-w-0">
                 <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-gold transition-colors">
@@ -203,8 +204,8 @@ function HomePage() {
 
       {/* Nota humana + CTA */}
       <section className="container mx-auto px-4 pb-24">
-        <div className="grid md:grid-cols-12 gap-8 items-start rule-top pt-12">
-          <blockquote className="md:col-span-7">
+        <div className="grid md:grid-cols-12 gap-6 items-stretch">
+          <blockquote className="md:col-span-7 glass-card reveal p-7 md:p-9">
             <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">
               “Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que
               esperava de uma livraria — não uma subscrição que nunca uso.”
@@ -218,7 +219,8 @@ function HomePage() {
               </span>
             </footer>
           </blockquote>
-          <div className="md:col-span-5 md:pl-8 md:border-l md:border-[var(--rule)]">
+          <div className="md:col-span-5 glass-card glass-sheen reveal reveal-2 p-7 md:p-9">
+
             <p className="call-number">Começar</p>
             <h2 className="mt-3 font-serif text-3xl text-foreground">
               A tua conta é gratuita. A biblioteca fica contigo.
