@@ -27,7 +27,7 @@ export function Header() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[var(--rule)] bg-background/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-[var(--rule)] bg-[color-mix(in_oklab,var(--background)_62%,transparent)] backdrop-blur-2xl backdrop-saturate-150">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Logo />
 
