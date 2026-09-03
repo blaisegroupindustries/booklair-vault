@@ -38,7 +38,7 @@ export function Header() {
               to={l.to}
               activeProps={{ className: "text-gold" }}
               activeOptions={{ exact: l.to === "/" }}
-              className="px-3 py-2 text-[13px] tracking-tight text-muted-foreground hover:text-foreground transition-colors"
+              className="relative px-3 py-2 text-[13px] tracking-tight text-muted-foreground hover:text-foreground transition-colors after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-px after:origin-right after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100"
             >
               {l.label}
             </Link>
