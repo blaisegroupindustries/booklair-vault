@@ -58,7 +58,13 @@ function SettingsPage() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const { error } = await supabase.from("site_settings").update(s).eq("id", true);
+    const payload = {
+      ...s,
+      mentor10k_price_usd: s.mentor10k_price_usd ? Number(s.mentor10k_price_usd) : null,
+      mentor10k_checkout_url: s.mentor10k_checkout_url || null,
+    };
+    const { error } = await supabase.from("site_settings").update(payload as never).eq("id", true);
+
     setSaving(false);
     if (error) toast.error(error.message);
     else toast.success("Configurações guardadas");
