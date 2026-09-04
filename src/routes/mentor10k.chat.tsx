@@ -15,12 +15,15 @@ export const Route = createFileRoute("/mentor10k/chat")({
 
 interface Msg { role: "user" | "assistant"; content: string; }
 
+const FREE_MESSAGE_LIMIT = 5;
+
 function Chat() {
   const { user } = useAuth();
   const call = useServerFn(askMentor);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [hasAccess, setHasAccess] = useState(true);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,12 +35,18 @@ function Chat() {
       .order("created_at", { ascending: true })
       .limit(50)
       .then(({ data }) => setMessages((data ?? []) as Msg[]));
+    void supabase
+      .rpc("has_mentor10k_access", { _user_id: user.id })
+      .then(({ data }) => setHasAccess(!!data));
   }, [user]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
+  const usedFree = messages.filter((m) => m.role === "user").length;
+  const limitReached = !hasAccess && usedFree >= FREE_MESSAGE_LIMIT;
+
   const send = async () => {
-    if (!input.trim() || sending) return;
+    if (!input.trim() || sending || limitReached) return;
     const msg = input.trim();
     setInput("");
     setMessages((m) => [...m, { role: "user", content: msg }]);
@@ -51,6 +60,7 @@ function Chat() {
       setSending(false);
     }
   };
+
 
   return (
     <div className="glass-card rounded-2xl flex flex-col h-[70vh]">
