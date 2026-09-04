@@ -94,6 +94,19 @@ function SettingsPage() {
       </section>
 
       <section className="surface-card rounded-2xl p-6 space-y-4">
+        <h3 className="font-serif text-lg">Mentor 10K</h3>
+        <p className="text-xs text-muted-foreground">Link de pagamento usado por todos os botões “Adquirir o Mentor 10K”.</p>
+        <Field label="Link de checkout (Lemon Squeezy)">
+          <Input value={s.mentor10k_checkout_url} onChange={(e) => upd("mentor10k_checkout_url", e.target.value)} placeholder="https://booklair.lemonsqueezy.com/checkout/buy/…" />
+        </Field>
+        <Field label="Preço (USD)">
+          <Input type="number" step="0.01" value={s.mentor10k_price_usd} onChange={(e) => upd("mentor10k_price_usd", e.target.value)} placeholder="97" />
+        </Field>
+      </section>
+
+
+
+      <section className="surface-card rounded-2xl p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-serif text-lg">Banner promocional global</h3>
           <Switch checked={s.banner_enabled} onCheckedChange={(v) => upd("banner_enabled", v)} />
