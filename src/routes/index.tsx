@@ -122,6 +122,47 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Banner Mentor 10K */}
+      <section className="container mx-auto px-4 py-10 md:py-14">
+        <Link
+          to="/programa-mentor-10k"
+          className="group relative block overflow-hidden rounded-3xl glass-card glass-sheen hover-lift reveal p-8 md:p-12"
+        >
+          <span className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-[color-mix(in_oklab,var(--gold)_35%,transparent)] blur-3xl opacity-60 float-slow" />
+          <span className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-[color-mix(in_oklab,var(--primary)_40%,transparent)] blur-3xl opacity-50 float-slow" />
+
+          <div className="relative grid md:grid-cols-[1fr_auto] items-center gap-8">
+            <div>
+              <span className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-gold">
+                <Sparkles className="h-3.5 w-3.5" /> Programa exclusivo
+              </span>
+              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[0.95]">
+                <span className="shimmer-text">Mentor 10K</span>
+              </h2>
+              <p className="mt-4 max-w-xl text-[1.0625rem] leading-relaxed text-muted-foreground">
+                Diagnóstico inteligente, plano de 90 dias construído para ti e um mentor de IA disponível a toda a hora —
+                até aos teus primeiros 10.000€/mês.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {["Diagnóstico em 5 min", "Plano de 12 semanas", "Mentor IA 24/7", "Check-ins semanais"].map((chip, i) => (
+                  <span key={chip} className={`glass-pill px-3.5 py-1.5 text-xs text-foreground reveal reveal-${i + 1}`}>
+                    {chip}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-5 text-xs text-muted-foreground">
+                Começa grátis: cria o diagnóstico e o teu plano antes de decidires.
+              </p>
+            </div>
+
+            <div className="flex md:flex-col gap-3 md:items-end">
+              <Button variant="hero" size="lg" className="pointer-events-none">
+                Ver o programa <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </div>
+          </div>
+        </Link>
+      </section>
 
 
       {/* Featured */}
