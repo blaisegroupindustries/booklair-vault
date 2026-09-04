@@ -28,6 +28,8 @@ interface Settings {
   social_x: string;
   social_linkedin: string;
   social_whatsapp: string;
+  mentor10k_checkout_url: string;
+  mentor10k_price_usd: string;
 }
 
 const EMPTY: Settings = {
@@ -35,7 +37,9 @@ const EMPTY: Settings = {
   banner_enabled: false, banner_text: "", banner_link: "",
   social_instagram: "", social_facebook: "", social_tiktok: "", social_youtube: "",
   social_x: "", social_linkedin: "", social_whatsapp: "",
+  mentor10k_checkout_url: "", mentor10k_price_usd: "",
 };
+
 
 function SettingsPage() {
   const [s, setS] = useState<Settings>(EMPTY);
