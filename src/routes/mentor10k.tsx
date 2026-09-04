@@ -4,6 +4,8 @@ import { Sparkles, Target, ClipboardList, Activity, MessageSquare, History, Lock
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+
 
 export const Route = createFileRoute("/mentor10k")({
   head: () => ({ meta: [{ title: "Mentor 10K — Booklair" }] }),
