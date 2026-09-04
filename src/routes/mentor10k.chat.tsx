@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { askMentor } from "@/lib/mentor10k.functions";
 import { toast } from "sonner";
+import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+
 
 export const Route = createFileRoute("/mentor10k/chat")({
   component: Chat,
