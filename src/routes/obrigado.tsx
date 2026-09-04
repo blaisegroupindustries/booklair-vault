@@ -47,11 +47,12 @@ function ThankYou() {
           const { data } = await supabase
             .from("purchases")
             .select("id")
-            .eq("email", (user.email ?? "").toLowerCase())
+            .eq("user_id", user.id)
             .limit(1)
             .maybeSingle();
           if (data) { setReady(true); return; }
         }
+
         setTries((t) => t + 1);
       })();
     }, tries === 0 ? 500 : 2500);

@@ -4,6 +4,8 @@ import { Sparkles, Target, ClipboardList, Activity, MessageSquare, History, Lock
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+
 
 export const Route = createFileRoute("/mentor10k")({
   head: () => ({ meta: [{ title: "Mentor 10K — Booklair" }] }),
@@ -31,37 +33,17 @@ function Mentor10kLayout() {
     return <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">A carregar…</div>;
   }
 
-  if (!hasAccess) {
-    return (
-      <div className="container mx-auto px-4 py-20 max-w-2xl text-center">
-        <div className="glass-card rounded-3xl p-10">
-          <div className="h-16 w-16 mx-auto mb-6 rounded-2xl bg-gold/15 flex items-center justify-center">
-            <Lock className="h-8 w-8 text-gold" />
-          </div>
-          <h1 className="font-serif text-4xl mb-3">Mentor 10K</h1>
-          <p className="text-muted-foreground mb-8">
-            Acesso exclusivo. Adquire o programa Mentor 10K para desbloqueares o teu plano personalizado, check-ins semanais e mentoria com IA.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Button variant="gold" size="lg" asChild>
-              <Link to="/programa-mentor-10k">Saber mais</Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link to="/loja">Ver loja</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Áreas gratuitas: diagnóstico, plano e primeiras conversas com o mentor.
+  const freePaths = ["/mentor10k", "/mentor10k/diagnostico", "/mentor10k/plano", "/mentor10k/chat"];
+  const locked = !hasAccess && !freePaths.includes(pathname);
 
-  const tabs: Array<{ to: string; label: string; icon: typeof Sparkles; exact?: boolean }> = [
+  const tabs: Array<{ to: string; label: string; icon: typeof Sparkles; exact?: boolean; pro?: boolean }> = [
     { to: "/mentor10k", label: "Dashboard", icon: Sparkles, exact: true },
     { to: "/mentor10k/diagnostico", label: "Diagnóstico", icon: Target },
     { to: "/mentor10k/plano", label: "Plano", icon: ClipboardList },
-    { to: "/mentor10k/checkin", label: "Check-in", icon: Activity },
     { to: "/mentor10k/chat", label: "Mentor IA", icon: MessageSquare },
-    { to: "/mentor10k/historico", label: "Histórico", icon: History },
+    { to: "/mentor10k/checkin", label: "Check-in", icon: Activity, pro: true },
+    { to: "/mentor10k/historico", label: "Histórico", icon: History, pro: true },
   ];
 
   return (
@@ -71,6 +53,18 @@ function Mentor10kLayout() {
         <h1 className="font-serif text-4xl md:text-5xl gradient-text-gold">Mentor 10K</h1>
         <p className="text-muted-foreground mt-2">O teu caminho personalizado até aos primeiros 10.000€/mês.</p>
       </div>
+
+      {!hasAccess && (
+        <div className="glass-card glass-sheen rounded-2xl p-5 mb-6 flex flex-wrap items-center gap-4">
+          <div className="flex-1 min-w-[240px]">
+            <p className="font-medium">Estás na versão de experiência</p>
+            <p className="text-sm text-muted-foreground">
+              Faz o diagnóstico, cria o teu plano e conversa com o mentor. Check-ins, histórico e mentoria ilimitada exigem o acesso completo.
+            </p>
+          </div>
+          <Mentor10kBuyButton size="lg" label="Desbloquear tudo" />
+        </div>
+      )}
 
       <div className="glass-card rounded-2xl p-2 mb-8 overflow-x-auto">
         <nav className="flex gap-1 min-w-max">
@@ -87,13 +81,32 @@ function Mentor10kLayout() {
                 }`}
               >
                 <t.icon className="h-4 w-4" /> {t.label}
+                {t.pro && !hasAccess && <Lock className="h-3 w-3 opacity-60" />}
               </Link>
             );
           })}
         </nav>
       </div>
 
-      <Outlet />
+      {locked ? (
+        <div className="glass-card rounded-3xl p-10 text-center max-w-2xl mx-auto">
+          <div className="h-16 w-16 mx-auto mb-6 rounded-2xl bg-gold/15 flex items-center justify-center">
+            <Lock className="h-8 w-8 text-gold" />
+          </div>
+          <h2 className="font-serif text-3xl mb-3">Esta área é do acesso completo</h2>
+          <p className="text-muted-foreground mb-8">
+            Já podes usar o diagnóstico, o plano e o mentor. Os check-ins semanais e o histórico de progresso fazem parte do programa completo.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Mentor10kBuyButton size="lg" />
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/programa-mentor-10k">Saber mais</Link>
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <Outlet />
+      )}
     </div>
   );
 }

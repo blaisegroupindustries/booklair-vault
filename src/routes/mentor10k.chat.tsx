@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { askMentor } from "@/lib/mentor10k.functions";
 import { toast } from "sonner";
+import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+
 
 export const Route = createFileRoute("/mentor10k/chat")({
   component: Chat,
@@ -15,12 +17,15 @@ export const Route = createFileRoute("/mentor10k/chat")({
 
 interface Msg { role: "user" | "assistant"; content: string; }
 
+const FREE_MESSAGE_LIMIT = 5;
+
 function Chat() {
   const { user } = useAuth();
   const call = useServerFn(askMentor);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [hasAccess, setHasAccess] = useState(true);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,12 +37,18 @@ function Chat() {
       .order("created_at", { ascending: true })
       .limit(50)
       .then(({ data }) => setMessages((data ?? []) as Msg[]));
+    void supabase
+      .rpc("has_mentor10k_access", { _user_id: user.id })
+      .then(({ data }) => setHasAccess(!!data));
   }, [user]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
+  const usedFree = messages.filter((m) => m.role === "user").length;
+  const limitReached = !hasAccess && usedFree >= FREE_MESSAGE_LIMIT;
+
   const send = async () => {
-    if (!input.trim() || sending) return;
+    if (!input.trim() || sending || limitReached) return;
     const msg = input.trim();
     setInput("");
     setMessages((m) => [...m, { role: "user", content: msg }]);
@@ -51,6 +62,7 @@ function Chat() {
       setSending(false);
     }
   };
+
 
   return (
     <div className="glass-card rounded-2xl flex flex-col h-[70vh]">
@@ -84,19 +96,36 @@ function Chat() {
         <div ref={endRef} />
       </div>
 
-      <div className="p-3 border-t border-border/40 flex gap-2">
-        <Textarea
-          rows={2}
-          placeholder="Escreve a tua pergunta…"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(); } }}
-          className="resize-none"
-        />
-        <Button variant="gold" size="icon" disabled={sending || !input.trim()} onClick={() => void send()}>
-          <Send className="h-4 w-4" />
-        </Button>
-      </div>
+      {limitReached ? (
+        <div className="p-5 border-t border-border/40 text-center space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Chegaste ao limite das {FREE_MESSAGE_LIMIT} mensagens de experiência. Desbloqueia o programa para mentoria ilimitada, check-ins e histórico.
+          </p>
+          <Mentor10kBuyButton size="lg" label="Desbloquear o Mentor 10K" />
+        </div>
+      ) : (
+        <div className="p-3 border-t border-border/40 flex flex-col gap-2">
+          {!hasAccess && (
+            <p className="text-[11px] text-muted-foreground">
+              Experiência gratuita — {FREE_MESSAGE_LIMIT - usedFree} mensagens restantes.
+            </p>
+          )}
+          <div className="flex gap-2">
+            <Textarea
+              rows={2}
+              placeholder="Escreve a tua pergunta…"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(); } }}
+              className="resize-none"
+            />
+            <Button variant="gold" size="icon" disabled={sending || !input.trim()} onClick={() => void send()}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

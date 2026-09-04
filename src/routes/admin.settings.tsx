@@ -28,6 +28,8 @@ interface Settings {
   social_x: string;
   social_linkedin: string;
   social_whatsapp: string;
+  mentor10k_checkout_url: string;
+  mentor10k_price_usd: string;
 }
 
 const EMPTY: Settings = {
@@ -35,7 +37,9 @@ const EMPTY: Settings = {
   banner_enabled: false, banner_text: "", banner_link: "",
   social_instagram: "", social_facebook: "", social_tiktok: "", social_youtube: "",
   social_x: "", social_linkedin: "", social_whatsapp: "",
+  mentor10k_checkout_url: "", mentor10k_price_usd: "",
 };
+
 
 function SettingsPage() {
   const [s, setS] = useState<Settings>(EMPTY);
@@ -54,7 +58,13 @@ function SettingsPage() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const { error } = await supabase.from("site_settings").update(s).eq("id", true);
+    const payload = {
+      ...s,
+      mentor10k_price_usd: s.mentor10k_price_usd ? Number(s.mentor10k_price_usd) : null,
+      mentor10k_checkout_url: s.mentor10k_checkout_url || null,
+    };
+    const { error } = await supabase.from("site_settings").update(payload as never).eq("id", true);
+
     setSaving(false);
     if (error) toast.error(error.message);
     else toast.success("Configurações guardadas");
@@ -82,6 +92,19 @@ function SettingsPage() {
         <Field label="URL do logo"><Input value={s.logo_url} onChange={(e) => upd("logo_url", e.target.value)} placeholder="https://…" /></Field>
         <Field label="Texto do rodapé"><Textarea rows={2} value={s.footer_text} onChange={(e) => upd("footer_text", e.target.value)} /></Field>
       </section>
+
+      <section className="surface-card rounded-2xl p-6 space-y-4">
+        <h3 className="font-serif text-lg">Mentor 10K</h3>
+        <p className="text-xs text-muted-foreground">Link de pagamento usado por todos os botões “Adquirir o Mentor 10K”.</p>
+        <Field label="Link de checkout (Lemon Squeezy)">
+          <Input value={s.mentor10k_checkout_url} onChange={(e) => upd("mentor10k_checkout_url", e.target.value)} placeholder="https://booklair.lemonsqueezy.com/checkout/buy/…" />
+        </Field>
+        <Field label="Preço (USD)">
+          <Input type="number" step="0.01" value={s.mentor10k_price_usd} onChange={(e) => upd("mentor10k_price_usd", e.target.value)} placeholder="97" />
+        </Field>
+      </section>
+
+
 
       <section className="surface-card rounded-2xl p-6 space-y-4">
         <div className="flex items-center justify-between">

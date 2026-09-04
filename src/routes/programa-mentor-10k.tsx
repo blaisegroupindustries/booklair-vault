@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, Target, ClipboardList, MessageSquare, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+
 
 export const Route = createFileRoute("/programa-mentor-10k")({
   head: () => ({
@@ -38,13 +40,15 @@ function Landing() {
           O caminho prático e personalizado até aos teus primeiros <strong className="text-foreground">10.000€/mês</strong>. Diagnóstico, plano de 12 semanas e mentor IA — sempre disponível.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <Button variant="hero" size="xl" asChild>
-            <Link to="/loja">Adquirir agora</Link>
-          </Button>
+          <Mentor10kBuyButton />
           <Button variant="goldOutline" size="xl" asChild>
-            <Link to="/mentor10k">Já tenho acesso</Link>
+            <Link to="/mentor10k">Experimentar / já tenho acesso</Link>
           </Button>
         </div>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Podes fazer o diagnóstico e criar o teu plano gratuitamente. O acesso completo desbloqueia check-ins, histórico e mentoria ilimitada.
+        </p>
+
       </section>
 
       <section className="grid md:grid-cols-2 gap-5 mb-16">
@@ -75,10 +79,9 @@ function Landing() {
       <section className="text-center">
         <h2 className="font-serif text-3xl md:text-5xl mb-4">Pronto para começar?</h2>
         <p className="text-muted-foreground mb-6">O primeiro check-in pode acontecer ainda esta semana.</p>
-        <Button variant="hero" size="xl" asChild>
-          <Link to="/loja">Quero o Mentor 10K</Link>
-        </Button>
+        <Mentor10kBuyButton label="Quero o Mentor 10K" />
       </section>
+
     </div>
   );
 }
