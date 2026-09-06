@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
