@@ -55,12 +55,13 @@ export async function callMentorAi(userPrompt: string, jsonOnly = false) {
         if (res.status === 429) {
           throw new Error("O Mentor está com muita procura. Tenta novamente dentro de alguns segundos.");
         }
-        if (res.status === 400 && errText.includes("API key")) {
-          throw new Error("A chave do Mentor IA é inválida. Contacta o suporte.");
+        if (res.status === 401 || res.status === 403 || (res.status === 400 && errText.includes("API key"))) {
+          throw new Error("A chave do Mentor IA foi recusada. Verifica a chave nas definições do projeto.");
         }
         // 404 (modelo indisponível) ou 5xx → tenta o próximo modelo
         continue;
       }
+
 
       const json = (await res.json()) as GeminiResponse;
       const text = (json.candidates?.[0]?.content?.parts ?? [])
