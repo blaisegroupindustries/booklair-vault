@@ -82,7 +82,9 @@ export async function callMentorAi(userPrompt: string, jsonOnly = false) {
     }
   }
 
-  throw new Error("Não foi possível contactar o Mentor IA. Tenta novamente.");
+  console.error("[Mentor10K Gemini] falha final:", lastError);
+  throw new Error(`Não foi possível contactar o Mentor IA (${lastError.slice(0, 120)}). Tenta novamente.`);
+
 }
 
 export function parseMentorJson(text: string) {
