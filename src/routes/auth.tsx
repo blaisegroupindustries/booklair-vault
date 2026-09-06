@@ -32,6 +32,15 @@ const credSchema = z.object({
   fullName: z.string().trim().min(1).max(100).optional(),
 });
 
+const REDIRECT_KEY = "booklair:auth-redirect";
+
+/** Apenas caminhos internos: evita redireccionamentos para domínios externos. */
+function safePath(path: string | undefined | null): string {
+  if (!path) return "/perfil";
+  if (!path.startsWith("/") || path.startsWith("//")) return "/perfil";
+  return path;
+}
+
 function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
@@ -42,9 +51,22 @@ function AuthPage() {
   const [fullName, setFullName] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  if (user) {
-    navigate({ to: search.redirect ?? "/perfil" });
-  }
+  const target = safePath(search.redirect);
+
+  // Depois do regresso do Google, a sessão só existe no cliente: espera por ela.
+  useEffect(() => {
+    if (!user) return;
+    let dest = target;
+    if (typeof window !== "undefined") {
+      const stored = window.sessionStorage.getItem(REDIRECT_KEY);
+      if (stored) {
+        window.sessionStorage.removeItem(REDIRECT_KEY);
+        if (!search.redirect) dest = safePath(stored);
+      }
+    }
+    void navigate({ to: dest, replace: true });
+  }, [user, target, search.redirect, navigate]);
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
