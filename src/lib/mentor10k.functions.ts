@@ -13,8 +13,18 @@ export const generateMentorPlan = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
+    // Versão de experiência: 1 plano gratuito por utilizador.
     const { data: hasAccess } = await supabase.rpc("has_mentor10k_access", { _user_id: userId });
-    if (!hasAccess) throw new Error("Sem acesso ao Mentor 10K");
+    if (!hasAccess) {
+      const { count } = await supabase
+        .from("mentor10k_plans")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId);
+      if ((count ?? 0) >= 1) {
+        throw new Error("Já usaste o teu plano gratuito. Adquire o Mentor 10K para planos ilimitados.");
+      }
+    }
+
 
     const { data: diag, error: diagErr } = await supabase
       .from("mentor10k_diagnostics")
