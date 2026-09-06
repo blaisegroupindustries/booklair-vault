@@ -20,8 +20,12 @@ interface GeminiResponse {
 export async function callMentorAi(userPrompt: string, jsonOnly = false) {
   const apiKey = process.env["GEMINI_API_KEY"];
   if (!apiKey) {
-    throw new Error("O Mentor IA não está configurado. Tenta novamente dentro de instantes.");
+    console.error("[Mentor10K] GEMINI_API_KEY em falta neste ambiente");
+    throw new Error(
+      "O Mentor IA ainda não está ativo nesta versão do site. Se acabaste de publicar, tenta novamente dentro de alguns minutos.",
+    );
   }
+
 
   const body = {
     systemInstruction: { parts: [{ text: MENTOR_SYSTEM_PROMPT }] },
