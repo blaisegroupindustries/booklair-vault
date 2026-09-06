@@ -154,7 +154,17 @@ export const askMentor = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { data: hasAccess } = await supabase.rpc("has_mentor10k_access", { _user_id: userId });
-    if (!hasAccess) throw new Error("Sem acesso ao Mentor 10K");
+    if (!hasAccess) {
+      const { count } = await supabase
+        .from("mentor10k_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .eq("role", "user");
+      if ((count ?? 0) >= 5) {
+        throw new Error("Chegaste ao limite de 5 mensagens gratuitas. Adquire o Mentor 10K para continuar.");
+      }
+    }
+
 
     const { data: recent } = await supabase
       .from("mentor10k_messages")
