@@ -50,9 +50,14 @@ function Plano() {
   useEffect(() => {
     if (!generate || !user || generating) return;
     setGenerating(true);
+    setGenError(null);
     callGenerate({ data: { diagnosticId: generate } })
       .then(() => { toast.success("Plano gerado!"); void load(); })
-      .catch((e) => toast.error(e?.message ?? "Erro ao gerar plano"))
+      .catch((e) => {
+        const msg = e?.message ?? "Erro ao gerar plano";
+        setGenError(msg);
+        toast.error(msg);
+      })
       .finally(() => setGenerating(false));
   }, [generate, user]);
 
@@ -69,12 +74,15 @@ function Plano() {
     return (
       <div className="glass-card rounded-2xl p-12 text-center">
         <ClipboardList className="h-12 w-12 text-muted-foreground/40 mx-auto mb-4" />
-        <h2 className="font-serif text-2xl mb-2">Ainda sem plano</h2>
-        <p className="text-muted-foreground mb-6">Começa pelo diagnóstico — geramos um plano de 12 semanas à tua medida.</p>
+        <h2 className="font-serif text-2xl mb-2">{genError ? "Não deu para gerar o plano" : "Ainda sem plano"}</h2>
+        <p className="text-muted-foreground mb-6">
+          {genError ?? "Começa pelo diagnóstico — geramos um plano de 12 semanas à tua medida."}
+        </p>
         <Button variant="gold" asChild><Link to="/mentor10k/diagnostico">Fazer diagnóstico</Link></Button>
       </div>
     );
   }
+
 
   return (
     <div className="space-y-6">
