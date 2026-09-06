@@ -110,19 +110,24 @@ function AuthPage() {
   const handleGoogle = async () => {
     setSubmitting(true);
     try {
+      // Guarda o destino pretendido e regressa sempre à página pública /auth.
+      window.sessionStorage.setItem(REDIRECT_KEY, target);
+
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + (search.redirect ?? "/perfil"),
+        redirect_uri: `${window.location.origin}/auth`,
       });
 
       if (result.error) throw result.error;
       if (result.redirected) return;
 
-      navigate({ to: search.redirect ?? "/perfil" });
+      // Sessão definida no próprio separador (fluxo do editor): o useEffect trata do resto.
+      setSubmitting(false);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Erro com Google";
       toast.error(msg);
       setSubmitting(false);
     }
+
   };
 
   return (
