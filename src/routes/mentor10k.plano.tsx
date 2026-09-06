@@ -29,6 +29,8 @@ function Plano() {
   const [plan, setPlan] = useState<Plan | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [genError, setGenError] = useState<string | null>(null);
+
   const callGenerate = useServerFn(generateMentorPlan);
 
   const load = async () => {
