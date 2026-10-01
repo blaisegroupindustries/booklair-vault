@@ -89,11 +89,38 @@ export async function callMentorAi(userPrompt: string, jsonOnly = false) {
 
 export function parseMentorJson(text: string) {
   const cleaned = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
-  return JSON.parse(cleaned) as {
-    title: string;
-    summary: string;
-    phases: unknown;
-    weekly_tasks: unknown;
-    kpis: unknown;
+  const raw = JSON.parse(cleaned) as Record<string, unknown>;
+  const rawPhases = Array.isArray(raw.phases) ? raw.phases : [];
+  const rawWeeks = Array.isArray(raw.weekly_tasks) ? raw.weekly_tasks : [];
+
+  return {
+    title: String(raw.title ?? raw.titulo ?? "O teu plano Mentor 10K"),
+    summary: String(raw.summary ?? raw.resumo ?? "Plano personalizado para os próximos 90 dias."),
+    phases: rawPhases.map((value) => {
+      const phase = value as Record<string, unknown>;
+      return {
+        name: String(phase.name ?? phase.nome ?? "Fase"),
+        weeks: String(phase.weeks ?? phase.semanas ?? ""),
+        objective: String(phase.objective ?? phase.objetivo ?? ""),
+        deliverables: Array.isArray(phase.deliverables)
+          ? phase.deliverables.map(String)
+          : Array.isArray(phase.entregas)
+            ? phase.entregas.map(String)
+            : [],
+      };
+    }),
+    weekly_tasks: rawWeeks.map((value, index) => {
+      const week = value as Record<string, unknown>;
+      return {
+        week: Number(week.week ?? week.semana ?? index + 1),
+        focus: String(week.focus ?? week.foco ?? `Semana ${index + 1}`),
+        tasks: Array.isArray(week.tasks)
+          ? week.tasks.map(String)
+          : Array.isArray(week.tarefas)
+            ? week.tarefas.map(String)
+            : [],
+      };
+    }),
+    kpis: Array.isArray(raw.kpis) ? raw.kpis.map(String) : [],
   };
 }

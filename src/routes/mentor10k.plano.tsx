@@ -10,6 +10,16 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/mentor10k/plano")({
   validateSearch: (s: Record<string, unknown>) => ({ generate: typeof s.generate === "string" ? s.generate : undefined }),
+  head: () => ({
+    meta: [
+      { title: "O meu plano — Mentor 10K" },
+      { name: "description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
+      { property: "og:title", content: "O meu plano — Mentor 10K" },
+      { property: "og:description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Plano,
 });
 
@@ -21,6 +31,37 @@ interface Plan {
   weekly_tasks: Array<{ week: number; focus: string; tasks: string[] }>;
   kpis: string[];
   created_at: string;
+}
+
+type UnknownRecord = Record<string, unknown>;
+
+function normalizePlan(input: UnknownRecord): Plan {
+  const phases = Array.isArray(input.phases) ? input.phases : [];
+  const weeks = Array.isArray(input.weekly_tasks) ? input.weekly_tasks : [];
+  return {
+    id: String(input.id ?? ""),
+    title: String(input.title ?? "O teu plano Mentor 10K"),
+    summary: String(input.summary ?? "Plano personalizado para os próximos 90 dias."),
+    phases: phases.map((value) => {
+      const phase = value as UnknownRecord;
+      return {
+        name: String(phase.name ?? phase.nome ?? "Fase"),
+        weeks: String(phase.weeks ?? phase.semanas ?? ""),
+        objective: String(phase.objective ?? phase.objetivo ?? ""),
+        deliverables: (Array.isArray(phase.deliverables) ? phase.deliverables : Array.isArray(phase.entregas) ? phase.entregas : []).map(String),
+      };
+    }),
+    weekly_tasks: weeks.map((value, index) => {
+      const week = value as UnknownRecord;
+      return {
+        week: Number(week.week ?? week.semana ?? index + 1),
+        focus: String(week.focus ?? week.foco ?? `Semana ${index + 1}`),
+        tasks: (Array.isArray(week.tasks) ? week.tasks : Array.isArray(week.tarefas) ? week.tarefas : []).map(String),
+      };
+    }),
+    kpis: (Array.isArray(input.kpis) ? input.kpis : []).map(String),
+    created_at: String(input.created_at ?? ""),
+  };
 }
 
 function Plano() {
@@ -36,14 +77,19 @@ function Plano() {
   const load = async () => {
     if (!user) return;
     setLoading(true);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("mentor10k_plans")
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
-    setPlan(data as Plan | null);
+    if (error) {
+      setGenError("Não foi possível carregar o plano. Tenta novamente.");
+      setPlan(null);
+    } else {
+      setPlan(data ? normalizePlan(data as UnknownRecord) : null);
+    }
     setLoading(false);
   };
 
@@ -88,7 +134,7 @@ function Plano() {
 
   return (
     <div className="space-y-6">
-      <div className="glass-card rounded-2xl p-6 md:p-8">
+      <div className="mentor-spotlight glass-card glass-sheen rounded-2xl p-6 md:p-8">
         <div className="flex items-start gap-3 mb-4">
           <div className="h-10 w-10 rounded-xl bg-gold/15 flex items-center justify-center"><Sparkles className="h-5 w-5 text-gold" /></div>
           <div>

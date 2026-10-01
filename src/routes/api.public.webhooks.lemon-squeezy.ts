@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createHmac, timingSafeEqual } from "crypto";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
   server: {
@@ -53,6 +52,8 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
 
         if (!email) return new Response("missing email", { status: 200 });
 
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
         // Estado do pedido (order_created também dispara para pedidos ainda
         // não pagos em certos fluxos — filtramos aqui por segurança).
         const status: string = (orderAttrs.status ?? "paid").toString();
@@ -88,6 +89,34 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
             notes: productNameRaw,
           });
           if (mErr) console.error("Erro ao libertar Mentor 10K:", mErr);
+
+          const { data: zeroToCeo } = await supabaseAdmin
+            .from("ebooks")
+            .select("id")
+            .eq("id", "9c3bc4d5-0d75-41c7-aecf-7d770090618f")
+            .maybeSingle();
+
+          if (zeroToCeo) {
+            const { data: existingGrant } = await supabaseAdmin
+              .from("vault_access_grants")
+              .select("id")
+              .eq("ebook_id", zeroToCeo.id)
+              .or(userId ? `user_id.eq.${userId},email.eq.${email}` : `email.eq.${email}`)
+              .limit(1)
+              .maybeSingle();
+
+            if (!existingGrant) {
+              const { error: bonusErr } = await supabaseAdmin.from("vault_access_grants").insert({
+                user_id: userId,
+                email,
+                ebook_id: zeroToCeo.id,
+                source: "mentor10k_bonus",
+                external_order_id: orderId,
+                notes: "Bónus incluído na compra do Mentor 10K",
+              });
+              if (bonusErr) console.error("Erro ao libertar bónus Zero to CEO:", bonusErr);
+            }
+          }
           return new Response("ok", { status: 200 });
         }
 

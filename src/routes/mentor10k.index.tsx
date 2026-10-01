@@ -48,13 +48,13 @@ function Dashboard() {
         <StatCard label="Última receita" value={stats.last_income !== null ? `€${stats.last_income}` : "—"} icon={TrendingUp} />
       </div>
 
-      <div className="glass-card rounded-2xl p-6">
+      <div className="mentor-spotlight glass-card glass-sheen rounded-2xl p-6">
         <h2 className="font-serif text-2xl mb-1">Próximos passos</h2>
         <p className="text-sm text-muted-foreground mb-5">Segue a sequência. Sem atalhos.</p>
         <div className="space-y-2">
           {steps.map((s, i) => (
             <Link key={s.to} to={s.to} className={`flex items-center gap-4 p-4 rounded-xl transition-all border ${s.done ? "border-gold/30 bg-gold/[0.04]" : "border-border/40 bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)] hover:bg-[color-mix(in_oklab,var(--foreground)_7%,transparent)]"}`}>
-              <div className={`h-9 w-9 rounded-lg flex items-center justify-center ${s.done ? "bg-gold/20 text-gold" : "bg-muted/30 text-muted-foreground"}`}>
+              <div className={`h-9 w-9 rounded-lg flex items-center justify-center ${s.done ? "bg-gold/20 text-gold glow-gold" : "bg-muted/30 text-muted-foreground"}`}>
                 {s.done ? "✓" : i + 1}
               </div>
               <s.icon className="h-4 w-4 text-muted-foreground" />
