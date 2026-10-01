@@ -8,7 +8,14 @@ import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
 
 
 export const Route = createFileRoute("/mentor10k")({
-  head: () => ({ meta: [{ title: "Mentor 10K — Booklair" }] }),
+  head: () => ({ meta: [
+    { title: "Mentor 10K — O teu plano de crescimento" },
+    { name: "description", content: "Diagnóstico, plano de 12 semanas e mentor IA para chegares aos primeiros 10.000€ por mês." },
+    { property: "og:title", content: "Mentor 10K — O teu plano de crescimento" },
+    { property: "og:description", content: "Diagnóstico, plano de 12 semanas e mentor IA para chegares aos primeiros 10.000€ por mês." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: Mentor10kLayout,
 });
 
@@ -48,18 +55,23 @@ function Mentor10kLayout() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-6">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-gold mb-2">Programa exclusivo</p>
-        <h1 className="font-serif text-4xl md:text-5xl gradient-text-gold">Mentor 10K</h1>
-        <p className="text-muted-foreground mt-2">O teu caminho personalizado até aos primeiros 10.000€/mês.</p>
+      <div className="mentor-spotlight glass-card glass-sheen aurora mb-6 p-6 md:p-9 overflow-hidden">
+        <div className="relative flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p className="call-number text-gold mb-2">A tua central de crescimento</p>
+            <h1 className="font-serif text-5xl md:text-7xl shimmer-text leading-none">Mentor 10K</h1>
+            <p className="text-muted-foreground mt-3 max-w-xl">Decide melhor. Executa mais depressa. Mede o progresso até aos primeiros 10.000€/mês.</p>
+          </div>
+          <div className="glass-pill px-5 py-3 text-sm text-foreground"><Sparkles className="inline h-4 w-4 text-gold mr-2" />Plano · Ação · Progresso</div>
+        </div>
       </div>
 
       {!hasAccess && (
-        <div className="glass-card glass-sheen rounded-2xl p-5 mb-6 flex flex-wrap items-center gap-4">
+        <div className="mentor-spotlight glass-card glass-sheen rounded-2xl p-5 mb-6 flex flex-wrap items-center gap-4">
           <div className="flex-1 min-w-[240px]">
             <p className="font-medium">Estás na versão de experiência</p>
             <p className="text-sm text-muted-foreground">
-              Faz o diagnóstico, cria o teu plano e conversa com o mentor. Check-ins, histórico e mentoria ilimitada exigem o acesso completo.
+              Faz o diagnóstico, cria o teu plano e conversa com o mentor. O acesso completo inclui check-ins, mentoria ilimitada e o ebook Zero to CEO.
             </p>
           </div>
           <Mentor10kBuyButton size="lg" label="Desbloquear tudo" />

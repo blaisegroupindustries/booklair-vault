@@ -397,6 +397,52 @@
     animation: aurora-drift 18s ease-in-out infinite alternate;
     opacity: 0.75;
   }
+
+  .mentor-spotlight {
+    border-color: color-mix(in oklab, var(--gold) 36%, transparent);
+    box-shadow:
+      var(--shadow-elevated-raw),
+      0 0 0 1px color-mix(in oklab, var(--gold) 10%, transparent),
+      0 28px 90px -42px color-mix(in oklab, var(--gold) 65%, transparent),
+      inset 0 1px 0 color-mix(in oklab, var(--foreground) 28%, transparent);
+  }
+
+  .mentor-hero::after {
+    content: "10K";
+    position: absolute;
+    inset: auto -2vw -12vh auto;
+    font-family: var(--font-serif);
+    font-size: clamp(14rem, 32vw, 34rem);
+    font-weight: 700;
+    line-height: 0.7;
+    color: color-mix(in oklab, var(--gold) 7%, transparent);
+    pointer-events: none;
+  }
+
+  .mentor-orbit {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+    box-shadow: 0 0 45px color-mix(in oklab, var(--gold) 35%, transparent);
+    animation: mentor-pulse 3s ease-in-out infinite;
+  }
+
+  .mentor-spark {
+    animation: mentor-pulse 2.4s ease-in-out infinite;
+  }
+
+  .choice-tile {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .choice-tile:hover { transform: translateY(-2px); }
+  .choice-tile-active {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+    background: color-mix(in oklab, var(--gold) 13%, transparent);
+    box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--gold) 75%, transparent);
+  }
 }
 
 @keyframes reveal-up {
@@ -418,6 +464,11 @@
   0% { transform: translate3d(-4%, -2%, 0) scale(1); }
   50% { transform: translate3d(4%, 3%, 0) scale(1.08); }
   100% { transform: translate3d(-2%, 4%, 0) scale(1.03); }
+}
+
+@keyframes mentor-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 35px color-mix(in oklab, var(--gold) 24%, transparent); }
+  50% { transform: scale(1.06); box-shadow: 0 0 65px color-mix(in oklab, var(--gold) 48%, transparent); }
 }
 
 @media (prefers-reduced-motion: reduce) {
