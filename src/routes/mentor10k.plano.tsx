@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader2, ClipboardList, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -71,6 +71,7 @@ function Plano() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
+  const attemptedDiagnostic = useRef<string | null>(null);
 
   const callGenerate = useServerFn(generateMentorPlan);
 
@@ -96,7 +97,8 @@ function Plano() {
   useEffect(() => { void load(); }, [user]);
 
   useEffect(() => {
-    if (!generate || !user || generating) return;
+    if (!generate || !user || attemptedDiagnostic.current === generate) return;
+    attemptedDiagnostic.current = generate;
     setGenerating(true);
     setGenError(null);
     callGenerate({ data: { diagnosticId: generate } })

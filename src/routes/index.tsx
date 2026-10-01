@@ -54,6 +54,15 @@ function HomePage() {
 
   return (
     <>
+      <section className="border-b border-border/50 bg-[color-mix(in_oklab,var(--gold)_9%,transparent)]">
+        <Link to="/programa-mentor-10k" className="group container mx-auto px-4 py-3 flex items-center justify-center gap-3 text-center text-sm">
+          <Sparkles className="h-4 w-4 text-gold mentor-spark" />
+          <strong className="text-foreground">Mentor 10K:</strong>
+          <span className="text-muted-foreground">cria hoje o teu plano personalizado de 90 dias</span>
+          <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
+        </Link>
+      </section>
+
       {/* Hero — liquid glass */}
       <section className="aurora relative overflow-hidden rule-bottom">
         <div className="container mx-auto px-4 pt-12 md:pt-20 pb-16 md:pb-24 relative">
@@ -126,7 +135,7 @@ function HomePage() {
       <section className="container mx-auto px-4 py-10 md:py-14">
         <Link
           to="/programa-mentor-10k"
-          className="group relative block overflow-hidden rounded-3xl glass-card glass-sheen hover-lift reveal p-8 md:p-12"
+          className="mentor-spotlight group relative block overflow-hidden rounded-3xl glass-card glass-sheen hover-lift reveal p-8 md:p-14"
         >
           <span className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-[color-mix(in_oklab,var(--gold)_35%,transparent)] blur-3xl opacity-60 float-slow" />
           <span className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-[color-mix(in_oklab,var(--primary)_40%,transparent)] blur-3xl opacity-50 float-slow" />
@@ -136,7 +145,7 @@ function HomePage() {
               <span className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-gold">
                 <Sparkles className="h-3.5 w-3.5" /> Programa exclusivo
               </span>
-              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[0.95]">
+               <h2 className="mt-5 font-serif text-5xl md:text-7xl leading-[0.95]">
                 <span className="shimmer-text">Mentor 10K</span>
               </h2>
               <p className="mt-4 max-w-xl text-[1.0625rem] leading-relaxed text-muted-foreground">
@@ -151,7 +160,7 @@ function HomePage() {
                 ))}
               </div>
               <p className="mt-5 text-xs text-muted-foreground">
-                Começa grátis: cria o diagnóstico e o teu plano antes de decidires.
+                 Começa grátis: cria o diagnóstico e o teu plano antes de decidires. O acesso completo inclui o Zero to CEO.
               </p>
             </div>
 

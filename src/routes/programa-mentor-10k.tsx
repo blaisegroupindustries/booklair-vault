@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Sparkles, Target, ClipboardList, MessageSquare, TrendingUp, CheckCircle2, Zap } from "lucide-react";
+import { BookOpen, Sparkles, Target, ClipboardList, MessageSquare, TrendingUp, CheckCircle2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
 
