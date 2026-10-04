@@ -6,7 +6,7 @@ import { callMentorAi, parseMentorJson } from "@/lib/mentor10k.server";
 export const generateMentorPlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => {
-    const i = input as { diagnosticId: string };
+    const i = input as { diagnosticId: string; language?: "pt" | "en" };
     if (!i?.diagnosticId) throw new Error("diagnosticId required");
     return i;
   })
@@ -33,7 +33,10 @@ export const generateMentorPlan = createServerFn({ method: "POST" })
       .single();
     if (diagErr || !diag) throw new Error("Diagnóstico não encontrado");
 
+    const language = data.language === "en" ? "English" : "Português europeu";
     const prompt = `Cria um plano personalizado de 12 semanas para o utilizador chegar a 10.000€/mês.
+
+IDIOMA OBRIGATÓRIO: ${language}. Todo o conteúdo deve estar exclusivamente neste idioma, sem misturar idiomas.
 
 DIAGNÓSTICO:
 - Objetivo: ${diag.goal}
@@ -46,7 +49,14 @@ DIAGNÓSTICO:
 - Prazo: ${diag.deadline_months ?? 3} meses
 - Perfil: ${diag.profile_type ?? "n/d"}
 
-Retorna JSON com: title, summary, phases (array de 4: nome, semanas, objetivo, entregas), weekly_tasks (array de 12 semanas: week, focus, tasks[3-5]), kpis (array de métricas-chave a acompanhar).`;
+Retorna JSON válido com estas chaves exatas em inglês:
+- title, summary
+- phases: 4 objetos com name, weeks, objective, deliverables
+- weekly_tasks: exatamente 12 objetos com week, focus e tasks
+- tasks: exatamente 5 ações, uma para cada dia útil, com { day: 1-5, label, outcome, duration_minutes }
+- kpis: métricas-chave mensuráveis
+
+Cada label deve começar por um verbo e explicar exatamente o que fazer. Inclui números concretos (quantas mensagens, páginas, chamadas, anúncios ou propostas), a ferramenta/canal quando relevante e o critério de conclusão em outcome. Respeita as horas semanais disponíveis. Não uses ações vagas como “trabalhar na marca”, “fazer marketing”, “pesquisar” ou “melhorar a oferta” sem um resultado específico.`;
 
     const text = await callMentorAi(prompt, true);
 
@@ -96,6 +106,7 @@ export const generateCheckinFeedback = createServerFn({ method: "POST" })
       what_blocked: string;
       next_focus?: string;
       mood?: string;
+      language?: "pt" | "en";
     };
     if (!i?.planId || !i?.what_done) throw new Error("Campos obrigatórios em falta");
     return i;
@@ -111,7 +122,8 @@ export const generateCheckinFeedback = createServerFn({ method: "POST" })
       .eq("id", data.planId)
       .single();
 
-    const userPrompt = `Check-in semana ${data.week_number} (plano "${plan?.title ?? "—"}"):
+    const userPrompt = `Responde exclusivamente em ${data.language === "en" ? "English" : "Português europeu"}.
+Check-in semana ${data.week_number} (plano "${plan?.title ?? "—"}"):
 - Progresso (0-10): ${data.progress_score}
 - Receita esta semana: ${data.income_eur ?? 0}€
 - O que fiz: ${data.what_done}
@@ -147,7 +159,7 @@ Dá feedback direto em 4 frases máximo: 1) reconhece o que está bem, 2) aponta
 export const askMentor = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => {
-    const i = input as { message: string };
+    const i = input as { message: string; language?: "pt" | "en" };
     if (!i?.message?.trim()) throw new Error("Mensagem vazia");
     return i;
   })
@@ -185,7 +197,7 @@ export const askMentor = createServerFn({ method: "POST" })
       .map((m) => `${m.role === "user" ? "Utilizador" : "Mentor"}: ${m.content}`)
       .join("\n");
 
-    const prompt = `${latestPlan ? `Plano ativo: ${latestPlan.title}\n${latestPlan.summary}\n\n` : ""}${history ? `Histórico recente:\n${history}\n\n` : ""}Utilizador: ${data.message}\n\nResponde como Mentor 10K.`;
+    const prompt = `Responde exclusivamente em ${data.language === "en" ? "English" : "Português europeu"}; não mistures idiomas.\n\n${latestPlan ? `Plano ativo: ${latestPlan.title}\n${latestPlan.summary}\n\n` : ""}${history ? `Histórico recente:\n${history}\n\n` : ""}Utilizador: ${data.message}\n\nResponde como Mentor 10K.`;
 
     const reply = await callMentorAi(prompt);
 
