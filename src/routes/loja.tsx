@@ -53,10 +53,10 @@ function StorePage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-3xl mb-10">
-        <p className="text-xs uppercase tracking-widest text-gold mb-3">Catálogo completo</p>
-        <h1 className="font-serif text-5xl md:text-6xl text-foreground">Toda a Booklair num só sítio</h1>
+        <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("store.eyebrow")}</p>
+        <h1 className="font-serif text-5xl md:text-6xl text-foreground">{t("store.heading")}</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Ebooks gratuitos e premium juntos. Filtra por categoria ou acesso para encontrar o teu próximo livro.
+          {t("store.body")}
         </p>
       </div>
 
@@ -87,7 +87,7 @@ function StorePage() {
                 : "border-border text-muted-foreground hover:text-foreground"
             }`}
           >
-            {a === "all" ? "Todos" : a === "free" ? "Grátis" : "Premium"}
+            {t(`filter.${a}`)}
           </button>
         ))}
       </div>
@@ -100,7 +100,7 @@ function StorePage() {
         </div>
       ) : items.length === 0 ? (
         <div className="surface-card rounded-2xl p-16 text-center">
-          <p className="text-muted-foreground">Nenhum ebook encontrado.</p>
+          <p className="text-muted-foreground">{t("store.none")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

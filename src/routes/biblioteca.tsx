@@ -40,9 +40,9 @@ function LibraryPage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-3xl mb-10">
-        <p className="text-xs uppercase tracking-widest text-gold mb-3">Biblioteca</p>
-        <h1 className="font-serif text-5xl md:text-6xl text-foreground">Todos os ebooks</h1>
-        <p className="mt-4 text-lg text-muted-foreground">Catálogo único com gratuitos e premium claramente identificados.</p>
+        <p className="text-xs uppercase tracking-widest text-gold mb-3">{t("library.eyebrow")}</p>
+        <h1 className="font-serif text-5xl md:text-6xl text-foreground">{t("library.heading")}</h1>
+        <p className="mt-4 text-lg text-muted-foreground">{t("library.body")}</p>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-10">
@@ -69,7 +69,7 @@ function LibraryPage() {
         </div>
       ) : items.length === 0 ? (
         <div className="surface-card rounded-2xl p-16 text-center">
-          <p className="text-muted-foreground">Sem ebooks ainda.</p>
+          <p className="text-muted-foreground">{t("library.empty")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
