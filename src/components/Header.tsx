@@ -22,7 +22,7 @@ export function Header() {
     { to: "/", label: t("nav.home") },
     { to: "/biblioteca", label: t("nav.library") },
     { to: "/loja", label: t("nav.store") },
-    { to: "/programa-mentor-10k", label: "Mentor 10K" },
+    { to: "/programa-mentor-10k", label: t("nav.mentor") },
     { to: "/sobre", label: t("nav.about") },
   ] as const;
 
@@ -46,14 +46,14 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <button
-            onClick={() => setLang(lang === "pt" ? "en" : "pt")}
-            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-gold transition-colors uppercase tracking-wider"
-            aria-label="Toggle language"
-          >
-            <Globe className="h-4 w-4" />
-            {lang}
-          </button>
+          <div className="glass-pill flex items-center gap-1 p-1" aria-label={lang === "pt" ? "Selecionar idioma" : "Choose language"}>
+            <Globe className="ml-2 h-3.5 w-3.5 text-muted-foreground" />
+            {(["pt", "en"] as const).map((code) => (
+              <Button key={code} type="button" variant={lang === code ? "gold" : "ghost"} size="sm" onClick={() => setLang(code)} className="h-7 px-2.5 text-[10px] uppercase">
+                {code}
+              </Button>
+            ))}
+          </div>
 
           {user ? (
             <DropdownMenu>
@@ -137,12 +137,11 @@ export function Header() {
                 </Link>
               </>
             )}
-            <button
-              onClick={() => setLang(lang === "pt" ? "en" : "pt")}
-              className="flex items-center gap-2 px-3 py-3 text-sm hover:bg-accent rounded-md"
-            >
-              <Globe className="h-4 w-4" /> {lang === "pt" ? "English" : "Português"}
-            </button>
+            <div className="flex items-center gap-2 px-3 py-3 text-sm">
+              <Globe className="h-4 w-4" />
+              <Button type="button" variant={lang === "pt" ? "gold" : "outline"} size="sm" onClick={() => setLang("pt")}>Português</Button>
+              <Button type="button" variant={lang === "en" ? "gold" : "outline"} size="sm" onClick={() => setLang("en")}>English</Button>
+            </div>
           </div>
         </div>
       )}

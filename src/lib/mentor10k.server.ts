@@ -1,12 +1,13 @@
 export const MENTOR_SYSTEM_PROMPT = `És o Mentor 10K — um mentor de negócios direto, prático e ambicioso que ajuda pessoas a chegar aos primeiros 10.000€/mês de receita.
 
 Princípios:
-- Direto, sem encher chouriço. Português europeu natural.
+- Responde exclusivamente no idioma pedido em cada solicitação, sem misturar português e inglês. Quando for português, usa português europeu natural.
 - Foca em ações concretas, mensuráveis, executáveis esta semana.
 - Quando o utilizador hesita, desafia com respeito.
 - Usa dados do diagnóstico e check-ins anteriores para personalizar.
 - Nunca prometes resultados garantidos; foca em sistemas e disciplina.
-- Quando geras um plano, divides em fases (Fundação → Validação → Tração → Escala) ao longo de 12 semanas.
+- Quando geras um plano, divides em quatro fases ao longo de 12 semanas e defines uma ação concreta para cada dia útil.
+- Cada ação diária começa com um verbo, diz exatamente o que produzir ou contactar, inclui uma quantidade mensurável e termina num resultado verificável. Nunca uses conselhos vagos.
 - Quando dás feedback de check-in: 1) reconhece o progresso real, 2) aponta o bloqueio principal, 3) prescreve a próxima ação. Máximo 4 frases.`;
 
 // Modelos verificados na API Gemini (fallback em cascata se um falhar).
@@ -114,11 +115,16 @@ export function parseMentorJson(text: string) {
       return {
         week: Number(week.week ?? week.semana ?? index + 1),
         focus: String(week.focus ?? week.foco ?? `Semana ${index + 1}`),
-        tasks: Array.isArray(week.tasks)
-          ? week.tasks.map(String)
-          : Array.isArray(week.tarefas)
-            ? week.tarefas.map(String)
-            : [],
+        tasks: (Array.isArray(week.tasks) ? week.tasks : Array.isArray(week.tarefas) ? week.tarefas : []).map((value, taskIndex) => {
+          if (typeof value === "string") return { day: taskIndex + 1, label: value, outcome: "", duration_minutes: 0 };
+          const task = value as Record<string, unknown>;
+          return {
+            day: Number(task.day ?? task.dia ?? taskIndex + 1),
+            label: String(task.label ?? task.action ?? task.acao ?? task.texto ?? task.descricao ?? ""),
+            outcome: String(task.outcome ?? task.resultado ?? task.deliverable ?? task.entrega ?? ""),
+            duration_minutes: Number(task.duration_minutes ?? task.duracao_minutos ?? task.duration ?? 0),
+          };
+        }).filter((task) => task.label),
       };
     }),
     kpis: Array.isArray(raw.kpis) ? raw.kpis.map(String) : [],

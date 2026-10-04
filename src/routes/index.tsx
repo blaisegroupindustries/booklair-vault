@@ -27,7 +27,7 @@ const categories = [
 ] as const;
 
 function HomePage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [featured, setFeatured] = useState<EbookCardData[]>([]);
   const [upcoming, setUpcoming] = useState<EbookCardData[]>([]);
 
@@ -58,7 +58,7 @@ function HomePage() {
         <Link to="/programa-mentor-10k" className="group container mx-auto px-4 py-3 flex items-center justify-center gap-3 text-center text-sm">
           <Sparkles className="h-4 w-4 text-gold mentor-spark" />
           <strong className="text-foreground">Mentor 10K:</strong>
-          <span className="text-muted-foreground">cria hoje o teu plano personalizado de 90 dias</span>
+          <span className="text-muted-foreground">{t("home.mentor.banner")}</span>
           <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
         </Link>
       </section>
@@ -71,7 +71,7 @@ function HomePage() {
               Booklair · {new Date().getFullYear()}
             </span>
             <span className="glass-pill px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              PT · EN — lifetime access
+              {lang.toUpperCase()} — {t("home.access")}
             </span>
           </div>
 
@@ -109,9 +109,9 @@ function HomePage() {
                 </p>
                 <div className="mt-5 space-y-3">
                   {[
-                    ["Marketing & Business", "12"],
-                    ["Education & Study", "08"],
-                    ["Personal Development", "10"],
+                    [t("cat.marketing_negocios"), "12"],
+                    [t("cat.educacao_estudo"), "08"],
+                    [t("cat.desenvolvimento_pessoal"), "10"],
                   ].map(([name, count], i) => (
                     <div
                       key={name}
@@ -123,7 +123,7 @@ function HomePage() {
                   ))}
                 </div>
                 <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-                  Every title is read, chosen and curated by hand. No subscriptions, no endless catalogues.
+                  {t("home.curated")}
                 </p>
               </div>
             </div>
@@ -143,30 +143,29 @@ function HomePage() {
           <div className="relative grid md:grid-cols-[1fr_auto] items-center gap-8">
             <div>
               <span className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-gold">
-                <Sparkles className="h-3.5 w-3.5" /> Programa exclusivo
+                <Sparkles className="h-3.5 w-3.5" /> {t("home.mentor.eyebrow")}
               </span>
                <h2 className="mt-5 font-serif text-5xl md:text-7xl leading-[0.95]">
                 <span className="shimmer-text">Mentor 10K</span>
               </h2>
               <p className="mt-4 max-w-xl text-[1.0625rem] leading-relaxed text-muted-foreground">
-                Diagnóstico inteligente, plano de 90 dias construído para ti e um mentor de IA disponível a toda a hora —
-                até aos teus primeiros 10.000€/mês.
+                {t("home.mentor.body")}
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Diagnóstico em 5 min", "Plano de 12 semanas", "Mentor IA 24/7", "Check-ins semanais"].map((chip, i) => (
+                {(lang === "pt" ? ["Diagnóstico em 5 min", "Plano de 12 semanas", "Mentor IA 24/7", "Check-ins semanais"] : ["5-minute assessment", "12-week plan", "24/7 AI mentor", "Weekly check-ins"]).map((chip, i) => (
                   <span key={chip} className={`glass-pill px-3.5 py-1.5 text-xs text-foreground reveal reveal-${i + 1}`}>
                     {chip}
                   </span>
                 ))}
               </div>
               <p className="mt-5 text-xs text-muted-foreground">
-                 Começa grátis: cria o diagnóstico e o teu plano antes de decidires. O acesso completo inclui o Zero to CEO.
+                 {t("home.mentor.free")}
               </p>
             </div>
 
             <div className="flex md:flex-col gap-3 md:items-end">
               <Button variant="hero" size="lg" className="pointer-events-none">
-                Ver o programa <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                {t("home.mentor.cta")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
           </div>
@@ -200,15 +199,15 @@ function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-4 rule-bottom pb-4 mb-8">
             <div className="flex items-baseline gap-4">
               <span className="call-number text-gold">§ 02</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-foreground">Em catalogação</h2>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground">{t("home.upcoming.title")}</h2>
             </div>
             <span className="call-number inline-flex items-center gap-1.5">
-              <Clock className="h-3 w-3" /> próximos lançamentos
+              <Clock className="h-3 w-3" /> {t("home.upcoming.label")}
             </span>
           </div>
           {upcoming[0]?.scheduled_at && (
             <div className="flex justify-center mb-10">
-              <Countdown to={upcoming[0].scheduled_at} label={`A seguir: "${upcoming[0].title}"`} />
+              <Countdown to={upcoming[0].scheduled_at} label={`${t("home.upcoming.next")}: "${upcoming[0].title}"`} />
             </div>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -240,7 +239,7 @@ function HomePage() {
                   {t(`cat.${key}`)}
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground max-w-lg">
-                  Leituras escolhidas para acelerar decisões reais — não teoria de prateleira.
+                  {t("home.category.body")}
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -257,30 +256,29 @@ function HomePage() {
         <div className="grid md:grid-cols-12 gap-6 items-stretch">
           <blockquote className="md:col-span-7 glass-card reveal p-7 md:p-9">
             <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground">
-              “Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que
-              esperava de uma livraria — não uma subscrição que nunca uso.”
+              {t("home.quote")}
             </p>
             <footer className="mt-5 flex items-center gap-3">
               <span className="h-8 w-8 rounded-full bg-[var(--ember)] text-background flex items-center justify-center font-mono text-xs">
                 MC
               </span>
               <span className="text-sm text-muted-foreground">
-                Marta C. — leitora, Maputo <span className="call-number ml-2">Cliente desde 2025</span>
+                {t("home.quote.by")} <span className="call-number ml-2">{t("home.quote.since")}</span>
               </span>
             </footer>
           </blockquote>
           <div className="md:col-span-5 glass-card glass-sheen reveal reveal-2 p-7 md:p-9">
 
-            <p className="call-number">Começar</p>
+            <p className="call-number">{t("home.start")}</p>
             <h2 className="mt-3 font-serif text-3xl text-foreground">
-              A tua conta é gratuita. A biblioteca fica contigo.
+              {t("home.account.title")}
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              Sem subscrições. Sem letras pequenas. Compras uma vez, é teu para sempre.
+              {t("home.account.body")}
             </p>
             <Button variant="hero" size="lg" asChild className="mt-6">
               <Link to="/auth" search={{ mode: "signup" }}>
-                Criar conta <ArrowRight className="h-4 w-4" />
+                {t("home.account.cta")} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
