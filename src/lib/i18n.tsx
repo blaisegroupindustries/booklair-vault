@@ -9,6 +9,7 @@ const dict: Dict = {
   "nav.library": { pt: "Biblioteca", en: "Library" },
   "nav.store": { pt: "Loja", en: "Store" },
   "nav.about": { pt: "Sobre", en: "About" },
+  "nav.mentor": { pt: "Mentor 10K", en: "Mentor 10K" },
   "nav.profile": { pt: "Perfil", en: "Profile" },
   "nav.signin": { pt: "Entrar", en: "Sign In" },
   "nav.signup": { pt: "Criar conta", en: "Sign Up" },
@@ -46,6 +47,68 @@ const dict: Dict = {
   "ebook.buy": { pt: "Comprar", en: "Buy Now" },
 
   "filter.all": { pt: "Todos", en: "All" },
+  "filter.free": { pt: "Grátis", en: "Free" },
+  "filter.premium": { pt: "Premium", en: "Premium" },
+
+  "home.mentor.banner": { pt: "cria hoje o teu plano personalizado de 90 dias", en: "build your personalized 90-day plan today" },
+  "home.access": { pt: "acesso vitalício", en: "lifetime access" },
+  "home.curated": { pt: "Cada título é lido, escolhido e curado à mão. Sem subscrições, sem catálogos intermináveis.", en: "Every title is read, chosen and curated by hand. No subscriptions, no endless catalogues." },
+  "home.mentor.eyebrow": { pt: "Programa exclusivo", en: "Exclusive program" },
+  "home.mentor.body": { pt: "Diagnóstico inteligente, plano de 90 dias construído para ti e um mentor de IA disponível a toda a hora — até aos teus primeiros 10.000€/mês.", en: "An intelligent assessment, a 90-day plan built for you and an AI mentor available around the clock — all the way to your first €10,000/month." },
+  "home.mentor.free": { pt: "Começa grátis: cria o diagnóstico e o teu plano antes de decidires. O acesso completo inclui o Zero to CEO.", en: "Start free: complete the assessment and create your plan before deciding. Full access includes Zero to CEO." },
+  "home.mentor.cta": { pt: "Ver o programa", en: "View the program" },
+  "home.upcoming.title": { pt: "Em catalogação", en: "Coming soon" },
+  "home.upcoming.label": { pt: "próximos lançamentos", en: "upcoming releases" },
+  "home.upcoming.next": { pt: "A seguir", en: "Up next" },
+  "home.category.body": { pt: "Leituras escolhidas para acelerar decisões reais — não teoria de prateleira.", en: "Selected reading to accelerate real decisions — not shelf-bound theory." },
+  "home.quote": { pt: "“Comprei um título, li em duas noites e apliquei na semana seguinte. É isso que esperava de uma livraria — não uma subscrição que nunca uso.”", en: "“I bought one title, read it in two nights and applied it the following week. That is what I expect from a bookstore — not a subscription I never use.”" },
+  "home.quote.by": { pt: "Marta C. — leitora, Maputo", en: "Marta C. — reader, Maputo" },
+  "home.quote.since": { pt: "Cliente desde 2025", en: "Customer since 2025" },
+  "home.start": { pt: "Começar", en: "Get started" },
+  "home.account.title": { pt: "A tua conta é gratuita. A biblioteca fica contigo.", en: "Your account is free. Your library stays with you." },
+  "home.account.body": { pt: "Sem subscrições. Sem letras pequenas. Compras uma vez, é teu para sempre.", en: "No subscriptions. No fine print. Buy once, keep it forever." },
+  "home.account.cta": { pt: "Criar conta", en: "Create account" },
+
+  "store.eyebrow": { pt: "Catálogo completo", en: "Complete catalogue" },
+  "store.heading": { pt: "Toda a Booklair num só sítio", en: "All of Booklair in one place" },
+  "store.body": { pt: "Ebooks gratuitos e premium juntos. Filtra por categoria ou acesso para encontrar o teu próximo livro.", en: "Free and premium ebooks together. Filter by category or access to find your next book." },
+  "store.none": { pt: "Nenhum ebook encontrado.", en: "No ebooks found." },
+  "library.eyebrow": { pt: "Biblioteca", en: "Library" },
+  "library.heading": { pt: "Todos os ebooks", en: "All ebooks" },
+  "library.body": { pt: "Um catálogo único com títulos gratuitos e premium claramente identificados.", en: "One catalogue with free and premium titles clearly identified." },
+
+  "mentor.center": { pt: "A tua central de crescimento", en: "Your growth command center" },
+  "mentor.tagline": { pt: "Decide melhor. Executa mais depressa. Mede o progresso até aos primeiros 10.000€/mês.", en: "Make better decisions. Execute faster. Track progress toward your first €10,000/month." },
+  "mentor.triad": { pt: "Plano · Ação · Progresso", en: "Plan · Action · Progress" },
+  "mentor.trial.title": { pt: "Estás na versão de experiência", en: "You are using the trial experience" },
+  "mentor.trial.body": { pt: "Faz o diagnóstico, cria o teu plano e conversa com o mentor. O acesso completo inclui check-ins, mentoria ilimitada e o ebook Zero to CEO.", en: "Complete the assessment, create your plan and talk to the mentor. Full access includes check-ins, unlimited mentoring and the Zero to CEO ebook." },
+  "mentor.unlock": { pt: "Desbloquear tudo", en: "Unlock everything" },
+  "mentor.tab.dashboard": { pt: "Painel", en: "Dashboard" },
+  "mentor.tab.diagnostic": { pt: "Diagnóstico", en: "Assessment" },
+  "mentor.tab.plan": { pt: "Plano", en: "Plan" },
+  "mentor.tab.chat": { pt: "Mentor IA", en: "AI Mentor" },
+  "mentor.tab.checkin": { pt: "Check-in", en: "Check-in" },
+  "mentor.tab.history": { pt: "Histórico", en: "History" },
+  "mentor.loading": { pt: "A carregar…", en: "Loading…" },
+  "mentor.lock.title": { pt: "Esta área é do acesso completo", en: "This area requires full access" },
+  "mentor.lock.body": { pt: "Já podes usar o diagnóstico, o plano e o mentor. Os check-ins semanais e o histórico de progresso fazem parte do programa completo.", en: "You can already use the assessment, plan and mentor. Weekly check-ins and progress history are part of the full program." },
+  "mentor.learn": { pt: "Saber mais", en: "Learn more" },
+
+  "plan.badge": { pt: "Plano de 12 semanas", en: "12-week plan" },
+  "plan.timeline": { pt: "O teu roteiro diário", en: "Your daily roadmap" },
+  "plan.timeline.body": { pt: "Abre uma semana e executa uma ação por dia. Cada dia termina com um resultado verificável.", en: "Open a week and complete one action per day. Every day ends with a verifiable result." },
+  "plan.week": { pt: "Semana", en: "Week" },
+  "plan.day": { pt: "Dia", en: "Day" },
+  "plan.outcome": { pt: "Resultado esperado", en: "Expected outcome" },
+  "plan.minutes": { pt: "min", en: "min" },
+  "plan.metrics": { pt: "Métricas a acompanhar", en: "Metrics to track" },
+  "plan.checkin": { pt: "Fazer check-in semanal", en: "Complete weekly check-in" },
+  "plan.redo": { pt: "Refazer diagnóstico", en: "Redo assessment" },
+  "plan.generating": { pt: "O Mentor está a desenhar o teu plano diário…", en: "The Mentor is building your daily plan…" },
+  "plan.empty": { pt: "Ainda sem plano", en: "No plan yet" },
+  "plan.error": { pt: "Não deu para gerar o plano", en: "The plan could not be generated" },
+  "plan.start": { pt: "Começa pelo diagnóstico — geramos um plano diário de 12 semanas à tua medida.", en: "Start with the assessment — we will create a tailored 12-week daily plan." },
+  "plan.diagnostic": { pt: "Fazer diagnóstico", en: "Complete assessment" },
 
   "about.title": { pt: "Sobre a Booklair", en: "About Booklair" },
   "about.lead": {
@@ -85,6 +148,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("booklair-lang") as Lang | null;
     if (saved === "pt" || saved === "en") setLangState(saved);
   }, []);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") document.documentElement.lang = lang;
+  }, [lang]);
 
   const setLang = (l: Lang) => {
     setLangState(l);
