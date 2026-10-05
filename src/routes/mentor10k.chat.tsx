@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { askMentor } from "@/lib/mentor10k.functions";
 import { toast } from "sonner";
 import { Mentor10kBuyButton } from "@/components/Mentor10kBuyButton";
+import { useI18n } from "@/lib/i18n";
 
 
 export const Route = createFileRoute("/mentor10k/chat")({
@@ -20,6 +21,7 @@ interface Msg { role: "user" | "assistant"; content: string; }
 const FREE_MESSAGE_LIMIT = 5;
 
 function Chat() {
+  const { t, lang } = useI18n();
   const { user } = useAuth();
   const call = useServerFn(askMentor);
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -54,7 +56,7 @@ function Chat() {
     setMessages((m) => [...m, { role: "user", content: msg }]);
     setSending(true);
     try {
-      const { reply } = await call({ data: { message: msg } });
+      const { reply } = await call({ data: { message: msg, language: lang } });
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
     } catch (e: unknown) {
       toast.error(e instanceof Error ? e.message : "Erro");
@@ -75,8 +77,8 @@ function Chat() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">
-            <p className="text-sm">Começa por uma pergunta. Sê específico.</p>
-            <p className="text-xs mt-2">Ex: "Como valido a minha oferta em 7 dias?"</p>
+            <p className="text-sm">{t("chat.start")}</p>
+            <p className="text-xs mt-2">{t("chat.example")}</p>
           </div>
         )}
         {messages.map((m, i) => (
@@ -99,21 +101,21 @@ function Chat() {
       {limitReached ? (
         <div className="p-5 border-t border-border/40 text-center space-y-3">
           <p className="text-sm text-muted-foreground">
-            Chegaste ao limite das {FREE_MESSAGE_LIMIT} mensagens de experiência. Desbloqueia o programa para mentoria ilimitada, check-ins e histórico.
+            {t("chat.limit")}
           </p>
-          <Mentor10kBuyButton size="lg" label="Desbloquear o Mentor 10K" />
+          <Mentor10kBuyButton size="lg" label={t("chat.unlock")} />
         </div>
       ) : (
         <div className="p-3 border-t border-border/40 flex flex-col gap-2">
           {!hasAccess && (
             <p className="text-[11px] text-muted-foreground">
-              Experiência gratuita — {FREE_MESSAGE_LIMIT - usedFree} mensagens restantes.
+              {t("chat.trial")} — {FREE_MESSAGE_LIMIT - usedFree} {t("chat.remaining")}.
             </p>
           )}
           <div className="flex gap-2">
             <Textarea
               rows={2}
-              placeholder="Escreve a tua pergunta…"
+              placeholder={t("chat.placeholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(); } }}

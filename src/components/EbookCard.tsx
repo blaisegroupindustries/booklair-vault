@@ -118,11 +118,11 @@ export function EbookCard({ ebook }: { ebook: EbookCardData }) {
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
           {isScheduled ? (
             <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-gold text-gold-foreground inline-flex items-center gap-1">
-              <Clock className="h-3 w-3" /> Em breve
+              <Clock className="h-3 w-3" /> {t("ebook.soon")}
             </span>
           ) : eff === "free_temp" ? (
             <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500 text-emerald-950">
-              Grátis agora
+              {t("ebook.freeNow")}
             </span>
           ) : onSale ? (
             <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-rose-500 text-white">
