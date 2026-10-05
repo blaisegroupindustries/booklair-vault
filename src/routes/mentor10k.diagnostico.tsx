@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/mentor10k/diagnostico")({
   head: () => ({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/mentor10k/diagnostico")({
 });
 
 function Diagnostico() {
+  const { t, lang } = useI18n();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
@@ -42,7 +44,7 @@ function Diagnostico() {
     e.preventDefault();
     if (!user) return;
     if (!form.goal.trim() || !form.current_situation.trim()) {
-      toast.error("Preenche pelo menos o objetivo e a situação atual.");
+      toast.error(t("diagnostic.required"));
       return;
     }
     setSaving(true);
@@ -64,8 +66,8 @@ function Diagnostico() {
       .select()
       .single();
     setSaving(false);
-    if (error || !data) { toast.error(error?.message ?? "Erro ao guardar"); return; }
-    toast.success("Diagnóstico guardado. A gerar o teu plano…");
+    if (error || !data) { toast.error(error?.message ?? (lang === "pt" ? "Erro ao guardar" : "Could not save")); return; }
+    toast.success(t("diagnostic.saved"));
     navigate({ to: "/mentor10k/plano", search: { generate: data.id } as never });
   };
 
@@ -74,66 +76,66 @@ function Diagnostico() {
       <div className="flex items-start gap-4 reveal">
         <div className="h-12 w-12 rounded-xl bg-gold/15 flex items-center justify-center glow-gold"><Target className="h-6 w-6 text-gold" /></div>
         <div>
-          <p className="call-number text-gold mb-1">5 minutos · plano gratuito</p>
-          <h2 className="font-serif text-3xl">Vamos desenhar a tua rota até aos 10K</h2>
-          <p className="text-sm text-muted-foreground mt-1">Escolhe o que mais se aproxima da tua realidade. Podes explicar os detalhes nos campos abertos.</p>
+          <p className="call-number text-gold mb-1">{t("diagnostic.time")}</p>
+          <h2 className="font-serif text-3xl">{t("diagnostic.title")}</h2>
+          <p className="text-sm text-muted-foreground mt-1">{t("diagnostic.intro")}</p>
         </div>
       </div>
 
-      <Field label="O teu objetivo (em uma frase) *">
-        <Textarea rows={2} required value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} placeholder="Ex: Chegar a 10.000€/mês com consultoria de marketing em 6 meses." />
+      <Field label={t("diagnostic.goal")}>
+        <Textarea rows={2} required value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} placeholder={t("diagnostic.goal.placeholder")} />
       </Field>
 
-      <Field label="Onde estás agora? *">
-        <Textarea rows={3} required value={form.current_situation} onChange={(e) => setForm({ ...form, current_situation: e.target.value })} placeholder="O que fazes, há quanto tempo, o que já tentaste…" />
+      <Field label={t("diagnostic.now")}>
+        <Textarea rows={3} required value={form.current_situation} onChange={(e) => setForm({ ...form, current_situation: e.target.value })} placeholder={t("diagnostic.now.placeholder")} />
       </Field>
 
       <ChoiceField
         icon={Coins}
-        label="Qual é a tua receita mensal atual?"
+        label={t("diagnostic.revenue")}
         value={form.monthly_income_eur}
-        options={[["0", "Ainda não faturo"], ["500", "Até 500€"], ["1500", "500€–2.000€"], ["3500", "2.000€–5.000€"], ["7500", "Mais de 5.000€"]]}
+        options={["0", "500", "1500", "3500", "7500"].map((value, index) => [value, t("diagnostic.revenue.options").split("|")[index]] as [string, string])}
         onChange={(monthly_income_eur) => setForm({ ...form, monthly_income_eur })}
       />
 
       <ChoiceField
         icon={Clock3}
-        label="Quanto tempo podes investir por semana?"
+        label={t("diagnostic.time.week")}
         value={form.available_hours_week}
-        options={[["5", "Até 5 horas"], ["10", "5–10 horas"], ["20", "10–20 horas"], ["30", "20–30 horas"], ["40", "Tempo inteiro"]]}
+        options={["5", "10", "20", "30", "40"].map((value, index) => [value, t("diagnostic.time.options").split("|")[index]] as [string, string])}
         onChange={(available_hours_week) => setForm({ ...form, available_hours_week })}
       />
 
-      <Field label="As tuas skills principais">
-        <Textarea rows={2} value={form.skills} onChange={(e) => setForm({ ...form, skills: e.target.value })} placeholder="Ex: copywriting, vídeo, vendas B2B…" />
+      <Field label={t("diagnostic.skills")}>
+        <Textarea rows={2} value={form.skills} onChange={(e) => setForm({ ...form, skills: e.target.value })} placeholder={t("diagnostic.skills.placeholder")} />
       </Field>
 
-      <Field label="Recursos de que dispões">
-        <Textarea rows={2} value={form.resources} onChange={(e) => setForm({ ...form, resources: e.target.value })} placeholder="Audiência, capital, ferramentas, rede de contactos…" />
+      <Field label={t("diagnostic.resources")}>
+        <Textarea rows={2} value={form.resources} onChange={(e) => setForm({ ...form, resources: e.target.value })} placeholder={t("diagnostic.resources.placeholder")} />
       </Field>
 
-      <Field label="O que te tem bloqueado?">
-        <Textarea rows={2} value={form.obstacles} onChange={(e) => setForm({ ...form, obstacles: e.target.value })} placeholder="Sê específico." />
+      <Field label={t("diagnostic.blocks")}>
+        <Textarea rows={2} value={form.obstacles} onChange={(e) => setForm({ ...form, obstacles: e.target.value })} placeholder={t("diagnostic.specific")} />
       </Field>
 
       <ChoiceField
         icon={UserRound}
-        label="Qual é o teu modelo atual?"
+        label={t("diagnostic.model")}
         value={form.profile_type}
-        options={[["solo", "Solo / freelancer"], ["creator", "Creator"], ["agency", "Agência"], ["ecom", "E-commerce"], ["saas", "Produto digital / SaaS"], ["other", "Outro"]]}
+        options={["solo", "creator", "agency", "ecom", "saas", "other"].map((value, index) => [value, t("diagnostic.model.options").split("|")[index]] as [string, string])}
         onChange={(profile_type) => setForm({ ...form, profile_type })}
       />
 
       <ChoiceField
         icon={Rocket}
-        label="Em quanto tempo queres chegar à meta?"
+        label={t("diagnostic.deadline")}
         value={form.deadline_months}
-        options={[["3", "90 dias"], ["6", "6 meses"], ["12", "12 meses"]]}
+        options={["3", "6", "12"].map((value, index) => [value, t("diagnostic.deadline.options").split("|")[index]] as [string, string])}
         onChange={(deadline_months) => setForm({ ...form, deadline_months })}
       />
 
       <Button type="submit" variant="gold" size="lg" disabled={saving} className="w-full">
-        {saving ? <><Loader2 className="h-4 w-4 animate-spin" /> A guardar…</> : "Gerar plano personalizado"}
+        {saving ? <><Loader2 className="h-4 w-4 animate-spin" /> {t("diagnostic.saving")}</> : t("diagnostic.submit")}
       </Button>
     </form>
   );

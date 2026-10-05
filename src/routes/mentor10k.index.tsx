@@ -4,6 +4,7 @@ import { Sparkles, Target, ClipboardList, TrendingUp, MessageSquare, ArrowRight 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/mentor10k/")({
   component: Dashboard,
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/mentor10k/")({
 interface Stat { plans: number; checkins: number; last_score: number | null; last_income: number | null; }
 
 function Dashboard() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [stats, setStats] = useState<Stat>({ plans: 0, checkins: 0, last_score: null, last_income: null });
   const [hasDiagnostic, setHasDiagnostic] = useState(false);
@@ -34,23 +36,23 @@ function Dashboard() {
   }, [user]);
 
   const steps = [
-    { done: hasDiagnostic, label: "Diagnóstico inicial", to: "/mentor10k/diagnostico", icon: Target },
-    { done: hasPlan, label: "Plano de 12 semanas", to: "/mentor10k/plano", icon: ClipboardList },
-    { done: stats.checkins > 0, label: "Primeiro check-in", to: "/mentor10k/checkin", icon: TrendingUp },
+    { done: hasDiagnostic, label: t("dashboard.step.diagnostic"), to: "/mentor10k/diagnostico", icon: Target },
+    { done: hasPlan, label: t("dashboard.step.plan"), to: "/mentor10k/plano", icon: ClipboardList },
+    { done: stats.checkins > 0, label: t("dashboard.step.checkin"), to: "/mentor10k/checkin", icon: TrendingUp },
   ];
 
   return (
     <div className="space-y-6">
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Planos ativos" value={String(stats.plans)} icon={ClipboardList} />
-        <StatCard label="Check-ins feitos" value={String(stats.checkins)} icon={TrendingUp} />
-        <StatCard label="Último score" value={stats.last_score !== null ? `${stats.last_score}/10` : "—"} icon={Sparkles} />
-        <StatCard label="Última receita" value={stats.last_income !== null ? `€${stats.last_income}` : "—"} icon={TrendingUp} />
+        <StatCard label={t("dashboard.plans")} value={String(stats.plans)} icon={ClipboardList} />
+        <StatCard label={t("dashboard.checkins")} value={String(stats.checkins)} icon={TrendingUp} />
+        <StatCard label={t("dashboard.score")} value={stats.last_score !== null ? `${stats.last_score}/10` : "—"} icon={Sparkles} />
+        <StatCard label={t("dashboard.income")} value={stats.last_income !== null ? `€${stats.last_income}` : "—"} icon={TrendingUp} />
       </div>
 
       <div className="mentor-spotlight glass-card glass-sheen rounded-2xl p-6">
-        <h2 className="font-serif text-2xl mb-1">Próximos passos</h2>
-        <p className="text-sm text-muted-foreground mb-5">Segue a sequência. Sem atalhos.</p>
+        <h2 className="font-serif text-2xl mb-1">{t("dashboard.next")}</h2>
+        <p className="text-sm text-muted-foreground mb-5">{t("dashboard.sequence")}</p>
         <div className="space-y-2">
           {steps.map((s, i) => (
             <Link key={s.to} to={s.to} className={`flex items-center gap-4 p-4 rounded-xl transition-all border ${s.done ? "border-gold/30 bg-gold/[0.04]" : "border-border/40 bg-[color-mix(in_oklab,var(--foreground)_4%,transparent)] hover:bg-[color-mix(in_oklab,var(--foreground)_7%,transparent)]"}`}>
@@ -70,11 +72,11 @@ function Dashboard() {
           <MessageSquare className="h-5 w-5 text-gold" />
         </div>
         <div className="flex-1">
-          <h3 className="font-medium">Fala com o Mentor IA</h3>
-          <p className="text-sm text-muted-foreground">Tira dúvidas, valida ideias, recebe feedback direto.</p>
+          <h3 className="font-medium">{t("dashboard.chat.title")}</h3>
+          <p className="text-sm text-muted-foreground">{t("dashboard.chat.body")}</p>
         </div>
         <Button variant="gold" asChild>
-          <Link to="/mentor10k/chat">Abrir <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/mentor10k/chat">{t("dashboard.open")} <ArrowRight className="h-4 w-4" /></Link>
         </Button>
       </div>
     </div>
