@@ -10,12 +10,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { generateCheckinFeedback } from "@/lib/mentor10k.functions";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/mentor10k/checkin")({
   component: Checkin,
 });
 
 function Checkin() {
+  const { t, lang } = useI18n();
   const { user } = useAuth();
   const call = useServerFn(generateCheckinFeedback);
   const [planId, setPlanId] = useState<string | null>(null);
@@ -68,6 +70,7 @@ function Checkin() {
         what_blocked: form.what_blocked,
         next_focus: form.next_focus || undefined,
         mood: form.mood,
+        language: lang,
       } });
       setFeedback(res.checkin?.mentor_feedback ?? null);
       toast.success("Check-in guardado.");
@@ -82,9 +85,9 @@ function Checkin() {
     return (
       <div className="glass-card rounded-2xl p-12 text-center">
         <Activity className="h-12 w-12 text-muted-foreground/40 mx-auto mb-4" />
-        <h2 className="font-serif text-2xl mb-2">Sem plano ativo</h2>
-        <p className="text-muted-foreground mb-6">O check-in é semanal — precisas primeiro de um plano.</p>
-        <Button variant="gold" asChild><Link to="/mentor10k/diagnostico">Criar plano</Link></Button>
+        <h2 className="font-serif text-2xl mb-2">{t("checkin.noPlan")}</h2>
+        <p className="text-muted-foreground mb-6">{t("checkin.noPlan.body")}</p>
+        <Button variant="gold" asChild><Link to="/mentor10k/diagnostico">{t("checkin.create")}</Link></Button>
       </div>
     );
   }
@@ -95,48 +98,48 @@ function Checkin() {
         <div className="flex items-start gap-3">
           <div className="h-10 w-10 rounded-xl bg-gold/15 flex items-center justify-center"><Activity className="h-5 w-5 text-gold" /></div>
           <div>
-            <h2 className="font-serif text-2xl">Check-in semanal</h2>
-            <p className="text-sm text-muted-foreground">Cinco minutos. Direto ao ponto.</p>
+            <h2 className="font-serif text-2xl">{t("checkin.title")}</h2>
+            <p className="text-sm text-muted-foreground">{t("checkin.intro")}</p>
           </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">
-          <div><Label className="mb-1.5 block">Semana</Label><Input type="number" min="1" value={form.week_number} onChange={(e) => setForm({ ...form, week_number: e.target.value })} /></div>
+          <div><Label className="mb-1.5 block">{t("checkin.week")}</Label><Input type="number" min="1" value={form.week_number} onChange={(e) => setForm({ ...form, week_number: e.target.value })} /></div>
           <div><Label className="mb-1.5 block">Score (0-10)</Label><Input type="number" min="0" max="10" value={form.progress_score} onChange={(e) => setForm({ ...form, progress_score: e.target.value })} /></div>
-          <div><Label className="mb-1.5 block">Receita semana (€)</Label><Input type="number" value={form.income_eur} onChange={(e) => setForm({ ...form, income_eur: e.target.value })} /></div>
+          <div><Label className="mb-1.5 block">{t("checkin.revenue")}</Label><Input type="number" value={form.income_eur} onChange={(e) => setForm({ ...form, income_eur: e.target.value })} /></div>
         </div>
 
-        <div><Label className="mb-1.5 block">O que fizeste esta semana? *</Label>
-          <Textarea rows={3} required value={form.what_done} onChange={(e) => setForm({ ...form, what_done: e.target.value })} placeholder="Ações concretas. Sem genéricos." />
+        <div><Label className="mb-1.5 block">{t("checkin.done")}</Label>
+          <Textarea rows={3} required value={form.what_done} onChange={(e) => setForm({ ...form, what_done: e.target.value })} placeholder={t("checkin.done.placeholder")} />
         </div>
-        <div><Label className="mb-1.5 block">O que te bloqueou? *</Label>
+        <div><Label className="mb-1.5 block">{t("checkin.blocked")}</Label>
           <Textarea rows={3} required value={form.what_blocked} onChange={(e) => setForm({ ...form, what_blocked: e.target.value })} />
         </div>
-        <div><Label className="mb-1.5 block">Próximo foco</Label>
+        <div><Label className="mb-1.5 block">{t("checkin.focus")}</Label>
           <Textarea rows={2} value={form.next_focus} onChange={(e) => setForm({ ...form, next_focus: e.target.value })} />
         </div>
-        <div><Label className="mb-1.5 block">Energia</Label>
+        <div><Label className="mb-1.5 block">{t("checkin.energy")}</Label>
           <select className="w-full h-10 rounded-md border border-input bg-transparent px-3 text-sm" value={form.mood} onChange={(e) => setForm({ ...form, mood: e.target.value })}>
-            <option value="alta">Alta</option>
+            <option value="alta">{t("checkin.high")}</option>
             <option value="ok">OK</option>
-            <option value="baixa">Baixa</option>
+            <option value="baixa">{t("checkin.low")}</option>
           </select>
         </div>
 
         <Button type="submit" variant="gold" size="lg" disabled={submitting} className="w-full">
-          {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Mentor a analisar…</> : "Submeter check-in"}
+          {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> {t("checkin.analyzing")}</> : t("checkin.submit")}
         </Button>
       </form>
 
       <div className="glass-card rounded-2xl p-6 h-fit">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="h-4 w-4 text-gold" />
-          <p className="text-xs uppercase tracking-widest text-gold">Feedback do Mentor IA</p>
+          <p className="text-xs uppercase tracking-widest text-gold">{t("checkin.feedback")}</p>
         </div>
         {feedback ? (
           <p className="text-sm leading-relaxed whitespace-pre-wrap">{feedback}</p>
         ) : (
-          <p className="text-sm text-muted-foreground">Submete o check-in para receberes feedback direto do mentor.</p>
+          <p className="text-sm text-muted-foreground">{t("checkin.feedback.empty")}</p>
         )}
       </div>
     </div>
