@@ -198,6 +198,22 @@ const dict: Dict = {
   "program.buy": { pt: "Quero o Mentor 10K", en: "I want Mentor 10K" },
   "program.lifetime": { pt: "Inclui acesso vitalício ao Zero to CEO", en: "Includes lifetime access to Zero to CEO" },
 
+  "auth.welcome": { pt: "Bem-vindo de volta", en: "Welcome back" },
+  "auth.create": { pt: "Cria a tua conta", en: "Create your account" },
+  "auth.signin.body": { pt: "Entra para aceder à tua biblioteca.", en: "Sign in to access your library." },
+  "auth.signup.body": { pt: "Acede a ebooks gratuitos e premium.", en: "Access free and premium ebooks." },
+  "auth.google": { pt: "Continuar com Google", en: "Continue with Google" },
+  "auth.or": { pt: "ou", en: "or" },
+  "auth.name": { pt: "Nome", en: "Name" },
+  "auth.password": { pt: "Palavra-passe", en: "Password" },
+  "auth.noAccount": { pt: "Ainda não tens conta?", en: "Don't have an account?" },
+  "auth.hasAccount": { pt: "Já tens conta?", en: "Already have an account?" },
+  "auth.created": { pt: "Conta criada! Verifica o teu email.", en: "Account created! Check your email." },
+  "auth.returned": { pt: "Bem-vindo de volta!", en: "Welcome back!" },
+
+  "ebook.soon": { pt: "Em breve", en: "Coming soon" },
+  "ebook.freeNow": { pt: "Grátis agora", en: "Free now" },
+
   "about.title": { pt: "Sobre a Booklair", en: "About Booklair" },
   "about.lead": {
     pt: "A Booklair é uma plataforma de conhecimento curada para empreendedores e mentes ambiciosas em todo o mundo.",

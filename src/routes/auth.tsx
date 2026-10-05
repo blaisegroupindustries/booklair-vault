@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 const searchSchema = z.object({
   mode: z.enum(["signin", "signup"]).optional(),
@@ -42,6 +43,7 @@ function safePath(path: string | undefined | null): string {
 }
 
 function AuthPage() {
+  const { t, lang } = useI18n();
   const search = Route.useSearch();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -88,7 +90,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Conta criada! Verifica o teu email.");
+        toast.success(t("auth.created"));
         navigate({ to: search.redirect ?? "/perfil" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -96,11 +98,11 @@ function AuthPage() {
           password: parsed.password,
         });
         if (error) throw error;
-        toast.success("Bem-vindo de volta!");
+        toast.success(t("auth.returned"));
         navigate({ to: search.redirect ?? "/perfil" });
       }
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro ao autenticar";
+      const msg = err instanceof Error ? err.message : lang === "pt" ? "Erro ao autenticar" : "Authentication error";
       toast.error(msg);
     } finally {
       setSubmitting(false);
@@ -123,7 +125,7 @@ function AuthPage() {
       // Sessão definida no próprio separador (fluxo do editor): o useEffect trata do resto.
       setSubmitting(false);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro com Google";
+      const msg = err instanceof Error ? err.message : lang === "pt" ? "Erro com Google" : "Google sign-in error";
       toast.error(msg);
       setSubmitting(false);
     }
@@ -136,10 +138,10 @@ function AuthPage() {
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-widest text-gold mb-3">Booklair</p>
           <h1 className="font-serif text-3xl text-foreground">
-            {mode === "signin" ? "Bem-vindo de volta" : "Cria a tua conta"}
+            {mode === "signin" ? t("auth.welcome") : t("auth.create")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {mode === "signin" ? "Entra para aceder à tua biblioteca." : "Acede a ebooks gratuitos e premium."}
+            {mode === "signin" ? t("auth.signin.body") : t("auth.signup.body")}
           </p>
         </div>
 
@@ -156,7 +158,7 @@ function AuthPage() {
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
-          Continuar com Google
+          {t("auth.google")}
         </Button>
 
         <div className="relative my-6">
@@ -164,14 +166,14 @@ function AuthPage() {
             <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-3 text-muted-foreground tracking-widest">ou</span>
+            <span className="bg-card px-3 text-muted-foreground tracking-widest">{t("auth.or")}</span>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === "signup" && (
             <div className="space-y-1.5">
-              <Label htmlFor="fullName">Nome</Label>
+              <Label htmlFor="fullName">{t("auth.name")}</Label>
               <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required maxLength={100} />
             </div>
           )}
@@ -183,7 +185,7 @@ function AuthPage() {
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} maxLength={72} className="pl-9" />
@@ -191,17 +193,17 @@ function AuthPage() {
           </div>
 
           <Button type="submit" variant="hero" size="lg" disabled={submitting} className="w-full">
-            {mode === "signin" ? "Entrar" : "Criar conta"} <ArrowRight className="h-4 w-4" />
+            {mode === "signin" ? t("nav.signin") : t("nav.signup")} <ArrowRight className="h-4 w-4" />
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "Ainda não tens conta? " : "Já tens conta? "}
+          {mode === "signin" ? `${t("auth.noAccount")} ` : `${t("auth.hasAccount")} `}
           <button
             onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
             className="text-gold hover:underline font-medium"
           >
-            {mode === "signin" ? "Criar conta" : "Entrar"}
+            {mode === "signin" ? t("nav.signup") : t("nav.signin")}
           </button>
         </p>
       </div>
