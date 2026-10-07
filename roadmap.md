@@ -4,4 +4,4 @@
 - [x] Traduzir integralmente a área Mentor 10K
 - [x] Gerar planos com cinco ações diárias específicas por semana
 - [x] Mostrar ações por dia com resultado e duração, mantendo planos antigos
-- [ ] Validar PT/EN, plano existente e compilação
+- [x] Validar PT/EN, plano existente e compilação
