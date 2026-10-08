@@ -21,7 +21,7 @@ export async function fetchMentor10kOffer(): Promise<Mentor10kOffer> {
   return cached;
 }
 
-/** Abre o checkout do Mentor 10K com email pré-preenchido e retorno para /obrigado. */
+/** Abre o checkout do CEO OS com email pré-preenchido e retorno para /obrigado. */
 export function openMentor10kCheckout(checkoutUrl: string, email?: string | null) {
   const url = new URL(checkoutUrl);
   if (email) url.searchParams.set("checkout[email]", email);

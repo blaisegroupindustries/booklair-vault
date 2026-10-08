@@ -10,9 +10,9 @@ import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/mentor10k")({
   head: () => ({ meta: [
-    { title: "Mentor 10K — O teu plano de crescimento" },
+    { title: "CEO OS — O teu plano de crescimento" },
     { name: "description", content: "Diagnóstico, plano de 12 semanas e mentor IA para chegares aos primeiros 10.000€ por mês." },
-    { property: "og:title", content: "Mentor 10K — O teu plano de crescimento" },
+    { property: "og:title", content: "CEO OS — O teu plano de crescimento" },
     { property: "og:description", content: "Diagnóstico, plano de 12 semanas e mentor IA para chegares aos primeiros 10.000€ por mês." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
@@ -61,7 +61,7 @@ function Mentor10kLayout() {
         <div className="relative flex flex-wrap items-end justify-between gap-5">
           <div>
             <p className="call-number text-gold mb-2">{t("mentor.center")}</p>
-            <h1 className="font-serif text-5xl md:text-7xl shimmer-text leading-none">Mentor 10K</h1>
+            <h1 className="font-serif text-5xl md:text-7xl shimmer-text leading-none">CEO OS</h1>
             <p className="text-muted-foreground mt-3 max-w-xl">{t("mentor.tagline")}</p>
           </div>
           <div className="glass-pill px-5 py-3 text-sm text-foreground"><Sparkles className="inline h-4 w-4 text-gold mr-2" />{t("mentor.triad")}</div>

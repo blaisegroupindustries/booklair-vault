@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { Loader2, ClipboardList, CheckCircle2, Sparkles, Clock3, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ResetPlan } from "@/components/ResetPlan";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { generateMentorPlan } from "@/lib/mentor10k.functions";
@@ -13,10 +14,10 @@ export const Route = createFileRoute("/mentor10k/plano")({
   validateSearch: (s: Record<string, unknown>) => ({ generate: typeof s.generate === "string" ? s.generate : undefined }),
   head: () => ({
     meta: [
-      { title: "O meu plano — Mentor 10K" },
-      { name: "description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
-      { property: "og:title", content: "O meu plano — Mentor 10K" },
-      { property: "og:description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
+      { title: "O meu plano — CEO OS" },
+      { name: "description", content: "Plano personalizado de 12 semanas, tarefas e métricas no CEO OS." },
+      { property: "og:title", content: "O meu plano — CEO OS" },
+      { property: "og:description", content: "Plano personalizado de 12 semanas, tarefas e métricas no CEO OS." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -43,7 +44,7 @@ function normalizePlan(input: UnknownRecord): Plan {
   const weeks = Array.isArray(input.weekly_tasks) ? input.weekly_tasks : [];
   return {
     id: String(input.id ?? ""),
-    title: String(input.title ?? "O teu plano Mentor 10K"),
+    title: String(input.title ?? "O teu plano CEO OS"),
     summary: String(input.summary ?? "Plano personalizado para os próximos 90 dias."),
     phases: phases.map((value) => {
       const phase = value as UnknownRecord;
@@ -95,6 +96,7 @@ function Plano() {
       .from("mentor10k_plans")
       .select("*")
       .eq("user_id", user.id)
+      .neq("status", "archived")
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -218,8 +220,8 @@ function Plano() {
 
       <div className="flex gap-3">
         <Button variant="gold" size="lg" asChild><Link to="/mentor10k/checkin">{t("plan.checkin")}</Link></Button>
-        <Button variant="outline" size="lg" asChild><Link to="/mentor10k/diagnostico">{t("plan.redo")}</Link></Button>
       </div>
+      <ResetPlan planId={plan.id} onDone={() => { setPlan(null); void load(); }} />
     </div>
   );
 }

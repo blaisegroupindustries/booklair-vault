@@ -70,7 +70,7 @@ function Chat() {
     <div className="glass-card rounded-2xl flex flex-col h-[70vh]">
       <div className="p-4 border-b border-border/40 flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-gold" />
-        <p className="font-medium">Mentor 10K</p>
+        <p className="font-medium">CEO OS</p>
         <span className="text-xs text-muted-foreground">• Gemini</span>
       </div>
 

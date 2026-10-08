@@ -68,7 +68,7 @@ function ThankYou() {
 
         <p className="call-number text-gold mb-3">Pagamento recebido</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-4">
-          {isMentor ? "Bem-vindo ao Mentor 10K" : "Obrigado pela tua compra"}
+          {isMentor ? "Bem-vindo ao CEO OS" : "Obrigado pela tua compra"}
         </h1>
         <p className="text-muted-foreground mb-8 leading-relaxed">
           {ready
@@ -93,7 +93,7 @@ function ThankYou() {
         <div className="flex flex-wrap justify-center gap-3">
           {isMentor ? (
             <Button variant="hero" size="lg" asChild>
-              <Link to="/mentor10k"><Sparkles className="h-4 w-4" /> Abrir o Mentor 10K</Link>
+              <Link to="/mentor10k"><Sparkles className="h-4 w-4" /> Abrir o CEO OS</Link>
             </Button>
           ) : slug ? (
             <Button variant="hero" size="lg" asChild>

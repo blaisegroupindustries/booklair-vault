@@ -8,9 +8,9 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/programa-mentor-10k")({
   head: () => ({
     meta: [
-      { title: "Mentor 10K — Programa Booklair" },
+      { title: "CEO OS — Programa Booklair" },
       { name: "description", content: "Programa exclusivo de mentoria com IA para chegar aos primeiros 10.000€/mês. Diagnóstico, plano de 12 semanas, check-ins e mentor IA personalizado." },
-      { property: "og:title", content: "Mentor 10K — Programa Booklair" },
+      { property: "og:title", content: "CEO OS — Programa Booklair" },
       { property: "og:description", content: "Diagnóstico, plano personalizado de 12 semanas e mentor IA para chegares aos primeiros 10.000€/mês." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -53,7 +53,7 @@ function Landing() {
         <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl relative text-center">
         <div className="mentor-orbit mx-auto mb-6"><Zap className="h-6 w-6 text-gold" /></div>
         <p className="call-number text-gold mb-4 reveal">{t("program.eyebrow")}</p>
-        <h1 className="font-serif text-6xl md:text-8xl shimmer-text leading-[0.92] mb-6 reveal reveal-1">Mentor 10K</h1>
+        <h1 className="font-serif text-6xl md:text-8xl shimmer-text leading-[0.92] mb-6 reveal reveal-1">CEO OS</h1>
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto reveal reveal-2">
           {t("program.lead")}
         </p>
