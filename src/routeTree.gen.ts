@@ -32,6 +32,7 @@ import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizador
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
+import { Route as AdminPlanosRouteImport } from './routes/admin.planos'
 import { Route as AdminMidiaRouteImport } from './routes/admin.midia'
 import { Route as AdminMentor10kRouteImport } from './routes/admin.mentor10k'
 import { Route as AdminHomeRouteImport } from './routes/admin.home'
@@ -162,6 +163,11 @@ const AdminPopupsRoute = AdminPopupsRouteImport.update({
   path: '/popups',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPlanosRoute = AdminPlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMidiaRoute = AdminMidiaRouteImport.update({
   id: '/midia',
   path: '/midia',
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/admin/home': typeof AdminHomeRoute
   '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
+  '/admin/planos': typeof AdminPlanosRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByTo {
   '/admin/home': typeof AdminHomeRoute
   '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
+  '/admin/planos': typeof AdminPlanosRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -335,6 +343,7 @@ export interface FileRoutesById {
   '/admin/home': typeof AdminHomeRoute
   '/admin/mentor10k': typeof AdminMentor10kRoute
   '/admin/midia': typeof AdminMidiaRoute
+  '/admin/planos': typeof AdminPlanosRoute
   '/admin/popups': typeof AdminPopupsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -376,6 +385,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/mentor10k'
     | '/admin/midia'
+    | '/admin/planos'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -414,6 +424,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/mentor10k'
     | '/admin/midia'
+    | '/admin/planos'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -453,6 +464,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/mentor10k'
     | '/admin/midia'
+    | '/admin/planos'
     | '/admin/popups'
     | '/admin/reviews'
     | '/admin/settings'
@@ -650,6 +662,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPopupsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/planos': {
+      id: '/admin/planos'
+      path: '/planos'
+      fullPath: '/admin/planos'
+      preLoaderRoute: typeof AdminPlanosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/midia': {
       id: '/admin/midia'
       path: '/midia'
@@ -762,6 +781,7 @@ interface AdminRouteChildren {
   AdminHomeRoute: typeof AdminHomeRoute
   AdminMentor10kRoute: typeof AdminMentor10kRoute
   AdminMidiaRoute: typeof AdminMidiaRoute
+  AdminPlanosRoute: typeof AdminPlanosRoute
   AdminPopupsRoute: typeof AdminPopupsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -782,6 +802,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHomeRoute: AdminHomeRoute,
   AdminMentor10kRoute: AdminMentor10kRoute,
   AdminMidiaRoute: AdminMidiaRoute,
+  AdminPlanosRoute: AdminPlanosRoute,
   AdminPopupsRoute: AdminPopupsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
