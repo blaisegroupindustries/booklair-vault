@@ -962,6 +962,7 @@ export type Database = {
       }
       mentor10k_plans: {
         Row: {
+          admin_notes: string | null
           created_at: string
           diagnostic_id: string | null
           duration_weeks: number | null
@@ -977,6 +978,7 @@ export type Database = {
           weekly_tasks: Json
         }
         Insert: {
+          admin_notes?: string | null
           created_at?: string
           diagnostic_id?: string | null
           duration_weeks?: number | null
@@ -992,6 +994,7 @@ export type Database = {
           weekly_tasks?: Json
         }
         Update: {
+          admin_notes?: string | null
           created_at?: string
           diagnostic_id?: string | null
           duration_weeks?: number | null

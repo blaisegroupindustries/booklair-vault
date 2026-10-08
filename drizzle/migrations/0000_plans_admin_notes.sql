@@ -1,0 +1,2 @@
+ALTER TABLE public.mentor10k_plans ADD COLUMN IF NOT EXISTS admin_notes text;
+CREATE POLICY "admin plans update" ON public.mentor10k_plans FOR UPDATE TO authenticated USING (public.has_role(auth.uid(), 'admin'::app_role)) WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
