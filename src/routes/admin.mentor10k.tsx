@@ -65,8 +65,8 @@ function Mentor10kPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-2xl">Mentor 10K — Acessos</h2>
-          <p className="text-sm text-muted-foreground">Quem tem acesso ao produto Mentor 10K. Adiciona por email; quando o utilizador faz login com esse email, ganha acesso automático.</p>
+          <h2 className="font-serif text-2xl">CEO OS — Acessos</h2>
+          <p className="text-sm text-muted-foreground">Quem tem acesso ao produto CEO OS. Adiciona por email; quando o utilizador faz login com esse email, ganha acesso automático.</p>
         </div>
         <Button variant="gold" onClick={() => setAdding({ source: "manual" })}>
           <Plus className="h-4 w-4" /> Conceder acesso
@@ -104,7 +104,7 @@ function Mentor10kPage() {
       <Dialog open={!!adding} onOpenChange={(o) => !o && setAdding(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Conceder acesso Mentor 10K</DialogTitle>
+            <DialogTitle>Conceder acesso CEO OS</DialogTitle>
           </DialogHeader>
           {adding && (
             <div className="space-y-4">

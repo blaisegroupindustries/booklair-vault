@@ -1,4 +1,4 @@
-export const MENTOR_SYSTEM_PROMPT = `És o Mentor 10K — um mentor de negócios direto, prático e ambicioso que ajuda pessoas a chegar aos primeiros 10.000€/mês de receita.
+export const MENTOR_SYSTEM_PROMPT = `És o CEO OS — um mentor de negócios direto, prático e ambicioso que ajuda pessoas a chegar aos primeiros 10.000€/mês de receita.
 
 Princípios:
 - Responde exclusivamente no idioma pedido em cada solicitação, sem misturar português e inglês. Quando for português, usa português europeu natural.
@@ -95,7 +95,7 @@ export function parseMentorJson(text: string) {
   const rawWeeks = Array.isArray(raw.weekly_tasks) ? raw.weekly_tasks : [];
 
   return {
-    title: String(raw.title ?? raw.titulo ?? "O teu plano Mentor 10K"),
+    title: String(raw.title ?? raw.titulo ?? "O teu plano CEO OS"),
     summary: String(raw.summary ?? raw.resumo ?? "Plano personalizado para os próximos 90 dias."),
     phases: rawPhases.map((value) => {
       const phase = value as Record<string, unknown>;

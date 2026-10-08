@@ -14,10 +14,10 @@ export const Route = createFileRoute("/mentor10k/plano")({
   validateSearch: (s: Record<string, unknown>) => ({ generate: typeof s.generate === "string" ? s.generate : undefined }),
   head: () => ({
     meta: [
-      { title: "O meu plano — Mentor 10K" },
-      { name: "description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
-      { property: "og:title", content: "O meu plano — Mentor 10K" },
-      { property: "og:description", content: "Plano personalizado de 12 semanas, tarefas e métricas no Mentor 10K." },
+      { title: "O meu plano — CEO OS" },
+      { name: "description", content: "Plano personalizado de 12 semanas, tarefas e métricas no CEO OS." },
+      { property: "og:title", content: "O meu plano — CEO OS" },
+      { property: "og:description", content: "Plano personalizado de 12 semanas, tarefas e métricas no CEO OS." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -44,7 +44,7 @@ function normalizePlan(input: UnknownRecord): Plan {
   const weeks = Array.isArray(input.weekly_tasks) ? input.weekly_tasks : [];
   return {
     id: String(input.id ?? ""),
-    title: String(input.title ?? "O teu plano Mentor 10K"),
+    title: String(input.title ?? "O teu plano CEO OS"),
     summary: String(input.summary ?? "Plano personalizado para os próximos 90 dias."),
     phases: phases.map((value) => {
       const phase = value as UnknownRecord;

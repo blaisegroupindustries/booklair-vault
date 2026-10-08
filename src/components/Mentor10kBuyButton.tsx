@@ -29,7 +29,7 @@ export function Mentor10kBuyButton({
 
   const handleClick = () => {
     if (!offer?.checkoutUrl) {
-      toast.info(lang === "pt" ? "O checkout do Mentor 10K ainda não está configurado. Painel admin → Definições → Mentor 10K." : "Mentor 10K checkout is not configured yet.");
+      toast.info(lang === "pt" ? "O checkout do CEO OS ainda não está configurado. Painel admin → Definições → CEO OS." : "CEO OS checkout is not configured yet.");
       return;
     }
     openMentor10kCheckout(offer.checkoutUrl, user?.email);
@@ -38,7 +38,7 @@ export function Mentor10kBuyButton({
   return (
     <Button variant={variant} size={size} className={className} onClick={handleClick}>
       <Sparkles className="h-4 w-4" />
-      {label ?? (lang === "pt" ? "Adquirir o Mentor 10K" : "Get Mentor 10K")}
+      {label ?? (lang === "pt" ? "Adquirir o CEO OS" : "Get CEO OS")}
       {showPrice && offer?.priceUsd ? ` — $${offer.priceUsd}` : ""}
     </Button>
   );

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ShieldCheck, BookOpen, Settings, LayoutDashboard, ShoppingBag, Users,
   Tag, Bell, Activity, LayoutTemplate, Mail, FolderTree, MessageSquare, Database,
-  Menu, X,
+  Menu, X, ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,7 +37,8 @@ const groups = [
       { to: "/admin/compras", label: "Compras", icon: ShoppingBag, exact: false },
       { to: "/admin/cupoes", label: "Cupões", icon: Tag, exact: false },
       { to: "/admin/afiliados", label: "Afiliados", icon: Users, exact: false },
-      { to: "/admin/mentor10k", label: "Mentor 10K", icon: ShieldCheck, exact: false },
+      { to: "/admin/mentor10k", label: "CEO OS", icon: ShieldCheck, exact: false },
+      { to: "/admin/planos", label: "Planos dos Clientes", icon: ClipboardList, exact: false },
     ],
   },
   {

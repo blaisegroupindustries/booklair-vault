@@ -73,7 +73,7 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
           console.error("Erro ao procurar utilizador:", err);
         }
 
-        // Produto Mentor 10K → liberta acesso ao programa, não a um ebook.
+        // Produto CEO OS → liberta acesso ao programa, não a um ebook.
         const productNameRaw: string = (
           orderAttrs.first_order_item?.product_name ??
           orderAttrs.first_order_item?.variant_name ??
@@ -88,7 +88,7 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
             external_order_id: orderId,
             notes: productNameRaw,
           });
-          if (mErr) console.error("Erro ao libertar Mentor 10K:", mErr);
+          if (mErr) console.error("Erro ao libertar CEO OS:", mErr);
 
           const { data: zeroToCeo } = await supabaseAdmin
             .from("ebooks")
@@ -112,7 +112,7 @@ export const Route = createFileRoute("/api/public/webhooks/lemon-squeezy")({
                 ebook_id: zeroToCeo.id,
                 source: "mentor10k_bonus",
                 external_order_id: orderId,
-                notes: "Bónus incluído na compra do Mentor 10K",
+                notes: "Bónus incluído na compra do CEO OS",
               });
               if (bonusErr) console.error("Erro ao libertar bónus Zero to CEO:", bonusErr);
             }

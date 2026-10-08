@@ -21,7 +21,7 @@ export const generateMentorPlan = createServerFn({ method: "POST" })
         .select("id", { count: "exact", head: true })
         .eq("user_id", userId);
       if ((count ?? 0) >= 1) {
-        throw new Error("Já usaste o teu plano gratuito. Adquire o Mentor 10K para planos ilimitados.");
+        throw new Error("Já usaste o teu plano gratuito. Adquire o CEO OS para planos ilimitados.");
       }
     }
 
@@ -117,7 +117,7 @@ export const generateCheckinFeedback = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { data: hasAccess } = await supabase.rpc("has_mentor10k_access", { _user_id: userId });
-    if (!hasAccess) throw new Error("Sem acesso ao Mentor 10K");
+    if (!hasAccess) throw new Error("Sem acesso ao CEO OS");
 
     const { data: plan } = await supabase
       .from("mentor10k_plans")
@@ -176,7 +176,7 @@ export const askMentor = createServerFn({ method: "POST" })
         .eq("user_id", userId)
         .eq("role", "user");
       if ((count ?? 0) >= 5) {
-        throw new Error("Chegaste ao limite de 5 mensagens gratuitas. Adquire o Mentor 10K para continuar.");
+        throw new Error("Chegaste ao limite de 5 mensagens gratuitas. Adquire o CEO OS para continuar.");
       }
     }
 
@@ -200,7 +200,7 @@ export const askMentor = createServerFn({ method: "POST" })
       .map((m) => `${m.role === "user" ? "Utilizador" : "Mentor"}: ${m.content}`)
       .join("\n");
 
-    const prompt = `Responde exclusivamente em ${data.language === "en" ? "English" : "Português europeu"}; não mistures idiomas.\n\n${latestPlan ? `Plano ativo: ${latestPlan.title}\n${latestPlan.summary}\n\n` : ""}${history ? `Histórico recente:\n${history}\n\n` : ""}Utilizador: ${data.message}\n\nResponde como Mentor 10K.`;
+    const prompt = `Responde exclusivamente em ${data.language === "en" ? "English" : "Português europeu"}; não mistures idiomas.\n\n${latestPlan ? `Plano ativo: ${latestPlan.title}\n${latestPlan.summary}\n\n` : ""}${history ? `Histórico recente:\n${history}\n\n` : ""}Utilizador: ${data.message}\n\nResponde como CEO OS.`;
 
     const reply = await callMentorAi(prompt);
 

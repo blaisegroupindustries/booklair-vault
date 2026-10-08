@@ -57,7 +57,7 @@ function HomePage() {
       <section className="border-b border-border/50 bg-[color-mix(in_oklab,var(--gold)_9%,transparent)]">
         <Link to="/programa-mentor-10k" className="group container mx-auto px-4 py-3 flex items-center justify-center gap-3 text-center text-sm">
           <Sparkles className="h-4 w-4 text-gold mentor-spark" />
-          <strong className="text-foreground">Mentor 10K:</strong>
+          <strong className="text-foreground">CEO OS:</strong>
           <span className="text-muted-foreground">{t("home.mentor.banner")}</span>
           <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
         </Link>
@@ -131,7 +131,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Banner Mentor 10K */}
+      {/* Banner CEO OS */}
       <section className="container mx-auto px-4 py-10 md:py-14">
         <Link
           to="/programa-mentor-10k"
@@ -146,7 +146,7 @@ function HomePage() {
                 <Sparkles className="h-3.5 w-3.5" /> {t("home.mentor.eyebrow")}
               </span>
                <h2 className="mt-5 font-serif text-5xl md:text-7xl leading-[0.95]">
-                <span className="shimmer-text">Mentor 10K</span>
+                <span className="shimmer-text">CEO OS</span>
               </h2>
               <p className="mt-4 max-w-xl text-[1.0625rem] leading-relaxed text-muted-foreground">
                 {t("home.mentor.body")}
