@@ -49,6 +49,9 @@ DIAGNÓSTICO:
 - Prazo: ${diag.deadline_months ?? 3} meses
 - Perfil: ${diag.profile_type ?? "n/d"}
 
+ALINHAMENTO (respostas do utilizador às perguntas do mentor — usa-as para tornar o plano totalmente específico; nunca peças ao utilizador para "escolher" algo que ele já definiu aqui):
+${alignmentText(diag.raw_answers)}
+
 Retorna JSON válido com estas chaves exatas em inglês:
 - title, summary
 - phases: 4 objetos com name, weeks, objective, deliverables
@@ -56,7 +59,7 @@ Retorna JSON válido com estas chaves exatas em inglês:
 - tasks: exatamente 5 ações, uma para cada dia útil, com { day: 1-5, label, outcome, duration_minutes }
 - kpis: métricas-chave mensuráveis
 
-Cada label deve começar por um verbo e explicar exatamente o que fazer. Inclui números concretos (quantas mensagens, páginas, chamadas, anúncios ou propostas), a ferramenta/canal quando relevante e o critério de conclusão em outcome. Respeita as horas semanais disponíveis. Não uses ações vagas como “trabalhar na marca”, “fazer marketing”, “pesquisar” ou “melhorar a oferta” sem um resultado específico.`;
+Cada label deve começar por um verbo e explicar exatamente o que fazer. Inclui números concretos (quantas mensagens, páginas, chamadas, anúncios ou propostas), a ferramenta/canal quando relevante e o critério de conclusão em outcome. Respeita as horas semanais disponíveis. O plano deve usar o negócio, oferta, nicho e canais concretos do utilizador — nunca instruções genéricas como "escolhe uma skill" ou "define o teu nicho". Não uses ações vagas como “trabalhar na marca”, “fazer marketing”, “pesquisar” ou “melhorar a oferta” sem um resultado específico.`;
 
     const text = await callMentorAi(prompt, true);
 
@@ -207,4 +210,43 @@ export const askMentor = createServerFn({ method: "POST" })
     ]);
 
     return { reply };
+  });
+
+function alignmentText(raw: unknown) {
+  const a = (raw as { alignment?: Array<{ q: string; a: string }> } | null)?.alignment;
+  if (!Array.isArray(a) || !a.length) return "n/d";
+  return a.map((x, i) => `${i + 1}. P: ${x.q}\n   R: ${x.a}`).join("\n");
+}
+
+// ===== Alignment questions (before plan) =====
+export const getAlignmentQuestions = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => {
+    const i = input as { diagnosticId: string; language?: "pt" | "en" };
+    if (!i?.diagnosticId) throw new Error("diagnosticId required");
+    return i;
+  })
+  .handler(async ({ data, context }) => {
+    const { data: diag } = await context.supabase
+      .from("mentor10k_diagnostics").select("*").eq("id", data.diagnosticId).single();
+    if (!diag) throw new Error("Diagnóstico não encontrado");
+    const language = data.language === "en" ? "English" : "Português europeu";
+    const prompt = `IDIOMA OBRIGATÓRIO: ${language}.
+Antes de criar um plano de 12 semanas para construir uma empresa (agência, marca, e-commerce ou serviços), precisas de eliminar ambiguidades. Com base neste diagnóstico, faz exatamente 4 perguntas curtas e cirúrgicas sobre o que ainda falta saber: o veículo de negócio concreto, a oferta inicial e preço, o cliente-alvo/nicho e o canal de aquisição. Não perguntes o que já está respondido.
+Objetivo: ${diag.goal}
+Situação: ${diag.current_situation}
+Skills: ${diag.skills ?? "n/d"}
+Recursos: ${diag.resources ?? "n/d"}
+Obstáculos: ${diag.obstacles ?? "n/d"}
+Modelo: ${diag.profile_type ?? "n/d"}
+Retorna JSON: {"questions": ["...", "...", "...", "..."]}`;
+    const text = await callMentorAi(prompt, true);
+    try {
+      const j = JSON.parse(text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "")) as { questions?: unknown[] };
+      const questions = (j.questions ?? []).map(String).filter(Boolean).slice(0, 5);
+      if (!questions.length) throw new Error();
+      return { questions };
+    } catch {
+      throw new Error(data.language === "en" ? "The mentor could not prepare questions. Try again." : "O mentor não conseguiu preparar as perguntas. Tenta novamente.");
+    }
   });

@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { Loader2, ClipboardList, CheckCircle2, Sparkles, Clock3, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ResetPlan } from "@/components/ResetPlan";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { generateMentorPlan } from "@/lib/mentor10k.functions";
@@ -95,6 +96,7 @@ function Plano() {
       .from("mentor10k_plans")
       .select("*")
       .eq("user_id", user.id)
+      .neq("status", "archived")
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -218,8 +220,8 @@ function Plano() {
 
       <div className="flex gap-3">
         <Button variant="gold" size="lg" asChild><Link to="/mentor10k/checkin">{t("plan.checkin")}</Link></Button>
-        <Button variant="outline" size="lg" asChild><Link to="/mentor10k/diagnostico">{t("plan.redo")}</Link></Button>
       </div>
+      <ResetPlan planId={plan.id} onDone={() => { setPlan(null); void load(); }} />
     </div>
   );
 }
