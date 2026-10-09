@@ -9,93 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermosRouteImport } from './routes/termos'
-import { Route as SobreRouteImport } from './routes/sobre'
-import { Route as ProgramaMentor10kRouteImport } from './routes/programa-mentor-10k'
-import { Route as PrivacidadeRouteImport } from './routes/privacidade'
-import { Route as PerfilRouteImport } from './routes/perfil'
-import { Route as ObrigadoRouteImport } from './routes/obrigado'
-import { Route as Mentor10kRouteImport } from './routes/mentor10k'
-import { Route as LojaRouteImport } from './routes/loja'
-import { Route as BibliotecaRouteImport } from './routes/biblioteca'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as Mentor10kIndexRouteImport } from './routes/mentor10k.index'
-import { Route as Mentor10kPlanoRouteImport } from './routes/mentor10k.plano'
-import { Route as Mentor10kHistoricoRouteImport } from './routes/mentor10k.historico'
-import { Route as Mentor10kDiagnosticoRouteImport } from './routes/mentor10k.diagnostico'
-import { Route as Mentor10kCheckinRouteImport } from './routes/mentor10k.checkin'
-import { Route as Mentor10kChatRouteImport } from './routes/mentor10k.chat'
-import { Route as EbookSlugRouteImport } from './routes/ebook.$slug'
-import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizadores'
-import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
-import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
-import { Route as AdminPlanosRouteImport } from './routes/admin.planos'
-import { Route as AdminMidiaRouteImport } from './routes/admin.midia'
-import { Route as AdminMentor10kRouteImport } from './routes/admin.mentor10k'
-import { Route as AdminHomeRouteImport } from './routes/admin.home'
-import { Route as AdminDadosRouteImport } from './routes/admin.dados'
-import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
-import { Route as AdminComprasRouteImport } from './routes/admin.compras'
-import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
-import { Route as AdminCampanhasRouteImport } from './routes/admin.campanhas'
-import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BibliotecaRouteImport } from './routes/biblioteca'
+import { Route as LojaRouteImport } from './routes/loja'
+import { Route as Mentor10kRouteImport } from './routes/mentor10k'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as ProgramaMentor10kRouteImport } from './routes/programa-mentor-10k'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AdminAfiliadosRouteImport } from './routes/admin.afiliados'
+import { Route as AdminAtividadeRouteImport } from './routes/admin.atividade'
+import { Route as AdminCampanhasRouteImport } from './routes/admin.campanhas'
+import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
+import { Route as AdminComprasRouteImport } from './routes/admin.compras'
+import { Route as AdminCupoesRouteImport } from './routes/admin.cupoes'
+import { Route as AdminDadosRouteImport } from './routes/admin.dados'
+import { Route as AdminHomeRouteImport } from './routes/admin.home'
+import { Route as AdminMentor10kRouteImport } from './routes/admin.mentor10k'
+import { Route as AdminMidiaRouteImport } from './routes/admin.midia'
+import { Route as AdminPlanosRouteImport } from './routes/admin.planos'
+import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminUtilizadoresRouteImport } from './routes/admin.utilizadores'
+import { Route as EbookSlugRouteImport } from './routes/ebook.$slug'
+import { Route as Mentor10kIndexRouteImport } from './routes/mentor10k.index'
+import { Route as Mentor10kChatRouteImport } from './routes/mentor10k.chat'
+import { Route as Mentor10kCheckinRouteImport } from './routes/mentor10k.checkin'
+import { Route as Mentor10kDiagnosticoRouteImport } from './routes/mentor10k.diagnostico'
+import { Route as Mentor10kHistoricoRouteImport } from './routes/mentor10k.historico'
+import { Route as Mentor10kPlanoRouteImport } from './routes/mentor10k.plano'
 import { Route as AdminEbooksIndexRouteImport } from './routes/admin.ebooks.index'
-import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as AdminEbooksIdRouteImport } from './routes/admin.ebooks.$id'
+import { Route as AdminEbooksNovoRouteImport } from './routes/admin.ebooks.novo'
 import { Route as ApiPublicWebhooksLemonSqueezyRouteImport } from './routes/api.public.webhooks.lemon-squeezy'
 
-const TermosRoute = TermosRouteImport.update({
-  id: '/termos',
-  path: '/termos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SobreRoute = SobreRouteImport.update({
-  id: '/sobre',
-  path: '/sobre',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgramaMentor10kRoute = ProgramaMentor10kRouteImport.update({
-  id: '/programa-mentor-10k',
-  path: '/programa-mentor-10k',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacidadeRoute = PrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PerfilRoute = PerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ObrigadoRoute = ObrigadoRouteImport.update({
-  id: '/obrigado',
-  path: '/obrigado',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Mentor10kRoute = Mentor10kRouteImport.update({
-  id: '/mentor10k',
-  path: '/mentor10k',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LojaRoute = LojaRouteImport.update({
-  id: '/loja',
-  path: '/loja',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BibliotecaRoute = BibliotecaRouteImport.update({
-  id: '/biblioteca',
-  path: '/biblioteca',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -103,109 +58,59 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Mentor10kIndexRoute = Mentor10kIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const Mentor10kPlanoRoute = Mentor10kPlanoRouteImport.update({
-  id: '/plano',
-  path: '/plano',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const Mentor10kHistoricoRoute = Mentor10kHistoricoRouteImport.update({
-  id: '/historico',
-  path: '/historico',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const Mentor10kDiagnosticoRoute = Mentor10kDiagnosticoRouteImport.update({
-  id: '/diagnostico',
-  path: '/diagnostico',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const Mentor10kCheckinRoute = Mentor10kCheckinRouteImport.update({
-  id: '/checkin',
-  path: '/checkin',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const Mentor10kChatRoute = Mentor10kChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => Mentor10kRoute,
-} as any)
-const EbookSlugRoute = EbookSlugRouteImport.update({
-  id: '/ebook/$slug',
-  path: '/ebook/$slug',
+const BibliotecaRoute = BibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminUtilizadoresRoute = AdminUtilizadoresRouteImport.update({
-  id: '/utilizadores',
-  path: '/utilizadores',
-  getParentRoute: () => AdminRoute,
+const LojaRoute = LojaRouteImport.update({
+  id: '/loja',
+  path: '/loja',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminSettingsRoute = AdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminReviewsRoute = AdminReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPopupsRoute = AdminPopupsRouteImport.update({
-  id: '/popups',
-  path: '/popups',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPlanosRoute = AdminPlanosRouteImport.update({
-  id: '/planos',
-  path: '/planos',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminMidiaRoute = AdminMidiaRouteImport.update({
-  id: '/midia',
-  path: '/midia',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminMentor10kRoute = AdminMentor10kRouteImport.update({
+const Mentor10kRoute = Mentor10kRouteImport.update({
   id: '/mentor10k',
   path: '/mentor10k',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomeRoute = AdminHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => AdminRoute,
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminDadosRoute = AdminDadosRouteImport.update({
-  id: '/dados',
-  path: '/dados',
-  getParentRoute: () => AdminRoute,
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCupoesRoute = AdminCupoesRouteImport.update({
-  id: '/cupoes',
-  path: '/cupoes',
-  getParentRoute: () => AdminRoute,
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminComprasRoute = AdminComprasRouteImport.update({
-  id: '/compras',
-  path: '/compras',
-  getParentRoute: () => AdminRoute,
+const ProgramaMentor10kRoute = ProgramaMentor10kRouteImport.update({
+  id: '/programa-mentor-10k',
+  path: '/programa-mentor-10k',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminColecoesRoute = AdminColecoesRouteImport.update({
-  id: '/colecoes',
-  path: '/colecoes',
-  getParentRoute: () => AdminRoute,
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCampanhasRoute = AdminCampanhasRouteImport.update({
-  id: '/campanhas',
-  path: '/campanhas',
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAfiliadosRoute = AdminAfiliadosRouteImport.update({
+  id: '/afiliados',
+  path: '/afiliados',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAtividadeRoute = AdminAtividadeRouteImport.update({
@@ -213,24 +118,119 @@ const AdminAtividadeRoute = AdminAtividadeRouteImport.update({
   path: '/atividade',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAfiliadosRoute = AdminAfiliadosRouteImport.update({
-  id: '/afiliados',
-  path: '/afiliados',
+const AdminCampanhasRoute = AdminCampanhasRouteImport.update({
+  id: '/campanhas',
+  path: '/campanhas',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminColecoesRoute = AdminColecoesRouteImport.update({
+  id: '/colecoes',
+  path: '/colecoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminComprasRoute = AdminComprasRouteImport.update({
+  id: '/compras',
+  path: '/compras',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCupoesRoute = AdminCupoesRouteImport.update({
+  id: '/cupoes',
+  path: '/cupoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDadosRoute = AdminDadosRouteImport.update({
+  id: '/dados',
+  path: '/dados',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomeRoute = AdminHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMentor10kRoute = AdminMentor10kRouteImport.update({
+  id: '/mentor10k',
+  path: '/mentor10k',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMidiaRoute = AdminMidiaRouteImport.update({
+  id: '/midia',
+  path: '/midia',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPlanosRoute = AdminPlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPopupsRoute = AdminPopupsRouteImport.update({
+  id: '/popups',
+  path: '/popups',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUtilizadoresRoute = AdminUtilizadoresRouteImport.update({
+  id: '/utilizadores',
+  path: '/utilizadores',
+  getParentRoute: () => AdminRoute,
+} as any)
+const EbookSlugRoute = EbookSlugRouteImport.update({
+  id: '/ebook/$slug',
+  path: '/ebook/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Mentor10kIndexRoute = Mentor10kIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kChatRoute = Mentor10kChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kCheckinRoute = Mentor10kCheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kDiagnosticoRoute = Mentor10kDiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kHistoricoRoute = Mentor10kHistoricoRouteImport.update({
+  id: '/historico',
+  path: '/historico',
+  getParentRoute: () => Mentor10kRoute,
+} as any)
+const Mentor10kPlanoRoute = Mentor10kPlanoRouteImport.update({
+  id: '/plano',
+  path: '/plano',
+  getParentRoute: () => Mentor10kRoute,
 } as any)
 const AdminEbooksIndexRoute = AdminEbooksIndexRouteImport.update({
   id: '/ebooks/',
   path: '/ebooks/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminEbooksNovoRoute = AdminEbooksNovoRouteImport.update({
-  id: '/ebooks/novo',
-  path: '/ebooks/novo',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminEbooksIdRoute = AdminEbooksIdRouteImport.update({
   id: '/ebooks/$id',
   path: '/ebooks/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEbooksNovoRoute = AdminEbooksNovoRouteImport.update({
+  id: '/ebooks/novo',
+  path: '/ebooks/novo',
   getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicWebhooksLemonSqueezyRoute =
@@ -501,74 +501,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/termos': {
-      id: '/termos'
-      path: '/termos'
-      fullPath: '/termos'
-      preLoaderRoute: typeof TermosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sobre': {
-      id: '/sobre'
-      path: '/sobre'
-      fullPath: '/sobre'
-      preLoaderRoute: typeof SobreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/programa-mentor-10k': {
-      id: '/programa-mentor-10k'
-      path: '/programa-mentor-10k'
-      fullPath: '/programa-mentor-10k'
-      preLoaderRoute: typeof ProgramaMentor10kRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacidade': {
-      id: '/privacidade'
-      path: '/privacidade'
-      fullPath: '/privacidade'
-      preLoaderRoute: typeof PrivacidadeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/perfil': {
-      id: '/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/obrigado': {
-      id: '/obrigado'
-      path: '/obrigado'
-      fullPath: '/obrigado'
-      preLoaderRoute: typeof ObrigadoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mentor10k': {
-      id: '/mentor10k'
-      path: '/mentor10k'
-      fullPath: '/mentor10k'
-      preLoaderRoute: typeof Mentor10kRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/loja': {
-      id: '/loja'
-      path: '/loja'
-      fullPath: '/loja'
-      preLoaderRoute: typeof LojaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/biblioteca': {
-      id: '/biblioteca'
-      path: '/biblioteca'
-      fullPath: '/biblioteca'
-      preLoaderRoute: typeof BibliotecaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -578,151 +515,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mentor10k/': {
-      id: '/mentor10k/'
-      path: '/'
-      fullPath: '/mentor10k/'
-      preLoaderRoute: typeof Mentor10kIndexRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/mentor10k/plano': {
-      id: '/mentor10k/plano'
-      path: '/plano'
-      fullPath: '/mentor10k/plano'
-      preLoaderRoute: typeof Mentor10kPlanoRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/mentor10k/historico': {
-      id: '/mentor10k/historico'
-      path: '/historico'
-      fullPath: '/mentor10k/historico'
-      preLoaderRoute: typeof Mentor10kHistoricoRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/mentor10k/diagnostico': {
-      id: '/mentor10k/diagnostico'
-      path: '/diagnostico'
-      fullPath: '/mentor10k/diagnostico'
-      preLoaderRoute: typeof Mentor10kDiagnosticoRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/mentor10k/checkin': {
-      id: '/mentor10k/checkin'
-      path: '/checkin'
-      fullPath: '/mentor10k/checkin'
-      preLoaderRoute: typeof Mentor10kCheckinRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/mentor10k/chat': {
-      id: '/mentor10k/chat'
-      path: '/chat'
-      fullPath: '/mentor10k/chat'
-      preLoaderRoute: typeof Mentor10kChatRouteImport
-      parentRoute: typeof Mentor10kRoute
-    }
-    '/ebook/$slug': {
-      id: '/ebook/$slug'
-      path: '/ebook/$slug'
-      fullPath: '/ebook/$slug'
-      preLoaderRoute: typeof EbookSlugRouteImport
+    '/biblioteca': {
+      id: '/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof BibliotecaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/utilizadores': {
-      id: '/admin/utilizadores'
-      path: '/utilizadores'
-      fullPath: '/admin/utilizadores'
-      preLoaderRoute: typeof AdminUtilizadoresRouteImport
-      parentRoute: typeof AdminRoute
+    '/loja': {
+      id: '/loja'
+      path: '/loja'
+      fullPath: '/loja'
+      preLoaderRoute: typeof LojaRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/settings': {
-      id: '/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reviews': {
-      id: '/admin/reviews'
-      path: '/reviews'
-      fullPath: '/admin/reviews'
-      preLoaderRoute: typeof AdminReviewsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/popups': {
-      id: '/admin/popups'
-      path: '/popups'
-      fullPath: '/admin/popups'
-      preLoaderRoute: typeof AdminPopupsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/planos': {
-      id: '/admin/planos'
-      path: '/planos'
-      fullPath: '/admin/planos'
-      preLoaderRoute: typeof AdminPlanosRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/midia': {
-      id: '/admin/midia'
-      path: '/midia'
-      fullPath: '/admin/midia'
-      preLoaderRoute: typeof AdminMidiaRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/mentor10k': {
-      id: '/admin/mentor10k'
+    '/mentor10k': {
+      id: '/mentor10k'
       path: '/mentor10k'
-      fullPath: '/admin/mentor10k'
-      preLoaderRoute: typeof AdminMentor10kRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/mentor10k'
+      preLoaderRoute: typeof Mentor10kRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/home': {
-      id: '/admin/home'
-      path: '/home'
-      fullPath: '/admin/home'
-      preLoaderRoute: typeof AdminHomeRouteImport
-      parentRoute: typeof AdminRoute
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/dados': {
-      id: '/admin/dados'
-      path: '/dados'
-      fullPath: '/admin/dados'
-      preLoaderRoute: typeof AdminDadosRouteImport
-      parentRoute: typeof AdminRoute
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/cupoes': {
-      id: '/admin/cupoes'
-      path: '/cupoes'
-      fullPath: '/admin/cupoes'
-      preLoaderRoute: typeof AdminCupoesRouteImport
-      parentRoute: typeof AdminRoute
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/compras': {
-      id: '/admin/compras'
-      path: '/compras'
-      fullPath: '/admin/compras'
-      preLoaderRoute: typeof AdminComprasRouteImport
-      parentRoute: typeof AdminRoute
+    '/programa-mentor-10k': {
+      id: '/programa-mentor-10k'
+      path: '/programa-mentor-10k'
+      fullPath: '/programa-mentor-10k'
+      preLoaderRoute: typeof ProgramaMentor10kRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/colecoes': {
-      id: '/admin/colecoes'
-      path: '/colecoes'
-      fullPath: '/admin/colecoes'
-      preLoaderRoute: typeof AdminColecoesRouteImport
-      parentRoute: typeof AdminRoute
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/campanhas': {
-      id: '/admin/campanhas'
-      path: '/campanhas'
-      fullPath: '/admin/campanhas'
-      preLoaderRoute: typeof AdminCampanhasRouteImport
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/afiliados': {
+      id: '/admin/afiliados'
+      path: '/afiliados'
+      fullPath: '/admin/afiliados'
+      preLoaderRoute: typeof AdminAfiliadosRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/atividade': {
@@ -732,12 +599,145 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAtividadeRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/afiliados': {
-      id: '/admin/afiliados'
-      path: '/afiliados'
-      fullPath: '/admin/afiliados'
-      preLoaderRoute: typeof AdminAfiliadosRouteImport
+    '/admin/campanhas': {
+      id: '/admin/campanhas'
+      path: '/campanhas'
+      fullPath: '/admin/campanhas'
+      preLoaderRoute: typeof AdminCampanhasRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/admin/colecoes': {
+      id: '/admin/colecoes'
+      path: '/colecoes'
+      fullPath: '/admin/colecoes'
+      preLoaderRoute: typeof AdminColecoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/compras': {
+      id: '/admin/compras'
+      path: '/compras'
+      fullPath: '/admin/compras'
+      preLoaderRoute: typeof AdminComprasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cupoes': {
+      id: '/admin/cupoes'
+      path: '/cupoes'
+      fullPath: '/admin/cupoes'
+      preLoaderRoute: typeof AdminCupoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dados': {
+      id: '/admin/dados'
+      path: '/dados'
+      fullPath: '/admin/dados'
+      preLoaderRoute: typeof AdminDadosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/home': {
+      id: '/admin/home'
+      path: '/home'
+      fullPath: '/admin/home'
+      preLoaderRoute: typeof AdminHomeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/mentor10k': {
+      id: '/admin/mentor10k'
+      path: '/mentor10k'
+      fullPath: '/admin/mentor10k'
+      preLoaderRoute: typeof AdminMentor10kRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/midia': {
+      id: '/admin/midia'
+      path: '/midia'
+      fullPath: '/admin/midia'
+      preLoaderRoute: typeof AdminMidiaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/planos': {
+      id: '/admin/planos'
+      path: '/planos'
+      fullPath: '/admin/planos'
+      preLoaderRoute: typeof AdminPlanosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/popups': {
+      id: '/admin/popups'
+      path: '/popups'
+      fullPath: '/admin/popups'
+      preLoaderRoute: typeof AdminPopupsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/utilizadores': {
+      id: '/admin/utilizadores'
+      path: '/utilizadores'
+      fullPath: '/admin/utilizadores'
+      preLoaderRoute: typeof AdminUtilizadoresRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/ebook/$slug': {
+      id: '/ebook/$slug'
+      path: '/ebook/$slug'
+      fullPath: '/ebook/$slug'
+      preLoaderRoute: typeof EbookSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentor10k/': {
+      id: '/mentor10k/'
+      path: '/'
+      fullPath: '/mentor10k/'
+      preLoaderRoute: typeof Mentor10kIndexRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/chat': {
+      id: '/mentor10k/chat'
+      path: '/chat'
+      fullPath: '/mentor10k/chat'
+      preLoaderRoute: typeof Mentor10kChatRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/checkin': {
+      id: '/mentor10k/checkin'
+      path: '/checkin'
+      fullPath: '/mentor10k/checkin'
+      preLoaderRoute: typeof Mentor10kCheckinRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/diagnostico': {
+      id: '/mentor10k/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/mentor10k/diagnostico'
+      preLoaderRoute: typeof Mentor10kDiagnosticoRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/historico': {
+      id: '/mentor10k/historico'
+      path: '/historico'
+      fullPath: '/mentor10k/historico'
+      preLoaderRoute: typeof Mentor10kHistoricoRouteImport
+      parentRoute: typeof Mentor10kRoute
+    }
+    '/mentor10k/plano': {
+      id: '/mentor10k/plano'
+      path: '/plano'
+      fullPath: '/mentor10k/plano'
+      preLoaderRoute: typeof Mentor10kPlanoRouteImport
+      parentRoute: typeof Mentor10kRoute
     }
     '/admin/ebooks/': {
       id: '/admin/ebooks/'
@@ -746,18 +746,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEbooksIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/ebooks/novo': {
-      id: '/admin/ebooks/novo'
-      path: '/ebooks/novo'
-      fullPath: '/admin/ebooks/novo'
-      preLoaderRoute: typeof AdminEbooksNovoRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/ebooks/$id': {
       id: '/admin/ebooks/$id'
       path: '/ebooks/$id'
       fullPath: '/admin/ebooks/$id'
       preLoaderRoute: typeof AdminEbooksIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ebooks/novo': {
+      id: '/admin/ebooks/novo'
+      path: '/ebooks/novo'
+      fullPath: '/admin/ebooks/novo'
+      preLoaderRoute: typeof AdminEbooksNovoRouteImport
       parentRoute: typeof AdminRoute
     }
     '/api/public/webhooks/lemon-squeezy': {
