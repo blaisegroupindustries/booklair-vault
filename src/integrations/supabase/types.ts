@@ -764,6 +764,39 @@ export type Database = {
         }
         Relationships: []
       }
+      mentor_sites: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          is_published: boolean
+          plan_id: string | null
+          publish_requested: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          plan_id?: string | null
+          publish_requested?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          plan_id?: string | null
+          publish_requested?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       mentor10k_access: {
         Row: {
           created_at: string
