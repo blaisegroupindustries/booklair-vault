@@ -22,7 +22,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Set up listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
+      if (event === "SIGNED_IN" && typeof window !== "undefined") {
+        const dest = window.sessionStorage.getItem("booklair:auth-redirect");
+        if (dest && dest.startsWith("/") && !dest.startsWith("//") && window.location.pathname !== "/auth") {
+          window.sessionStorage.removeItem("booklair:auth-redirect");
+          if (window.location.pathname !== dest) window.location.assign(dest);
+        }
+      }
       setSession(newSession);
       setUser(newSession?.user ?? null);
       if (newSession?.user) {

@@ -52,6 +52,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [sentTo, setSentTo] = useState<string | null>(null);
 
   const target = safePath(search.redirect);
 
@@ -90,14 +91,18 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success(t("auth.created"));
-        navigate({ to: search.redirect ?? "/perfil" });
+        setSentTo(parsed.email);
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: parsed.email,
           password: parsed.password,
         });
-        if (error) throw error;
+        if (error) {
+          if (/not confirmed/i.test(error.message)) {
+            throw new Error(lang === "pt" ? "Ainda não confirmaste o teu email. Abre a tua caixa de entrada e clica no link que te enviámos." : "You haven't confirmed your email yet. Open your inbox and click the link we sent you.");
+          }
+          throw error;
+        }
         toast.success(t("auth.returned"));
         navigate({ to: search.redirect ?? "/perfil" });
       }
@@ -116,7 +121,7 @@ function AuthPage() {
       window.sessionStorage.setItem(REDIRECT_KEY, target);
 
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth`,
+        redirect_uri: window.location.origin,
       });
 
       if (result.error) throw result.error;
@@ -131,6 +136,29 @@ function AuthPage() {
     }
 
   };
+
+  if (sentTo) {
+    return (
+      <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-[calc(100vh-300px)]">
+        <div className="w-full max-w-md surface-card rounded-3xl p-8 md:p-10 text-center">
+          <Mail className="mx-auto h-12 w-12 text-gold mb-4" />
+          <h1 className="font-serif text-3xl text-foreground">{lang === "pt" ? "Confirma o teu email" : "Confirm your email"}</h1>
+          <p className="mt-4 text-sm text-muted-foreground">
+            {lang === "pt" ? "Enviámos um link de confirmação para" : "We sent a confirmation link to"} <strong className="text-foreground">{sentTo}</strong>.
+          </p>
+          <ol className="mt-6 space-y-2 text-left text-sm text-muted-foreground list-decimal pl-5">
+            <li>{lang === "pt" ? "Abre a tua caixa de entrada (vê também o spam/promoções)." : "Open your inbox (check spam/promotions too)."}</li>
+            <li>{lang === "pt" ? "Clica no link \"Confirmar email\"." : "Click the \"Confirm email\" link."}</li>
+            <li>{lang === "pt" ? "Volta aqui e entra com o teu email e palavra-passe." : "Come back here and sign in with your email and password."}</li>
+          </ol>
+          <p className="mt-6 text-xs text-muted-foreground">{lang === "pt" ? "Só consegues entrar depois de confirmar." : "You can only sign in after confirming."}</p>
+          <Button variant="hero" size="lg" className="w-full mt-6" onClick={() => { setSentTo(null); setMode("signin"); }}>
+            {lang === "pt" ? "Já confirmei — entrar" : "I've confirmed — sign in"}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-[calc(100vh-300px)]">
