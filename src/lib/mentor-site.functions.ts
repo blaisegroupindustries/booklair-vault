@@ -58,7 +58,7 @@ Use the real business, offer and audience. No placeholders like "Your Company" o
     const text = await callMentorAi(prompt, true);
     let content: SiteContent;
     try {
-      content = parseMentorJson(text) as SiteContent;
+      content = parseMentorJson(text) as unknown as SiteContent;
     } catch {
       throw new Error(data.language === "pt" ? "A IA gerou um site inválido. Tenta novamente." : "The AI returned an invalid site. Try again.");
     }
